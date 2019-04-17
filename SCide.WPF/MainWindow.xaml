@@ -1,0 +1,775 @@
+﻿<Window x:Class="SCide.WPF.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:my="clr-namespace:SCide.WPF"
+        xmlns:models="clr-namespace:SCide.WPF.Models"
+        xmlns:cnvrt="clr-namespace:SCide.WPF.Converters"
+        xmlns:cmds="clr-namespace:SCide.WPF.Commands"
+        xmlns:cmc="clr-namespace:SCide.WPF.Commence"
+        xmlns:hlp="clr-namespace:SCide.WPF.Helpers"
+        Title="CmcScriptNet.WPF"
+        Width="1024"
+        Height="768"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal">
+    <Window.DataContext>
+        <models:MainWindowModel x:Name="viewModel" />
+    </Window.DataContext>
+    <Window.CommandBindings>
+        <!-- used with ribbon -->
+        <CommandBinding Command="cmds:UICommands.FileNew" 
+                        Executed="FileNewCommand_Executed" 
+                        CanExecute="FileNewCommand_CanExecute"/>
+        <CommandBinding Command="cmds:UICommands.FileOpen"
+                        Executed="FileOpenCommand_Executed"
+                        CanExecute="FileOpenCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.FileClose"
+                        Executed="FileCloseCommand_Executed"
+                        CanExecute="FileCloseCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Exit"
+                        Executed="ExitCommand_Executed"
+                        CanExecute="ExitCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.FileSave"
+                        Executed="FileSaveCommand_Executed"
+                        CanExecute="FileSaveCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.FileSaveAs"
+                        Executed="SaveAsCommand_Executed"
+                        CanExecute="SaveAsCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.FileSaveAll"
+                        Executed="FileSaveAllCommand_Executed"
+                        CanExecute="FileSaveAllCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Undo" 
+                        Executed="UndoCommand_Executed" 
+                        CanExecute="UndoCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Redo" 
+                        Executed="RedoCommand_Executed" 
+                        CanExecute="RedoCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Paste"
+                        Executed="PasteCommand_Executed"
+                        CanExecute="PasteCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Copy" 
+                        Executed="CopyCommand_Executed" 
+                        CanExecute="CopyCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Cut" 
+                        Executed="CutCommand_Executed"
+                        CanExecute="CutCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.SelectAll"
+                        Executed="SelectAllCommand_Executed" 
+                        CanExecute="SelectAllCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.SelectLine"
+                        Executed="SelectLineCommand_Executed" 
+                        CanExecute="SelectLineCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ClearSelection" 
+                        Executed="ClearSelectionCommand_Executed" 
+                        CanExecute="ClearSelectionCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Find" 
+                        Executed="FindCommand_Executed" 
+                        CanExecute="FindCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.Replace" 
+                        Executed="ReplaceCommand_Executed" 
+                        CanExecute="ReplaceCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.IncrementalSearch" 
+                        Executed="IncrementalSearchCommand_Executed" 
+                        CanExecute="IncrementalSearchCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.GoToLine" 
+                        Executed="GoToLineCommand_Executed" 
+                        CanExecute="GoToLineCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.BookmarkToggle"
+                        CanExecute="BookmarkToggleCommand_CanExecute"
+                        Executed="BookmarkToggleCommand_Executed"/>
+        <CommandBinding Command="cmds:UICommands.BookmarkNext"
+                        CanExecute="BookmarkNextCommand_CanExecute"
+                        Executed="BookmarkNextCommand_Executed"/>
+        <CommandBinding Command="cmds:UICommands.BookmarkPrevious"
+                        CanExecute="BookmarkPreviousCommand_CanExecute"
+                        Executed="BookmarkPreviousCommand_Executed"/>
+        <CommandBinding Command="cmds:UICommands.BookmarksClear"
+                        CanExecute="BookmarksClearCommand_CanExecute"
+                        Executed="BookmarksClearCommand_Executed"/>
+        <CommandBinding Command="cmds:UICommands.MakeUpper" 
+                        Executed="MakeUpperCommand_Executed" 
+                        CanExecute="MakeUpperCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.MakeLower" 
+                        Executed="MakeLowerCommand_Executed" 
+                        CanExecute="MakeLowerCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ShowStatusbar" 
+                        Executed="ShowStatusbarCommand_Executed" 
+                        CanExecute="ShowStatusbarCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ShowLineNumbers" 
+                        Executed="ShowShowLineNumbersCommand_Executed" 
+                        CanExecute="ShowShowLineNumbersCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ShowWhitespace" 
+                        Executed="ShowWhitespaceCommand_Executed" 
+                        CanExecute="ShowWhitespaceCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ShowEol" 
+                        Executed="ShowEolCommand_Executed"
+                        CanExecute="ShowEolCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.WordWrap" 
+                        Executed="WordWrapCommand_Executed" 
+                        CanExecute="WordWrapCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ZoomIn" 
+                        Executed="ZoomInCommand_Executed" 
+                        CanExecute="ZoomInCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ZoomOut" 
+                        Executed="ZoomOutCommand_Executed" 
+                        CanExecute="ZoomOutCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.ResetZoom" 
+                        Executed="ResetZoomCommand_Executed" 
+                        CanExecute="ResetZoomCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.FoldLevel" 
+                        Executed="FoldLevelCommand_Executed" 
+                        CanExecute="FoldLevelCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.UnfoldLevel" 
+                        Executed="UnfoldLevelCommand_Executed" 
+                        CanExecute="UnfoldLevelCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.FoldAll" 
+                        Executed="FoldAllCommand_Executed" 
+                        CanExecute="FoldAllCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.UnfoldAll" 
+                        Executed="UnfoldAllCommand_Executed" 
+                        CanExecute="UnfoldAllCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.FocusScintilla" 
+                        Executed="FocusScintillaCommand_Executed" 
+                        CanExecute="FocusScintillaCommand_CanExecute" />
+        <CommandBinding Command="cmds:UICommands.About" 
+                        Executed="AboutCommand_Executed" />
+        <CommandBinding Command="cmds:UICommands.ShowOptions"
+                        Executed="ShowOptionsCommand_Executed"/>
+        
+        <!-- Commence bindings -->
+        <CommandBinding Command="cmds:CommenceCommands.CheckInScript"
+                        Executed="CheckInScriptCommand_Executed"
+                        CanExecute="CheckInScriptCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"
+                        Executed="CheckInScriptAndFocusCommenceCommand_Executed"
+                        CanExecute="CheckInScriptAndFocusCommenceCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.FocusCommence"
+                        Executed="FocusCommenceCommand_Executed"
+                        CanExecute="FocusCommenceCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.GetCategoryNames"
+                        Executed="GetCategoryNamesCommand_Executed"
+                        CanExecute="GetCategoryNamesCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.GetFormNames"
+                        Executed="GetFormNamesCommand_Executed"
+                        CanExecute="GetFormNamesCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.LoadForm"
+                        Executed="LoadFormCommand_Executed"
+                        CanExecute="LoadFormCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.GetFieldNames"
+                        Executed="GetFieldNamesCommand_Executed"
+                        CanExecute="GetFieldNamesCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.GetConnectionNames"
+                        Executed="GetConnectionNamesCommand_Executed"
+                        CanExecute="GetConnectionNamesCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.GetControlNames"
+                        Executed="GetControlNamesCommand_Executed"
+                        CanExecute="GetControlNamesCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.InsertField"
+                        Executed="InsertFieldCommand_Executed"
+                        CanExecute="InsertFieldCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.InsertConnection"
+                        Executed="InsertConnectionCommand_Executed"
+                        CanExecute="InsertConnectionCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.InsertControl"
+                        Executed="InsertControlCommand_Executed"
+                        CanExecute="InsertControlCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.GotoSection"
+                        Executed="GotoSectionCommand_Executed"
+                        CanExecute="GotoSectionCommand_CanExecute"/>
+        <CommandBinding Command="cmds:UICommands.ToggleRibbon"
+                        Executed="ToggleRibbonCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.OpenCategoryList"
+                        CanExecute="OpenCategoryListCommand_CanExecute"
+                        Executed="OpenCategoryListCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.OpenFormList"
+                        CanExecute="OpenFormListCommand_CanExecute"
+                        Executed="OpenFormListCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.OpenFieldList"
+                        CanExecute="OpenFieldListCommand_CanExecute"
+                        Executed="OpenFieldListCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.OpenConnectionList"
+                        CanExecute="OpenConnectionListCommand_CanExecute"
+                        Executed="OpenConnectionListCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.OpenControlList"
+                        CanExecute="OpenControlListCommand_CanExecute"
+                        Executed="OpenControlListCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.OpenGotoSectionList"
+                        CanExecute="OpenGotoSectionListCommand_CanExecute"
+                        Executed="OpenGotoSectionListCommand_Executed"/>        
+    </Window.CommandBindings>
+    <!-- keybindings are defined at the command declaration level -->
+    <Window.Resources>
+        <cnvrt:InsOvrBooleanConverter x:Key="InsOvrBooleanConverter" />
+    </Window.Resources>
+    <Grid>
+        <my:OpenFileDialog x:Name="openFileDialog" Filter="Text files (*.txt)|*.txt|VBScript files (*.vbs)|*.vbs|All files (*.*)|*.*" Multiselect="True" />
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+            <!-- Ribbon interface-->
+            <Ribbon x:Name="ribbon" SelectedIndex="3" DockPanel.Dock="Top">
+                <Ribbon.HelpPaneContent>
+                    <RibbonButton x:Name="About" 
+                              SmallImageSource="Images\ImageHelp.png"
+                              Command="cmds:UICommands.About"/>
+                </Ribbon.HelpPaneContent>
+                <Ribbon.QuickAccessToolBar>
+                    <RibbonQuickAccessToolBar>
+                        <RibbonButton x:Name="Save"
+                                  SmallImageSource="Images\ImageFileSave.png"
+                                  KeyTip="S" 
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.FileSave"/>
+                        <RibbonButton x:Name="Undo"
+                                  SmallImageSource="Images\ImageEditUndo.png"
+                                  KeyTip="U"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }" 
+                                  Command="cmds:UICommands.Undo"/>
+                        <RibbonButton x:Name="Redo"
+                                  SmallImageSource="Images\ImageEditRedo.png"
+                                  KeyTip="R"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.Redo"/>
+                    </RibbonQuickAccessToolBar>
+                </Ribbon.QuickAccessToolBar>
+                <Ribbon.ApplicationMenu>
+                    <RibbonApplicationMenu KeyTip="F">
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                               ImageSource="Images\ImageFileNew32.png"
+                                               KeyTip="N"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               Command="cmds:UICommands.FileNew" />
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                               ImageSource="Images\ImageFileOpen.png"
+                                               KeyTip="O"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               Command="cmds:UICommands.FileOpen" />
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                               ImageSource="Images\ImageFileClose.png"
+                                               KeyTip="C"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               Command="cmds:UICommands.FileClose"/>
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                               ImageSource="Images\ImageApplicationExit.png"
+                                               KeyTip="X"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               Command="cmds:UICommands.Exit"/>
+                    </RibbonApplicationMenu>
+                </Ribbon.ApplicationMenu>
+                <!-- Home tab -->
+                <RibbonTab Header="Home" KeyTip="H" >
+                    <!-- Home/File group-->
+                    <RibbonGroup x:Name="FileGroup" Header="File">
+                        <RibbonMenuButton LargeImageSource="Images\ImageFileSave.png" Label="Save" KeyTip="S">
+                            <RibbonButton SmallImageSource="Images\ImageFileSave.png"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      KeyTip="S"
+                                      Command="cmds:UICommands.FileSave"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"/>
+                            <RibbonButton SmallImageSource="Images\ImageFileSave.png"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="A"
+                                      Command="cmds:UICommands.FileSaveAs"/>
+                            <RibbonButton SmallImageSource="Images\ImageFileSaveAll.png"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="L"
+                                      Command="cmds:UICommands.FileSaveAll"/>
+                        </RibbonMenuButton>
+
+                        <RibbonButton SmallImageSource="Images\ImageFileNew.png"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  KeyTip="N" 
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.FileNew"/>
+                        <RibbonButton SmallImageSource="Images\ImageFileOpen.png"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  KeyTip="O"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.FileOpen"/>
+                        <RibbonButton SmallImageSource="Images\ImageFileClose.png"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  KeyTip="W"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.FileClose"/>
+                    </RibbonGroup>
+                </RibbonTab>
+                <!-- Edit tab -->
+                <RibbonTab Header="Edit" KeyTip="E">
+                    <!-- Edit/Clipboard group-->
+                    <RibbonGroup x:Name="ClipboardGroup" Header="Clipboard">
+                        <RibbonButton SmallImageSource="Images\ImageEditPaste.png"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  KeyTip="V"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.Paste"/>
+                        <RibbonButton SmallImageSource="Images\ImageEditCut.png"
+                                    Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                    KeyTip="X"
+                                    ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                    Command="cmds:UICommands.Cut"/>
+                        <RibbonButton SmallImageSource="Images\ImageEditCopy.png"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  KeyTip="C"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.Copy"/>
+                    </RibbonGroup>
+
+                    <!-- Edit/Select group-->
+                    <RibbonGroup x:Name="SelectGroup" Header="Select" KeyTip="F">
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  SmallImageSource="Images\ImageSelectAll.png"
+                                  KeyTip="A"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.SelectAll"/>
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  SmallImageSource="Images\ImageSelectRow.png"
+                                  KeyTip="L"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.SelectLine"/>
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  KeyTip="R"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.ClearSelection"/>
+                    </RibbonGroup>
+
+                    <!-- Edit/Find group -->
+                    <RibbonGroup x:Name="FindGroup" KeyTip="K" Header="Find">
+                        <RibbonMenuButton LargeImageSource="Images\ImageFindFind32.png" Label="Find" KeyTip="S">
+                            <RibbonButton SmallImageSource="Images\ImageFindFind.png"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      KeyTip="F"
+                                      Command="cmds:UICommands.Find"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"/>
+                            <RibbonButton SmallImageSource="Images\ImageFindReplace.png"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="R"
+                                      Command="cmds:UICommands.Replace"/>
+                            <RibbonButton SmallImageSource="Images\ImageFindIncremental.png"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="I"
+                                      Command="cmds:UICommands.IncrementalSearch"/>
+                        </RibbonMenuButton>
+                        <RibbonButton SmallImageSource="Images\ImageFindGoTo.png"
+                                  KeyTip="G"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.GoToLine"/>
+                    </RibbonGroup>
+
+                    <!-- Edit/Bookmarks group -->
+                    <RibbonGroup x:Name="BookmarksGroup" KeyTip="B" Header="Bookmarks">
+                        <RibbonButton SmallImageSource="Images\ImageBookmarkToggle.png"
+                                  KeyTip="B"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.BookmarkToggle"/>
+                        <RibbonButton SmallImageSource="Images\ImageBookmarkPrevious.png"
+                                  KeyTip="P"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.BookmarkPrevious"/>
+                        <RibbonButton SmallImageSource="Images\ImageBookmarkNext.png"
+                                  KeyTip="N"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.BookmarkNext"/>
+                        <RibbonButton SmallImageSource="Images\ImageBookmarksClear.png"
+                                  KeyTip="C"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.BookmarksClear"/>
+                    </RibbonGroup>
+
+                    <!-- Edit/Advanced group -->
+                    <RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
+                        <RibbonButton SmallImageSource="Images\ImageEditUppercase.png"
+                                  KeyTip="U"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.MakeUpper"/>
+                        <RibbonButton SmallImageSource="Images\ImageEditLowercase.png"
+                                  KeyTip="W"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Command="cmds:UICommands.MakeLower"/>
+                    </RibbonGroup>
+                </RibbonTab>
+                <!-- View tab -->
+                <RibbonTab Header="View" KeyTip="V">
+                    <RibbonGroup Header="General" KeyTip="G">
+                        <RibbonCheckBox x:Name="rbcbShowStatusbar"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        KeyTip="S"
+                                        IsChecked="{Binding EditorSettings.Statusbar}"
+                                        Command="cmds:UICommands.ShowStatusbar"/>
+                        <RibbonCheckBox x:Name="rbcbShowLineNumbers"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        KeyTip="L"
+                                        IsChecked="{Binding EditorSettings.LineNumbers}"
+                                        Command="cmds:UICommands.ShowLineNumbers"
+                                        CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    </RibbonGroup>
+                    <RibbonGroup Header="Whitespace" KeyTip="W">
+                        <RibbonCheckBox x:Name="rbcbShowWhitespace"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }" 
+                                        KeyTip="W"
+                                        IsChecked="{Binding EditorSettings.Whitespace}"
+                                        Command="cmds:UICommands.ShowWhitespace"
+                                        CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                        <RibbonCheckBox x:Name="rbcbWordWrap"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        KeyTip="R"
+                                        IsChecked="{Binding EditorSettings.WordWrap}"
+                                        Command="cmds:UICommands.WordWrap"
+                                        CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                        <RibbonCheckBox x:Name="rbcbShowEol"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        KeyTip="E"
+                                        IsChecked="{Binding EditorSettings.Eol}"
+                                        Command="cmds:UICommands.ShowEol"
+                                        CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    </RibbonGroup>
+                    <RibbonGroup Header="Zoom" KeyTip="Z">
+                        <RibbonMenuButton Label="Zoom" KeyTip="Z">
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                          KeyTip="I"
+                                          Command="cmds:UICommands.ZoomIn"/>
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                          KeyTip="O"
+                                          Command="cmds:UICommands.ZoomOut"/>
+                        </RibbonMenuButton>
+                        <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="M"
+                                      Command="cmds:UICommands.ResetZoom"/>
+                    </RibbonGroup>
+                    <RibbonGroup Header="Folding" KeyTip="F">
+                        <RibbonMenuButton Label="Fold" KeyTip="F">
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                          KeyTip="L"
+                                          Command="cmds:UICommands.FoldLevel" />
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                          KeyTip="U" 
+                                          Command="cmds:UICommands.UnfoldLevel"/>
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                          KeyTip="A" 
+                                          Command="cmds:UICommands.FoldAll"/>
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                          KeyTip="X"
+                                          Command="cmds:UICommands.UnfoldAll"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="OptionsGroup" Header="Options" KeyTip="O">
+                        <RibbonButton SmallImageSource="Images/ImageOptions.png"
+                                    Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                    ToolTip="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                    KeyTip="O"
+                                    Command="cmds:UICommands.ShowOptions" />
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!-- Commence tab -->
+                <RibbonTab Header="Commence" KeyTip="C">
+                    <!-- Commence/Group file-->
+                    <RibbonGroup Header="File" KeyTip="F">
+                        <RibbonButton LargeImageSource="Images\ScriptPad.png"
+                                      KeyTip="S"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Command="cmds:CommenceCommands.CheckInScript"/>
+                        <RibbonButton LargeImageSource="Images\ScriptpadAndCommence.png" 
+                                      KeyTip="F" 
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"/>
+                        <RibbonButton LargeImageSource="Images\Commence.png"
+                                      KeyTip="U"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Command="cmds:CommenceCommands.FocusCommence"/>
+                    </RibbonGroup>
+                    
+                    <!-- Commence/Group load-->
+                    <RibbonGroup Header="Load" KeyTip="L">
+                        <!-- using a splitbutton-->
+                        <RibbonSplitButton x:Name="rbsbCategories"
+                                        Label="Categories"
+                                        SmallImageSource="Images/ImageCommenceOpenCategories.png"
+                                        LargeImageSource="Images/ImageCommenceOpenCategories.png"
+                                        Command="cmds:CommenceCommands.GetCategoryNames"
+                                        ToolTipTitle="Select a category"
+                                        ToolTipDescription="To select a category using the keyboard, press F4"
+                                        ToolTipFooterTitle="Refresh category list"
+                                        ToolTipFooterDescription="To refresh this list, click the button or press Shift+F4"
+                                        KeyTip="C"
+                                        DropDownClosed="RibbonComboBox_DropDownClosed">
+                            <RibbonSplitButton.Resources>
+                                <DataTemplate x:Key="MyTemplate">
+                                    <RibbonGalleryItem 
+                                    Content="{Binding}"
+                                    ToolTip="{Binding}"/>
+                                </DataTemplate>
+                            </RibbonSplitButton.Resources>
+                            <RibbonGallery MaxColumnCount="1"
+                                        SelectedItem="{Binding CommenceModel.SelectedCategory, Mode=TwoWay}">
+                                <RibbonGalleryCategory
+                                ItemsSource="{Binding CommenceModel.Categories}"
+                                ItemTemplate="{DynamicResource MyTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"/>
+                            </RibbonGallery>
+                        </RibbonSplitButton>
+
+                        <RibbonSplitButton LargeImageSource="Images\ImageCommenceOpenForms.png" 
+                                        SmallImageSource="Images\ImageCommenceOpenForms.png"
+                                        Label="Forms"
+                                        ToolTipTitle="Select a form"
+                                        ToolTipDescription="To select a form using the keyboard, press F5"
+                                        ToolTipFooterTitle="Refresh form list"
+                                        ToolTipFooterDescription="To refresh this list, click the button or press Shift+F5"
+                                        KeyTip="M"
+                                        Command="cmds:CommenceCommands.GetFormNames"
+                                        x:Name="rbsbForms">
+                            <RibbonSplitButton.Resources>
+                                <DataTemplate x:Key="MyTemplate">
+                                    <RibbonGalleryItem 
+                                    Content="{Binding}"
+                                    ToolTip="{Binding}"/>
+                                </DataTemplate>
+                            </RibbonSplitButton.Resources>
+                            <RibbonGallery MaxColumnCount="1"
+                                        SelectedItem="{Binding CommenceModel.SelectedForm, Mode=TwoWay}"
+                                        Command="cmds:CommenceCommands.LoadForm">
+                                <RibbonGalleryCategory
+                                ItemsSource="{Binding CommenceModel.Forms}"
+                                ItemTemplate="{DynamicResource MyTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"/>
+                            </RibbonGallery>
+                        </RibbonSplitButton>
+                    </RibbonGroup>
+
+                    <!-- Commence/Group Insert-->
+                    <RibbonGroup Header="Insert" KeyTip="I">
+                        <RibbonSplitButton SmallImageSource="Images\ImageCommenceInsertField.png" 
+                                        Label="Insert Field"
+                                        ToolTipTitle="Select a Form Field"
+                                        ToolTipDescription="To select a category using the keyboard, press F6"
+                                        ToolTipFooterTitle="Refresh field list"
+                                        ToolTipFooterDescription="To refresh this list, click the button or press Shift+F6"
+                                        KeyTip="L"
+                                        x:Name="rbsbFields"
+                                        Command="cmds:CommenceCommands.GetFieldNames">
+                            <RibbonSplitButton.Resources>
+                                <DataTemplate x:Key="MyTemplate" 
+                                              DataType="{x:Type cmc:CommenceField}">
+                                    <RibbonGalleryItem 
+                                    Content="{Binding}"
+                                    ToolTip="{Binding FormString}"/>
+                                </DataTemplate>
+                            </RibbonSplitButton.Resources>
+                            <RibbonGallery MaxColumnCount="1"
+                                        SelectedItem="{Binding CommenceModel.CurrentScript.SelectedField, Mode=TwoWay}"
+                                        Command="cmds:CommenceCommands.InsertField"
+                                        ToolTipTitle="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }">
+                                <RibbonGalleryCategory
+                                ItemsSource="{Binding CommenceModel.CurrentScript.Fields}"
+                                ItemTemplate="{DynamicResource MyTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"/>
+                            </RibbonGallery>
+                        </RibbonSplitButton>
+
+                        <RibbonSplitButton SmallImageSource="Images\ImageCommenceInsertConnection.png"
+                                        Label="Insert Connection"
+                                        ToolTipTitle="Insert a Form Connection"
+                                        ToolTipDescription="To select a Connection using the keyboard, press F8"
+                                        ToolTipFooterTitle="Refresh connection list"
+                                        ToolTipFooterDescription="To refresh this list, click the button or press Shift+F8"
+                                        KeyTip="N"
+                                        x:Name="rbsbConnections"
+                                        Command="cmds:CommenceCommands.GetConnectionNames">
+                            <RibbonSplitButton.Resources>
+                                <DataTemplate x:Key="MyTemplate" 
+                                              DataType="{x:Type cmc:CommenceConnection}">
+                                    <RibbonGalleryItem 
+                                    Content="{Binding}"
+                                    ToolTip="{Binding FormString}"/>
+                                </DataTemplate>
+                            </RibbonSplitButton.Resources>
+                            <RibbonGallery MaxColumnCount="1"
+                                        SelectedItem="{Binding CommenceModel.CurrentScript.SelectedConnection, Mode=TwoWay}"
+                                        Command="cmds:CommenceCommands.InsertConnection">
+                                <RibbonGalleryCategory
+                                ItemsSource="{Binding CommenceModel.CurrentScript.Connections}"
+                                ItemTemplate="{DynamicResource MyTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"/>
+                            </RibbonGallery>
+                        </RibbonSplitButton>
+                        
+                        <RibbonSplitButton SmallImageSource="Images\ImageCommenceInsertControl.png"
+                                        Label="Insert Control"
+                                        ToolTipTitle="Insert a Form Control"
+                                        ToolTipDescription="To select a Control using the keyboard, press F9"
+                                        ToolTipFooterTitle="Refresh control list"
+                                        ToolTipFooterDescription="To refresh this list, click the button or press Shift+F9"
+                                        KeyTip="R"
+                                        x:Name="rbsbControls"
+                                        Command="cmds:CommenceCommands.GetControlNames">
+                            <RibbonSplitButton.Resources>
+                                <DataTemplate x:Key="MyTemplate" 
+                                              DataType="{x:Type cmc:IDFControl}">
+                                    <RibbonGalleryItem 
+                                    Content="{Binding}"
+                                    ToolTip="{Binding FormString}"/>
+                                </DataTemplate>
+                            </RibbonSplitButton.Resources>
+                            <RibbonGallery MaxColumnCount="1"
+                                        SelectedItem="{Binding CommenceModel.CurrentScript.SelectedControl, Mode=TwoWay}"
+                                        Command="cmds:CommenceCommands.InsertControl">
+                                <RibbonGalleryCategory
+                                ItemsSource="{Binding CommenceModel.CurrentScript.Controls}"
+                                ItemTemplate="{DynamicResource MyTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"/>
+                            </RibbonGallery>
+                        </RibbonSplitButton>
+                    </RibbonGroup>
+
+                    <!-- Commence/Group Jump-->
+                    <RibbonGroup Header="Goto" KeyTip="G">
+                        <RibbonSplitButton SmallImageSource="Images\ImageCommenceGoto.png" 
+                                        Label="Goto section" 
+                                        ToolTipTitle="Jump to section in script"
+                                        ToolTipDescription="To select a section using the keyboard, press F11"
+                                        ToolTipFooterTitle="Refresh sections"
+                                        ToolTipFooterDescription="The sections list is refreshed every time you edit the script"
+                                        KeyTip="G"
+                                        x:Name="rbsbGotoSection">
+                            <RibbonSplitButton.Resources>
+                                <DataTemplate x:Key="MyTemplate" 
+                                              DataType="{x:Type hlp:IdentifierMatch}">
+                                    <RibbonGalleryItem 
+                                    Content="{Binding Identifier}"
+                                    ToolTip="{Binding Line}"/>
+                                </DataTemplate>
+                            </RibbonSplitButton.Resources>
+                            <RibbonGallery MaxColumnCount="1"
+                                        SelectedItem="{Binding SelectedIdentifierMatch}"
+                                        Command="cmds:CommenceCommands.GotoSection">
+                                <RibbonGalleryCategory
+                                ItemsSource="{Binding IdentifierMatches}"
+                                ItemTemplate="{DynamicResource MyTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"/>
+                            </RibbonGallery>
+                            </RibbonSplitButton>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!-- Window tab-->
+                <RibbonTab Header="Window" KeyTip="W">
+                    <RibbonGroup Header="Window" KeyTip="W">
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="C"
+                                      Command="cmds:UICommands.FileClose"/>
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="S"
+                                      Command="cmds:UICommands.FocusScintilla"/>
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      KeyTip="R"
+                                      Command="cmds:UICommands.ToggleRibbon"/>
+                    </RibbonGroup>
+                </RibbonTab>
+            </Ribbon>
+
+             <!-- bottom dockpanel -->
+            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
+                <StatusBar Name="statusStrip" Height="22px" HorizontalAlignment="Stretch"
+                           DockPanel.Dock="Bottom">
+                    <StatusBar.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="30" />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ItemsPanelTemplate>
+                    </StatusBar.ItemsPanel>
+                    <StatusBarItem Grid.Column="0">
+                        <TextBlock Text="{Binding CommenceModel.Name, Mode=OneWay}" Foreground="DarkBlue"/>
+                    </StatusBarItem>
+                    <StatusBarItem Grid.Column="1">
+                        <TextBlock Text="{Binding StatusBarModel.StatusText, Mode=OneWay}"/>
+                    </StatusBarItem>
+                    <StatusBarItem Grid.Column="2">
+                        <TextBlock Text="{Binding CommenceModel.CurrentScript.DatabaseName, Mode=OneWay, StringFormat='Database: {0}'}">
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                    <TextBlock Text="{Binding CommenceModel.CurrentScript.DatabaseName, Mode=OneWay, StringFormat='Script belongs to database: {0}'}" />
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StatusBarItem>
+                    <StatusBarItem Grid.Column="3">
+                        <TextBlock Text="{Binding CommenceModel.CurrentScript.CategoryName, Mode=OneWay, StringFormat='Category: {0}'}">
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                    <TextBlock Text="{Binding CommenceModel.CurrentScript.CategoryName, Mode=OneWay, StringFormat='Script belongs to category: {0}'}" />
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StatusBarItem>
+                    <StatusBarItem Grid.Column="4">
+                        <TextBlock Text="{Binding CommenceModel.CurrentScript.FormName, Mode=OneWay, StringFormat='Form: {0}'}">
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                    <TextBlock Text="{Binding CommenceModel.CurrentScript.FormName, Mode=OneWay, StringFormat='Script belongs to item detail form: {0}'}" />
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StatusBarItem>
+                    <!-- empty space -->
+                    <StatusBarItem Grid.Column="5" /> 
+                    <Separator Grid.Column="6" HorizontalAlignment="Right" />
+                    <StatusBarItem Grid.Column="7" HorizontalAlignment="Right">
+                        <TextBlock Text="{Binding Path=StatusBarModel.PositionInfo, Mode=OneWay}" />
+                    </StatusBarItem>
+                    <Separator Grid.Column="8" />
+                    <StatusBarItem Grid.Column="9">
+                        <TextBlock x:Name="overwriteStatus" Text="{Binding Path=StatusBarModel.OverWrite, Mode=OneWay, Converter={StaticResource InsOvrBooleanConverter}}"/>
+                    </StatusBarItem>
+                </StatusBar>
+                
+                <ad:DockingManager Name="dockPanel" 
+                                   ActiveContentChanged="dockPanel_ActiveContentChanged">
+                    <ad:DockingManager.Theme>
+                        <ad:VS2010Theme />
+                    </ad:DockingManager.Theme>
+                    <ad:LayoutRoot>
+                        <ad:LayoutPanel>
+                            <ad:LayoutDocumentPane x:Name="documentsRoot" IsMaximized="True" />
+                        </ad:LayoutPanel>
+                    </ad:LayoutRoot>
+                </ad:DockingManager>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>

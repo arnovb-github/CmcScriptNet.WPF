@@ -1,0 +1,11 @@
+$OBJECT=Form
+
+Option Explicit
+
+' Base VBscript template for Commence detail forms.
+Sub Form_OnSave()
+	dim numVal, txtVal
+	numVal = &H8F0 + 42
+	txtVal = "Hello World!"
+	txtVal = txtVal & "by Vovin IT Services"
+End Sub
