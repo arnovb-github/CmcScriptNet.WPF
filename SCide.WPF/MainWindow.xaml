@@ -216,19 +216,29 @@
                 </Ribbon.HelpPaneContent>
                 <Ribbon.QuickAccessToolBar>
                     <RibbonQuickAccessToolBar>
-                        <RibbonButton x:Name="Save"
-                                  SmallImageSource="Images\ImageFileSave.png"
-                                  KeyTip="S" 
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
-                                  Command="cmds:UICommands.FileSave"/>
+                        <RibbonButton SmallImageSource="Images\ScriptPad.png"
+                                      KeyTip="S"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Command="cmds:CommenceCommands.CheckInScript"/>
+                        <RibbonButton SmallImageSource="Images\ScriptpadAndCommence.png" 
+                                      KeyTip="W" 
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"/>
+                        <RibbonButton SmallImageSource="Images\Commence.png"
+                                      KeyTip="U"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Command="cmds:CommenceCommands.FocusCommence"/>
                         <RibbonButton x:Name="Undo"
                                   SmallImageSource="Images\ImageEditUndo.png"
-                                  KeyTip="U"
+                                  KeyTip="Z"
                                   ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }" 
                                   Command="cmds:UICommands.Undo"/>
                         <RibbonButton x:Name="Redo"
                                   SmallImageSource="Images\ImageEditRedo.png"
-                                  KeyTip="R"
+                                  KeyTip="Y"
                                   ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
                                   Command="cmds:UICommands.Redo"/>
                     </RibbonQuickAccessToolBar>
@@ -482,7 +492,7 @@
                                       ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
                                       Command="cmds:CommenceCommands.CheckInScript"/>
                         <RibbonButton LargeImageSource="Images\ScriptpadAndCommence.png" 
-                                      KeyTip="F" 
+                                      KeyTip="W" 
                                       Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
                                       ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
                                       Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"/>
