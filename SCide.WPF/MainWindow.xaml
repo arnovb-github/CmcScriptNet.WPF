@@ -569,7 +569,10 @@
                                               DataType="{x:Type cmc:CommenceField}">
                                     <RibbonGalleryItem 
                                     Content="{Binding}"
-                                    ToolTip="{Binding FormString}"/>
+                                    ToolTipTitle="Form Field"
+                                    ToolTipDescription="{Binding}"
+                                    ToolTipFooterTitle="Inserted as:"
+                                    ToolTipFooterDescription="{Binding FormString}"/>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
@@ -598,7 +601,10 @@
                                               DataType="{x:Type cmc:CommenceConnection}">
                                     <RibbonGalleryItem 
                                     Content="{Binding}"
-                                    ToolTip="{Binding FormString}"/>
+                                    ToolTipTitle="Form Connection"
+                                    ToolTipDescription="{Binding FullName}"
+                                    ToolTipFooterTitle="Inserted as:"
+                                    ToolTipFooterDescription="{Binding FormString}"/>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
@@ -626,7 +632,10 @@
                                               DataType="{x:Type cmc:IDFControl}">
                                     <RibbonGalleryItem 
                                     Content="{Binding}"
-                                    ToolTip="{Binding FormString}"/>
+                                    ToolTipTitle="Form Control"
+                                    ToolTipDescription="{Binding ToolTipText}"
+                                    ToolTipFooterTitle="Inserted as:"
+                                    ToolTipFooterDescription="{Binding FormString}"/>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"

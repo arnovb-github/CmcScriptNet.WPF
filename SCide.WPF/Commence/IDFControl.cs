@@ -14,10 +14,10 @@ namespace SCide.WPF.Commence
         {
             get
             {
-                StringBuilder sb = new StringBuilder("Control name: " + this.NAME + "; Caption: ");
-                sb.Append(string.IsNullOrEmpty(this.CAPTION) ? "[null]" : '"' + this.CAPTION + '"');
-                sb.Append("; Field: ");
-                sb.Append(string.IsNullOrEmpty(this.DATAFIELD) ? "[unbound]" : '"' + this.DATAFIELD + '"');
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("Name: " + this.NAME);
+                sb.AppendLine("Caption: " + (string.IsNullOrEmpty(this.CAPTION) ? "[none]" : '"' + this.CAPTION + '"'));
+                sb.AppendLine("Field: " + (string.IsNullOrEmpty(this.DATAFIELD) ? "[unbound]" : '"' + this.DATAFIELD + '"'));
                 return sb.ToString();
             }
         }
