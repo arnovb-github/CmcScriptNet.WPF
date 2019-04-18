@@ -9,6 +9,7 @@ namespace SCide.WPF.Commence
         public string NAME { set; get; }
         public string DATAFIELD { set; get; }
         public string CAPTION { set; get; }
+        public string FormFile { get; set; }
 
         public string ToolTipText
         {
@@ -18,6 +19,7 @@ namespace SCide.WPF.Commence
                 sb.AppendLine("Name: " + this.NAME);
                 sb.AppendLine("Caption: " + (string.IsNullOrEmpty(this.CAPTION) ? "[none]" : '"' + this.CAPTION + '"'));
                 sb.AppendLine("Field: " + (string.IsNullOrEmpty(this.DATAFIELD) ? "[unbound]" : '"' + this.DATAFIELD + '"'));
+                sb.AppendLine("Form: " + (string.IsNullOrEmpty(this.FormFile) ? "[none]" : '"' + this.FormFile + '"'));
                 return sb.ToString();
             }
         }

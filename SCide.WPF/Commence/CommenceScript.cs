@@ -32,17 +32,6 @@ namespace SCide.WPF.Commence
             }
         }
 
-        //private string selectedField;
-        //public string SelectedField
-        //{
-        //    get { return selectedField; }
-        //    set
-        //    {
-        //        selectedField = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
         private CommenceField selectedField;
         public CommenceField SelectedField
         {
@@ -180,6 +169,8 @@ namespace SCide.WPF.Commence
                 IDFControl cn = (IDFControl)serializer.Deserialize(new XmlNodeReader(ControlElement));
                 if (cn != null && !string.IsNullOrEmpty(cn.NAME))
                 {
+                    // slap on form file for good measure
+                    cn.FormFile = System.IO.Path.GetFileName(formfile.FileName);
                     retval.Add(cn);
                 }
             }
