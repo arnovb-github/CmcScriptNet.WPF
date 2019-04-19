@@ -101,7 +101,7 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="Vovin.CmcLibNet">
-      <HintPath>..\..\CmcLibNet.45\CmcLibNet\bin\Release\Vovin.CmcLibNet.dll</HintPath>
+      <HintPath>..\Libraries\Vovin.CmcLibNet.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
