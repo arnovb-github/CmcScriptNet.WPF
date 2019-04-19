@@ -17,9 +17,9 @@ namespace SCide.WPF.Commence
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("Name: " + this.NAME);
-                sb.AppendLine("Caption: " + (string.IsNullOrEmpty(this.CAPTION) ? "[none]" : '"' + this.CAPTION + '"'));
-                sb.AppendLine("Field: " + (string.IsNullOrEmpty(this.DATAFIELD) ? "[unbound]" : '"' + this.DATAFIELD + '"'));
-                sb.AppendLine("Form: " + (string.IsNullOrEmpty(this.FormFile) ? "[none]" : '"' + this.FormFile + '"'));
+                sb.AppendLine("Caption: " + (string.IsNullOrEmpty(this.CAPTION) ? "[none]" : this.CAPTION));
+                sb.AppendLine("Field: " + (string.IsNullOrEmpty(this.DATAFIELD) ? "[unbound]" : this.DATAFIELD));
+                sb.AppendLine("Form: " + (string.IsNullOrEmpty(this.FormFile) ? "[none]" : this.FormFile));
                 return sb.ToString();
             }
         }
