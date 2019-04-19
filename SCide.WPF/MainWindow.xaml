@@ -785,7 +785,8 @@
                 </StatusBar>
                 
                 <ad:DockingManager Name="dockPanel" 
-                                   ActiveContentChanged="dockPanel_ActiveContentChanged">
+                                   ActiveContentChanged="dockPanel_ActiveContentChanged"
+                                   DocumentClosed="DockPanel_DocumentClosed">
                     <ad:DockingManager.Theme>
                         <ad:VS2010Theme />
                     </ad:DockingManager.Theme>

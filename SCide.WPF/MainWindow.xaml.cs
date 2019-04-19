@@ -644,14 +644,25 @@ namespace SCide.WPF
         }
 
 
-        //private void DockPanel_DocumentClosed(object sender, Xceed.Wpf.AvalonDock.DocumentClosedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        viewModel.CanEdit = ActiveDocument != null;
-        //    }
-        //    catch { }
-        //}
+        private void DockPanel_DocumentClosed(object sender, Xceed.Wpf.AvalonDock.DocumentClosedEventArgs e)
+        {
+            try
+            {
+                // If the document being closed belongs to the same category
+                // as the currently selected category,
+                // set the selected category to null.
+                // This way, you can open the same category again
+                // without having to swith between categories first
+                var doc = (SCide.WPF.DocumentForm)e.Document;
+                if (doc.CommenceScript != null
+                        && viewModel.CommenceModel.SelectedCategory.Equals(doc.CommenceScript.CategoryName)
+                        && viewModel.CommenceModel.SelectedForm.Equals(doc.CommenceScript.FormName))
+                {
+                    viewModel.CommenceModel.SelectedCategory = null;
+                }
+            }
+            catch { }
+        }
 
         private void FocusScintilla(int offSet = 0)
         {
@@ -1623,6 +1634,7 @@ namespace SCide.WPF
         // haven't been able to make it work so far
         private void RibbonComboBox_DropDownClosed(object sender, EventArgs e)
         {
+            //viewModel.CommenceModel.SelectedCategory = null;
             FocusScintilla(); // does not work here.
             // it does work from the ribbon with the FocusScintilla UICommand
             // that makes me think that this might actually work,
