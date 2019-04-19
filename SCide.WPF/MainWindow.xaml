@@ -519,8 +519,8 @@
                                         DropDownClosed="RibbonComboBox_DropDownClosed">
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate">
-                                    <RibbonGalleryItem 
-                                    Content="{Binding}"
+                                    <TextBlock 
+                                    Text="{Binding}"
                                     ToolTip="{Binding}"/>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
@@ -546,8 +546,8 @@
                                         x:Name="rbsbForms">
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate">
-                                    <RibbonGalleryItem 
-                                    Content="{Binding}"
+                                    <TextBlock 
+                                    Text="{Binding}"
                                     ToolTip="{Binding}"/>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
@@ -577,12 +577,14 @@
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate" 
                                               DataType="{x:Type cmc:CommenceField}">
-                                    <RibbonGalleryItem 
-                                    Content="{Binding}"
-                                    ToolTipTitle="Form Field"
-                                    ToolTipDescription="{Binding}"
-                                    ToolTipFooterTitle="Inserted as:"
-                                    ToolTipFooterDescription="{Binding FormString}"/>
+                                    <TextBlock Text="{Binding}">
+                                        <TextBlock.ToolTip>
+                                            <RibbonToolTip Title="Form Field"
+						                                Description="{Binding}"
+						                                FooterTitle="Inserted as:"
+						                                FooterDescription="{Binding FormString}"/>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
@@ -609,12 +611,15 @@
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate" 
                                               DataType="{x:Type cmc:CommenceConnection}">
-                                    <RibbonGalleryItem 
-                                    Content="{Binding}"
-                                    ToolTipTitle="Form Connection"
-                                    ToolTipDescription="{Binding FullName}"
-                                    ToolTipFooterTitle="Inserted as:"
-                                    ToolTipFooterDescription="{Binding FormString}"/>
+                                    <TextBlock Text="{Binding}">
+                                        <TextBlock.ToolTip>
+                                            <RibbonToolTip Title="Form Connection"
+						                                Description="{Binding FullName}"
+						                                FooterTitle="Inserted as:"
+						                                FooterDescription="{Binding FormString}"/>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
@@ -640,12 +645,14 @@
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate" 
                                               DataType="{x:Type cmc:IDFControl}">
-                                    <RibbonGalleryItem 
-                                    Content="{Binding}"
-                                    ToolTipTitle="Form Control"
-                                    ToolTipDescription="{Binding ToolTipText}"
-                                    ToolTipFooterTitle="Inserted as:"
-                                    ToolTipFooterDescription="{Binding FormString}"/>
+                                    <TextBlock Text="{Binding NAME}">
+                                        <TextBlock.ToolTip>
+                                            <RibbonToolTip Title="Form Control"
+						                                Description="{Binding ToolTipText}"
+						                                FooterTitle="Inserted as:"
+						                                FooterDescription="{Binding FormString}"/>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
@@ -673,8 +680,8 @@
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate" 
                                               DataType="{x:Type hlp:IdentifierMatch}">
-                                    <RibbonGalleryItem 
-                                    Content="{Binding Identifier}"
+                                    <TextBlock 
+                                    Text="{Binding Identifier}"
                                     ToolTip="{Binding Line}"/>
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>

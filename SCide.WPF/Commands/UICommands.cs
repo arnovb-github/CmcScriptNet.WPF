@@ -427,8 +427,8 @@ namespace SCide.WPF.Commands
 
         public static readonly RoutedUICommand ToggleRibbon = new RoutedUICommand
             (
-                "Show Ribbon (F12)",
-                "Show Ribbon",
+                "Toggle Ribbon (F12)",
+                "Toggle Ribbon",
                 typeof(UICommands),
                 new InputGestureCollection()
                 {
