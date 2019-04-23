@@ -643,20 +643,38 @@ namespace SCide.WPF
             TempFileTracker.DeleteAll();
         }
 
-
+        // If the document being closed belongs to the same category
+        // as the currently selected category and form,
+        // set the selected category to null
+        // (unless another form from the same category is open)
+        // This way, you can open the same category again
+        // without having to switch between categories first.
         private void DockPanel_DocumentClosed(object sender, Xceed.Wpf.AvalonDock.DocumentClosedEventArgs e)
         {
             try
             {
-                // If the document being closed belongs to the same category
-                // as the currently selected category,
-                // set the selected category to null.
-                // This way, you can open the same category again
-                // without having to switch between categories first
-                var doc = (SCide.WPF.DocumentForm)e.Document;
-                if (doc.CommenceScript != null
-                        && viewModel.CommenceModel.SelectedCategory.Equals(doc.CommenceScript.CategoryName)
+                var doc = e.Document as DocumentForm;
+                if (doc == null) { return; }
+                if (doc.CommenceScript != null)
+                {
+                    // check all other docs except yourself
+                    var otherDocs = Documents.Where(s => s != doc); // all other documents except the one being closed
+                    if (otherDocs.Any(a => a.CommenceScript.CategoryName.Equals(doc.CommenceScript.CategoryName))) // are other forms from the same category openened?
+                    {
+                        viewModel.CommenceModel.SelectedForm = null;
+                        return;
+                    }
+                }
+
+                if (viewModel.CommenceModel.SelectedCategory.Equals(doc.CommenceScript.CategoryName)
                         && viewModel.CommenceModel.SelectedForm.Equals(doc.CommenceScript.FormName))
+                {
+                    viewModel.CommenceModel.SelectedCategory = null;
+                    viewModel.CommenceModel.SelectedForm = null;
+                    return;
+                }
+
+                if (Documents.Count() == 1)
                 {
                     viewModel.CommenceModel.SelectedCategory = null;
                 }

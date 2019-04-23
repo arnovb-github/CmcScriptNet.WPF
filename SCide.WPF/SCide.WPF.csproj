@@ -70,7 +70,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ScriptPad.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=3.3.3.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -270,9 +271,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ScriptPad.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ScriptPad.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ScreenShot2.png" />
