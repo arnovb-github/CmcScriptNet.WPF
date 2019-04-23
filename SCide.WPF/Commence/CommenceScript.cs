@@ -90,6 +90,8 @@ namespace SCide.WPF.Commence
             }
         }
 
+        public string FullName => this.CategoryName + " - " + this.FormName;
+
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

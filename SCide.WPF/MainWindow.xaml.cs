@@ -360,7 +360,7 @@ namespace SCide.WPF
             doc.Scintilla.Text = File.ReadAllText(cs.FilePath, System.Text.Encoding.Default);
             doc.Scintilla.SetSavePoint(); // mark as unmodified
             //doc.Title = Path.GetFileName(cs.FilePath);
-            doc.Title = cs.FormName;
+            doc.Title = cs.FullName;
             doc.FilePath = cs.FilePath;
             doc.CommenceScript = cs;
             documentsRoot.Children.Add(doc);
