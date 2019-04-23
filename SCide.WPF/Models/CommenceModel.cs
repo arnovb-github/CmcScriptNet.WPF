@@ -94,6 +94,7 @@ namespace SCide.WPF.Models
                 this._selectedCategory = value;
                 OnPropertyChanged();
                 this.Forms = null; // clear forms
+                this.SelectedForm = null; // clear selected form
                 GetFormNames(this.SelectedCategory);
                 if (Forms?.Count == 1)
                 {
