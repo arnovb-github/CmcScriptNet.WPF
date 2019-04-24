@@ -5,4 +5,4 @@ Requirements: .Net Framework 4.5 (Commence RM 6.x and higher will install it if 
 
 CmcScriptNet.WPF is modeled after ScriptPad, the best Commence script editor ever. Thank you, Mathias!
 
-CmcScriptNet.WPF borrows heavily from Scintilla.Net and Scintilla.WPF.
+CmcScriptNet.WPF borrows heavily from Scintilla.Net and ScintillaNet.WPF.
