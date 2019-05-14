@@ -1,6 +1,6 @@
 ﻿namespace SCide.WPF.Extensions
 {
-    public static class Extensions
+    public static class ColorExtensions
     {
         public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color mediaColor)
         {

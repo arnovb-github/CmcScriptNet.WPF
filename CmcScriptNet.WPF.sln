@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScintillaNET.WPF", "Scintil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCide.WPF", "SCide.WPF\SCide.WPF.csproj", "{1506D901-20A1-46E9-BFE6-1C8496D394E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmcScriptNet.FilterBuilder", "FilterBuilder\CmcScriptNet.FilterBuilder.csproj", "{DBF88B63-0982-4DC0-B649-F50E02694668}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{1506D901-20A1-46E9-BFE6-1C8496D394E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1506D901-20A1-46E9-BFE6-1C8496D394E5}.Signed|Any CPU.ActiveCfg = Release|Any CPU
 		{1506D901-20A1-46E9-BFE6-1C8496D394E5}.Signed|Any CPU.Build.0 = Release|Any CPU
+		{DBF88B63-0982-4DC0-B649-F50E02694668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBF88B63-0982-4DC0-B649-F50E02694668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBF88B63-0982-4DC0-B649-F50E02694668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBF88B63-0982-4DC0-B649-F50E02694668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBF88B63-0982-4DC0-B649-F50E02694668}.Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{DBF88B63-0982-4DC0-B649-F50E02694668}.Signed|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

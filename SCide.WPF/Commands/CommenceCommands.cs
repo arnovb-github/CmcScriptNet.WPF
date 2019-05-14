@@ -181,5 +181,16 @@ namespace SCide.WPF.Commands
                     new KeyGesture(Key.F11)
                 }
             );
+
+        public static readonly RoutedUICommand ShowFilterBuilder = new RoutedUICommand
+            (
+                nameof(ShowFilterBuilder),
+                nameof(ShowFilterBuilder),
+                typeof(CommenceCommands),
+                new InputGestureCollection()
+                {
+                    //new KeyGesture(Key.F12)
+                }
+            );
     }
 }

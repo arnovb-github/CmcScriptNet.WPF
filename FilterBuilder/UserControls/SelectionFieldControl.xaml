@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="CmcScriptNet.FilterBuilder.UserControls.SelectionFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Vertical" MaxWidth="200">
+        <!--<StackPanel Orientation="Horizontal">
+            <RadioButton Content="Equal to" IsChecked="True"/>
+            <RadioButton Content="Not Equal To"/>
+        </StackPanel>-->
+        <TextBlock Text="Enter the case-sensitive value." Margin="5"/>
+        <TextBox Text="" Margin="5"/>
+        <TextBlock Text="(Note: contents of selection fields cannot be read via the Commence API, so we can't display them here.)"
+                   TextWrapping="Wrap"
+                   Margin="5"/>
+    </StackPanel>
+</UserControl>

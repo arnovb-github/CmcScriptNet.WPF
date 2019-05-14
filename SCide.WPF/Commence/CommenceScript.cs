@@ -43,9 +43,8 @@ namespace SCide.WPF.Commence
             }
         }
 
-        private List<CommenceConnection> connections;
-
-        public List<CommenceConnection> Connections
+        private List<ICommenceConnection> connections;
+        public List<ICommenceConnection> Connections
         {
             get { return connections; }
             set
@@ -102,35 +101,30 @@ namespace SCide.WPF.Commence
             if (string.IsNullOrEmpty(this.CategoryName) || string.IsNullOrEmpty(this.FormName)) { return; }
             using (ICommenceDatabase db = new CommenceDatabase())
             {
-                var connectionList = db.GetConnectionNames(CategoryName);
-                if (connectionList != null)
-                {
-                    Connections = GetConnections(connectionList).ToList();
-                }
+                var connectionList = db.GetConnectionNames(this.CategoryName);
+                Connections = connectionList?.ToList();
                 var fields = db.GetFieldNames(this.CategoryName);
-                if (fields != null)
-                {
-                    Fields = GetFields(fields).ToList();
-                }
+                Fields = GetFields(fields)?.ToList();
             }
             Controls = await Task.Run(() => GetControlList(this.CategoryName, this.FormName));
         }
 
         private IEnumerable<CommenceField> GetFields(List<string> fields)
         {
+            if (fields == null) { yield return null; }
             foreach(string f in fields)
             {
                 yield return new CommenceField(f, this.CategoryName);
             }
         }
 
-        private IEnumerable<CommenceConnection> GetConnections(List<Tuple<string, string>> list)
-        {
-            foreach (Tuple<string, string> t in list)
-            {
-                yield return new CommenceConnection(t.Item1, t.Item2);
-            }
-        }
+        //private IEnumerable<CommenceConnection> GetConnections(IEnumerable<ICommenceConnection> list)
+        //{
+        //    foreach (IEnumerable<ICommenceConnection> c in list)
+        //    {
+        //        yield return new CommenceConnection(t.Item1, t.Item2);
+        //    }
+        //}
 
         private List<IDFControl> GetControlList(string categoryName, string formName)
         {

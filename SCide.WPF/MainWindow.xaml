@@ -197,7 +197,10 @@
                         Executed="OpenControlListCommand_Executed"/>
         <CommandBinding Command="cmds:CommenceCommands.OpenGotoSectionList"
                         CanExecute="OpenGotoSectionListCommand_CanExecute"
-                        Executed="OpenGotoSectionListCommand_Executed"/>        
+                        Executed="OpenGotoSectionListCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.ShowFilterBuilder"
+                        CanExecute="ShowFilterBuilderCommand_CanExecute"
+                        Executed="ShowFilterBuilderCommand_Executed"/>
     </Window.CommandBindings>
     <!-- keybindings are defined at the command declaration level -->
     <Window.Resources>
@@ -695,6 +698,13 @@
                                 ScrollViewer.CanContentScroll="True"/>
                             </RibbonGallery>
                             </RibbonSplitButton>
+                    </RibbonGroup>
+                    
+                    <!-- Commence/Filters-->
+                    <RibbonGroup Header="Filters">
+                        <RibbonButton Label="Filter Builder…" KeyTip="F"
+                                      SmallImageSource="Images\Filter_16x.png"
+                                      Command="cmds:CommenceCommands.ShowFilterBuilder"/>
                     </RibbonGroup>
                 </RibbonTab>
 

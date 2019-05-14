@@ -1,0 +1,191 @@
+﻿<UserControl x:Class="CmcScriptNet.FilterBuilder.UserControls.FilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
+             xmlns:cmd="clr-namespace:CmcScriptNet.FilterBuilder.Commands"
+             xmlns:cnvrt="clr-namespace:CmcScriptNet.FilterBuilder.Converters"
+             mc:Ignorable="d"
+             MaxHeight="480" MaxWidth="640">
+    <UserControl.Resources>
+        <!-- I could use only datatriggers, but the logic is so complex I went with converters.
+        There is ample room for improvement here but I do not care for now -->
+        <cnvrt:BoolToVisibilityConverter x:Key="boolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:BoolToVisibilityConverter x:Key="boolToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible"/>
+        <cnvrt:StringFieldTypeToVisibilityConverter x:Key="stringFieldTypeToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:NumberFieldTypeToVisibilityConverter x:Key="numberFieldTypeToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:DateFieldTypeToVisibilityConverter x:Key="dateFieldTypeToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:TimeFieldTypeToVisibilityConverter x:Key="timeFieldTypeToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:SelectionFieldTypeToVisibilityConverter x:Key="selectionFieldTypeToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:CheckBoxFieldTypeToVisibilityConverter x:Key="checkBoxFieldTypeToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:SingleValueQualifierToVisibilityConverter x:Key="SingleValueQualifierToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:BetweenQualifierToVisibilityConverter x:Key="BetweenQualifierToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <cnvrt:FilterToStringConverter x:Key="filterToStringConverter"/>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="cmd:FilterControlCommands.Reset" 
+                        Executed="Reset_Executed"/>
+    </UserControl.CommandBindings>
+    <Grid ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MaxWidth="320"/>
+            <ColumnDefinition Width="Auto" MaxWidth="320"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- column 1 -->
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+            <TextBlock Text="Filter for All Items" Margin="5"/>
+            <CheckBox Content="Except" Margin="5"
+                    IsChecked="{Binding Path=Except}"/>
+        </StackPanel>
+        <ListView x:Name="lvFieldList" ItemsSource="{Binding FieldList}"
+                DisplayMemberPath="DisplayName"
+                SelectedValue="{Binding SelectedFieldListItem, Mode=TwoWay}"
+                Grid.Column="0"
+                Grid.Row="1"
+                Margin="5"
+                SelectionChanged="LvFieldList_SelectionChanged"/>
+        <Label Content="Filter by" Grid.Column="0" Grid.Row="2"/>
+        <ComboBox x:Name="cboConnectedFieldList"
+                ItemsSource="{Binding Path=ConnectedFieldListItems}"
+                DisplayMemberPath="DisplayName"
+                SelectedValue="{Binding Path=SelectedConnectionFieldListItem, Mode=TwoWay}"
+                Text="(Connection to item)"
+                IsEditable="True"
+                IsReadOnly="True"
+                Margin="5"
+                Grid.Column="0"
+                Grid.Row="3"/>
+        <Button Content="Clear Filter" MinWidth="50"
+                Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" 
+                HorizontalAlignment="Center" Margin="5"
+                Command="cmd:FilterControlCommands.Reset"/>
+        
+        <!-- Column 2 -->
+        <Label Content="{Binding CurrentFieldListItem.DisplayName}" Grid.Column="1" Grid.Row="0"/>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1"
+                    MaxWidth="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=ColumnDefinitions[1].MaxWidth}">
+            <!-- should show when a field (not connection) is showing -->
+            <StackPanel Orientation="Vertical" x:Name="fieldValue"
+                        Visibility="{Binding Path=CurrentFieldListItem.IsField, Converter={StaticResource boolToVisibleConverter}, FallbackValue=Collapsed}">
+                <!-- should show when filterqualifier is not beween or blank -->
+                <ComboBox x:Name="cboQualifierMembers"
+                        ItemsSource="{Binding QualifierMembers, Mode=OneWay}"
+                        DisplayMemberPath="Description"
+                        IsSynchronizedWithCurrentItem="True"
+                        SelectedIndex="0"
+                        SelectedValuePath="Value"
+                        SelectedValue="{Binding Path=SelectedFilterQualifier, Mode=TwoWay}"
+                        IsEditable="True"
+                        IsReadOnly="True"
+                        Margin="5"/>
+                <StackPanel Orientation="Vertical" 
+                            Visibility="{Binding ElementName=cboQualifierMembers, 
+                            Path=SelectedValue,
+                            Converter={StaticResource SingleValueQualifierToVisibilityConverter}}">
+                    <!-- we insert different controls here because they may have additional functionality contained in them -->
+                    <!-- show when Commence field is of type text (any free string) -->
+                    <local:SingleStringValueControl Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource stringFieldTypeToVisibilityConverter}}" Margin="5"/>
+                    <!-- show when Commence field is of type Number -->
+                    <local:SingleNumberFieldControl Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource numberFieldTypeToVisibilityConverter}}" Margin="5"/>
+                    <!-- show when Commence field is of type date -->
+                    <local:SingleDateFieldControl Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource dateFieldTypeToVisibilityConverter}}" Margin="5"/>
+                    <!-- show when Commence field is of type time -->
+                    <local:SingleTimeFieldControl Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource timeFieldTypeToVisibilityConverter}}" Margin="5"/>
+                </StackPanel>
+                <!-- should show when filterqualifier is beween -->
+                <StackPanel Orientation="Vertical" 
+                            Visibility="{Binding ElementName=cboQualifierMembers, 
+                            Path=SelectedValue,
+                            Converter={StaticResource BetweenQualifierToVisibilityConverter}}">
+                    <Label Content="Minimum value (inclusive):"/>
+                    <TextBox x:Name="textBetweenStart"
+                             Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource stringFieldTypeToVisibilityConverter}}"
+                             TextWrapping="Wrap"/>
+                    <TextBox x:Name="numberBetweenStart" Background="AliceBlue"
+                            Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource numberFieldTypeToVisibilityConverter}}"/>
+                    <DatePicker x:Name="dateBetweenStart" Background="LightGreen"
+                            Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource dateFieldTypeToVisibilityConverter}}"/>
+                    <TextBox x:Name="timeBetweenStart" Background="LightSalmon"
+                            Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource timeFieldTypeToVisibilityConverter}}"/>
+                    <Label Content="Maximum value (inclusive):"/>
+                    <TextBox x:Name="textBetweenEnd"
+                             Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource stringFieldTypeToVisibilityConverter}}"/>
+                    <TextBox x:Name="numberBetweenEnd" Background="AliceBlue"
+                            Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource numberFieldTypeToVisibilityConverter}}"/>
+                    <DatePicker x:Name="dateBetweenEnd" Background="LightGreen"
+                            Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource dateFieldTypeToVisibilityConverter}}"/>
+                    <TextBox x:Name="timeBetweenEnd" Background="LightSalmon"
+                            Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource timeFieldTypeToVisibilityConverter}}"/>
+                </StackPanel>
+
+                <!-- selection field -->
+                <local:SelectionFieldControl Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource selectionFieldTypeToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                
+                <!-- checkbox field-->
+                <!-- no XAML needed -->
+            </StackPanel>
+        </StackPanel>
+        <!-- should show when a connection is selected -->
+        <Grid Visibility="{Binding Path=CurrentFieldListItem.IsField, Converter={StaticResource boolToCollapsedConverter}, FallbackValue=Collapsed}"
+              Grid.Column="1" Grid.Row="1"
+              MaxWidth="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=ColumnDefinitions[1].MaxWidth}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical" 
+                        Visibility="{Binding Path=CurrentFieldListItem.IsField, Converter={StaticResource boolToCollapsedConverter}, FallbackValue=Collapsed}"
+                        Grid.Row="0">
+                <Label Content="Connection to Item"/>
+                <TextBox x:Name="tbxConnectedItem" 
+                             Text="{Binding ConnectedItemSearchString, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="5"/>
+            </StackPanel>
+            <ListView x:Name="lbxConnectedItemNames"
+                        ItemsSource="{Binding ConnectedItemNames}"
+                      DisplayMemberPath="DisplayName"
+                        SelectedValue="{Binding CurrentConnectedItem}"
+                        Margin="5"
+                        Grid.Row="1"/>
+        </Grid>
+
+        <!-- bottom syntax example elements-->
+        <StackPanel Orientation="Horizontal"
+                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" 
+                   Margin="5">
+            <TextBlock Text="Syntax" Margin="5"/>
+            <TextBox x:Name="filterString"
+                    Text="{Binding Path=CurrentFilter, Mode=OneWay, Converter={StaticResource filterToStringConverter}}"
+                    IsReadOnly="True"
+                    IsReadOnlyCaretVisible="True"
+                    Margin="5"
+                    MaxWidth="480"
+                    TextWrapping="Wrap"/>
+            <TextBlock Text="#" Margin="5"/>
+            <ComboBox ItemsSource="{Binding ClauseNumbers, Mode=OneTime}" 
+                      SelectedIndex="0"
+                      SelectedValue="{Binding ClauseNumber, Mode=TwoWay}"
+                      Margin="5"
+                      VerticalAlignment="Top"/>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

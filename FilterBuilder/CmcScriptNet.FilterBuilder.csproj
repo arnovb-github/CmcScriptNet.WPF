@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DBF88B63-0982-4DC0-B649-F50E02694668}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>FilterBuilder</RootNamespace>
+    <AssemblyName>FilterBuilder</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Vovin.CmcLibNet, Version=0.7.7061.24673, Culture=neutral, PublicKeyToken=3f2991abe0822890, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Vovin.CmcLibNet.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converters\BaseFieldTypeToVisibiltyConverter.cs" />
+    <Compile Include="Converters\BaseFilterQualifierToVisibilityConverter.cs" />
+    <Compile Include="Converters\BetweenQualifierToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\CheckBoxFieldTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\DateFieldTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\FilterToStringConverter.cs" />
+    <Compile Include="Converters\NumberFieldTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\SelectionFieldTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\SingleValueQualifierToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringFieldTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\TimeFieldTypeVisibilityConverter.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Helpers\FilterConstructor.cs" />
+    <Compile Include="Helpers\FilterValidator.cs" />
+    <Compile Include="Helpers\QualifierMember.cs" />
+    <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="Models\ConnectedItem.cs" />
+    <Compile Include="Models\FieldListItem.cs" />
+    <Compile Include="Models\FilterControlModel.cs" />
+    <Compile Include="Helpers\QualifierLibrary.cs" />
+    <Compile Include="Commands\FilterControlCommands.cs" />
+    <Compile Include="UserControls\FilterConjunctionControl.xaml.cs">
+      <DependentUpon>FilterConjunctionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilterControl.xaml.cs">
+      <DependentUpon>FilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SelectionFieldControl.xaml.cs">
+      <DependentUpon>SelectionFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SingleDateFieldControl.xaml.cs">
+      <DependentUpon>SingleDateFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SingleNumberFieldControl.xaml.cs">
+      <DependentUpon>SingleNumberFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SingleStringValueControl.xaml.cs">
+      <DependentUpon>SingleStringValueControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SingleTimeFieldControl.xaml.cs">
+      <DependentUpon>SingleTimeFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ValueOptionsWindow.xaml.cs">
+      <DependentUpon>ValueOptionsWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="FilterBuilder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FilterBuilder.xaml.cs">
+      <DependentUpon>FilterBuilder.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="UserControls\FilterConjunctionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SelectionFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SingleDateFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SingleNumberFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SingleStringValueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SingleTimeFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ValueOptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FilterListItem.cs" />
+    <Compile Include="Models\FilterBuilderModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

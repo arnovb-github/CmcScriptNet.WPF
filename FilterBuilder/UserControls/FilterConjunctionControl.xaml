@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="CmcScriptNet.FilterBuilder.UserControls.FilterConjunctionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="360" d:DesignWidth="240">
+    <Grid Height="360" Width="240">
+        <StackPanel Orientation="Vertical" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <GroupBox BorderThickness="1" BorderBrush="DarkGray">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Filter 1" Margin="10"/>
+                        <RadioButton x:Name="AndOr12" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                        <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                        <TextBlock Text="Filter 2" Margin="10"/>
+                    </StackPanel>
+                </GroupBox>
+                
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    <RadioButton x:Name="AndOr13" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                    <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                </StackPanel>
+
+                <GroupBox BorderThickness="1" BorderBrush="DarkGray">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Filter 3"  Margin="10"/>
+                        <RadioButton x:Name="AndOr34" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                        <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                        <TextBlock Text="Filter 4" Margin="10"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Center">
+                <RadioButton x:Name="AndOr35" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <GroupBox BorderThickness="1" BorderBrush="DarkGray">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Filter 5"  Margin="10"/>
+                        <RadioButton x:Name="AndOr56" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                        <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                        <TextBlock Text="Filter 6" Margin="10"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
+                    <RadioButton x:Name="AndOr57" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                    <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                </StackPanel>
+
+                <GroupBox BorderThickness="1" BorderBrush="DarkGray">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Filter 7" Margin="10"/>
+                        <RadioButton x:Name="AndOr78" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                        <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                        <TextBlock Text="Filter 8" Margin="10"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+            
+            <!-- output controls -->
+            <!--<StackPanel Orientation="Horizontal">
+                <TextBox x:Name="tbConjunction" IsReadOnly="True" IsReadOnlyCaretVisible="True" Text="{Binding Path=ViewConjunction}"/>
+            </StackPanel>-->
+        </StackPanel>
+    </Grid>
+</UserControl>

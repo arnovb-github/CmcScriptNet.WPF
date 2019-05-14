@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="CmcScriptNet.FilterBuilder.UserControls.SingleStringValueControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cmd="clr-namespace:CmcScriptNet.FilterBuilder.Commands"
+             mc:Ignorable="d">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="cmd:FilterControlCommands.ShowFieldValueOptions" 
+                        Executed="ShowFieldValueOptions_Executed"/>
+    </UserControl.CommandBindings>
+    <StackPanel Orientation="Vertical">
+        <Label Content="Field Value:"/>
+        <TextBox Text="{Binding FieldValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Match Case" Margin="5"/>
+            <CheckBox IsChecked="{Binding MatchCase, Mode=OneWayToSource}" Margin="5"/>
+        </StackPanel>
+        <Button Content="Options" Command="cmd:FilterControlCommands.ShowFieldValueOptions" Margin="5"/>
+    </StackPanel>
+</UserControl>

@@ -1,3 +1,4 @@
+using CmcScriptNet.FilterBuilder;
 using SCide.WPF.Commands;
 using SCide.WPF.Commence;
 using SCide.WPF.Extensions;
@@ -12,6 +13,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -1337,8 +1339,7 @@ namespace SCide.WPF
                     FilePath = scriptFile,
                     FormName = formName
                 };
-                //Task.Run(() => cs.PopulateMetaData()); 
-                await cs.GetMetaDataAsync();
+                await cs.GetMetaDataAsync(); 
                 OpenFile(cs);
 
                 // (re)start code analyzer
@@ -1645,6 +1646,26 @@ namespace SCide.WPF
                 rbsbGotoSection.IsDropDownOpen = true;
             }
         }
+
+        private void ShowFilterBuilderCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            // We must be on a form script and commence must be running the correct database
+            // in order to be able to show the filter builder
+            e.CanExecute = DocumentsActive
+                &&  ActiveDocument.CommenceScript != null
+                && viewModel.CommenceModel.IsRunning
+                && viewModel.CommenceModel.Name.Equals(ActiveDocument.CommenceScript.DatabaseName);
+        }
+
+        private void ShowFilterBuilderCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            FilterBuilderWindow fbw = new FilterBuilderWindow(ActiveDocument.CommenceScript.CategoryName);
+            if ((bool)fbw.ShowDialog())
+            {
+                ActiveDocument.Scintilla.InsertText(ActiveDocument.Scintilla.CurrentPosition, fbw.Result);
+                FocusScintilla(fbw.Result.Length);
+            }
+        }
         #endregion
 
         // TODO make this work :)
@@ -1657,5 +1678,7 @@ namespace SCide.WPF
             // that makes me think that this might actually work,
             // but the focus is taken back by the ribbon
         }
+
+
     }
 }
