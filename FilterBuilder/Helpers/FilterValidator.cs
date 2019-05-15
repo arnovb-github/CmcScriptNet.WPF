@@ -69,6 +69,10 @@ namespace CmcScriptNet.FilterBuilder.Helpers
             {
                 return (!string.IsNullOrEmpty(f.FieldValue));
             }
+            if (f.Qualifier.GetAttribute<FilterValuesAttribute>()?.Number == 0)
+            {
+                return true;
+            }
             return false;
         }
 
@@ -92,6 +96,11 @@ namespace CmcScriptNet.FilterBuilder.Helpers
             if (f.Qualifier.GetAttribute<FilterValuesAttribute>()?.Number == 1)
             {
                 return (!string.IsNullOrEmpty(f.FieldValue));
+            }
+
+            if (f.Qualifier.GetAttribute<FilterValuesAttribute>()?.Number == 0)
+            {
+                return true;
             }
             return false;
         }
