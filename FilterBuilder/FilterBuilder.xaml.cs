@@ -43,6 +43,7 @@ namespace CmcScriptNet.FilterBuilder
             DialogResult = true;
         }
 
+        // TODO simplify this, we should be able to get rid of it
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!IsInitialized) { return; }

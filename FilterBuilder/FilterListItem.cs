@@ -1,4 +1,5 @@
-﻿using Vovin.CmcLibNet.Database;
+﻿using CmcScriptNet.FilterBuilder.Models;
+using Vovin.CmcLibNet.Database;
 
 namespace CmcScriptNet.FilterBuilder
 {
@@ -11,6 +12,5 @@ namespace CmcScriptNet.FilterBuilder
         public string Tag { get; set; } 
         public ICursorFilter Filter { get; set; }
         public int ClauseNumber { get; set; }
-
     }
 }

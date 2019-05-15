@@ -13,10 +13,5 @@ namespace SCide.WPF.Commence
         public string Category { get; }
         public string FullName => this.Name + ' ' + this.Category;
         public string FormString => "Form.Connection(\"" + Name + "\",\"" + Category + "\")";
-
-        public override string ToString()
-        {
-            return Name + " " + Category;
-        }
     }
 }

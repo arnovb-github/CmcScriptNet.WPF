@@ -77,6 +77,14 @@
         <!-- the filter control -->
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"
                     Style="{StaticResource filterToVisibility}">
+            <!-- This should be implemented differently I think.
+            The cleanest way might be to define the datacontext of the filtercontrol,
+            which is a separate object in it's own right, in it's own xaml.
+            It needs two things: the clause number and the categoryname, 
+            so we need to figure out the best way to pass those one.
+            One way would be to use dependency objects.
+            Another could be to use the Loaded event.
+            I am no expert in WPF so I am thinking out loud here-->
             <my:FilterControl DataContext="{Binding CurrentFilterControlModel}"/>
 
         </StackPanel>

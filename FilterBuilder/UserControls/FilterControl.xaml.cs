@@ -17,6 +17,8 @@ namespace CmcScriptNet.FilterBuilder.UserControls
         #endregion
 
         #region Dependency properties
+        // TODO this is just weird. Fix it. :)
+        // This control should have it's own datacontext, with possibly a single dependency property to set the categoryname
         public static readonly DependencyProperty FilterControlModelProperty =
             DependencyProperty.Register(nameof(FilterControlModel),
             typeof(FilterControlModel),

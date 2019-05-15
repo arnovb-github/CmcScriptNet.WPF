@@ -614,7 +614,7 @@
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate" 
                                               DataType="{x:Type cmc:CommenceConnection}">
-                                    <TextBlock Text="{Binding}">
+                                    <TextBlock Text="{Binding FullName}">
                                         <TextBlock.ToolTip>
                                             <RibbonToolTip Title="Form Connection"
 						                                Description="{Binding FullName}"

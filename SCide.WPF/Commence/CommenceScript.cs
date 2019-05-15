@@ -43,8 +43,8 @@ namespace SCide.WPF.Commence
             }
         }
 
-        private List<ICommenceConnection> connections;
-        public List<ICommenceConnection> Connections
+        private List<CommenceConnection> connections;
+        public List<CommenceConnection> Connections
         {
             get { return connections; }
             set
@@ -55,7 +55,6 @@ namespace SCide.WPF.Commence
         }
 
         private CommenceConnection selectedConnection;
-
         public CommenceConnection SelectedConnection
         {
             get { return selectedConnection; }
@@ -102,11 +101,22 @@ namespace SCide.WPF.Commence
             using (ICommenceDatabase db = new CommenceDatabase())
             {
                 var connectionList = db.GetConnectionNames(this.CategoryName);
-                Connections = connectionList?.ToList();
+                if (connectionList != null)
+                {
+                    Connections = GetConnections(connectionList).ToList();
+                }
                 var fields = db.GetFieldNames(this.CategoryName);
                 Fields = GetFields(fields)?.ToList();
             }
             Controls = await Task.Run(() => GetControlList(this.CategoryName, this.FormName));
+        }
+
+        private IEnumerable<CommenceConnection> GetConnections(IEnumerable<ICommenceConnection> list)
+        {
+            foreach (ICommenceConnection c in list)
+            {
+                yield return new CommenceConnection(c.Name, c.ToCategory);
+            }
         }
 
         private IEnumerable<CommenceField> GetFields(List<string> fields)

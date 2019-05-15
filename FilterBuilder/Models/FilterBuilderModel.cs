@@ -16,7 +16,6 @@ namespace CmcScriptNet.FilterBuilder.Models
 
         #region Properties
         public string CategoryName { get; set; }
-
         public IList<FilterListItem> FilterList { get; private set; }
 
         private string _viewConjunction = "[ViewConjunction(AND,AND,AND,AND,AND,AND,AND)]";
@@ -46,6 +45,10 @@ namespace CmcScriptNet.FilterBuilder.Models
             }
         }
 
+        // TODO this is probably overly complicated
+        // a better solution(?) is to have to filtercontrol figure out what values it needs,
+        // in essence: pull, not push.
+        // on the other hand, we want to keep some kind of state. Hmm.
         public IEnumerable<FilterControlModel> FilterControlModels { get; private set; }
 
         #endregion
@@ -61,7 +64,7 @@ namespace CmcScriptNet.FilterBuilder.Models
             if (_init) { return; }
             this.CategoryName = categoryName;
             IList<FilterControlModel> modelList = new List<FilterControlModel>();
-            for (int i = 1; i < 2; i++) // just one, but left like this for future adaptations.
+            for (int i = 1; i < 2; i++) // just one now, but left like this for future adaptations.
             {
                 modelList.Add(new FilterControlModel(CategoryName)
                 {
@@ -94,6 +97,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                 });
             }
         }
+
         #endregion
 
         #region Events
