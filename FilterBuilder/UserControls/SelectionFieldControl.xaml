@@ -6,12 +6,8 @@
              xmlns:local="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
              mc:Ignorable="d">
     <StackPanel Orientation="Vertical" MaxWidth="200">
-        <!--<StackPanel Orientation="Horizontal">
-            <RadioButton Content="Equal to" IsChecked="True"/>
-            <RadioButton Content="Not Equal To"/>
-        </StackPanel>-->
-        <TextBlock Text="Enter the case-sensitive value." Margin="5"/>
-        <TextBox Text="" Margin="5"/>
+        <TextBlock Text="Enter the value case-sensitive ." Margin="5"/>
+        <TextBox Text="{Binding FieldValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
         <TextBlock Text="(Note: contents of selection fields cannot be read via the Commence API, so we can't display them here.)"
                    TextWrapping="Wrap"
                    Margin="5"/>
