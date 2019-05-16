@@ -1,12 +1,8 @@
 ﻿using CmcScriptNet.FilterBuilder.Models;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace CmcScriptNet.FilterBuilder
 {
-    // TODO this is all really messy and in dire need of refactoring and reorganizing
-
     /// <summary>
     /// Interaction logic for FilterBuilderWindow.xaml
     /// </summary>
