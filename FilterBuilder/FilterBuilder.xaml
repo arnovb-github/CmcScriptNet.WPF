@@ -3,9 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CmcScriptNet.FilterBuilder"
         xmlns:my="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:models="clr-namespace:CmcScriptNet.FilterBuilder.Models"
         mc:Ignorable="d"
         Title="{Binding CategoryName, Mode=OneTime, StringFormat='Filter for Category: {0}'}" MaxHeight="640" MaxWidth="800">
@@ -16,7 +14,7 @@
         <Style x:Key="filterToVisibility" TargetType="StackPanel">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=filterList, Path=SelectedValue.Tag}" Value="filter">
+                <DataTrigger Binding="{Binding ElementName=filterList, Path=SelectedItem.Tag}" Value="filter">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -24,7 +22,7 @@
         <Style x:Key="summaryToVisibility" TargetType="StackPanel">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=filterList, Path=SelectedValue.Tag}" Value="summary">
+                <DataTrigger Binding="{Binding ElementName=filterList, Path=SelectedItem.Tag}" Value="summary">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -43,31 +41,36 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <!-- list of filters-->
-        <!-- We are not going to bother with this,
+        <!-- list of filters.
+        We are not going to bother with this,
         because there is no proper way to set the filter relations
-        without returning actual code.
-        That could clash with existing code.
+        without returning actual script code.
+        That could obviously clash with existing code.
+        A way of dealing with that could be to insert it as comments.
+        I am undecided on the issue...
         Another complex matter is the retaining of the set values
         on the viewmodel when switching models.
-        I cannot seem to get that working properly.
-        I will leave this code in, in case we ever change our mind in the future.
-        For now it will just show 1 filter
+        I'd like the FilterControl to show the previously selected values, 
+        but I cannot seem to get that working properly.
+        For now I will leave this code in, in case I ever change our mind in the future.
+        For now it will just show 1 filter.
+        Note that not all code takes into account this future feature
         -->
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
             <ListView x:Name="filterList"
-                ItemsSource="{Binding FilterList}"
-                      DisplayMemberPath="DisplayName"
-                      SelectedIndex="1"
-                      Margin="5"
-                      SelectionChanged="ListView_SelectionChanged"/>
+                ItemsSource="{Binding FilterListItems}"
+                DisplayMemberPath="DisplayName"
+                Margin="5"
+                SelectedValuePath="FilterControlModel"
+                SelectedValue="{Binding Path=CurrentFilterControlModel, Mode=TwoWay}"
+                SelectedIndex="1"/>
         </StackPanel>
      
         <!-- the filter conjunction control -->
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"
                     Style="{StaticResource summaryToVisibility}">
             <my:FilterConjunctionControl/>
-            <TextBox x:Name="tbConjunction"
+            <TextBox x:Name="tbConjunction" Background="WhiteSmoke"
                      IsReadOnly="True"
                      IsReadOnlyCaretVisible="True"
                      Text="{Binding Path=ViewConjunction}"
@@ -77,14 +80,7 @@
         <!-- the filter control -->
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"
                     Style="{StaticResource filterToVisibility}">
-            <!-- This should be implemented differently I think.
-            The cleanest way might be to define the datacontext of the filtercontrol,
-            which is a separate object in it's own right, in it's own xaml.
-            It needs two things: the clause number and the categoryname, 
-            so we need to figure out the best way to pass those one.
-            One way would be to use dependency objects.
-            Another could be to use the Loaded event.
-            I am no expert in WPF so I am thinking out loud here-->
+            <!-- The binding of the datacontext allows for several controlmodels (filter 1-8) in the future-->
             <my:FilterControl DataContext="{Binding CurrentFilterControlModel}"/>
 
         </StackPanel>

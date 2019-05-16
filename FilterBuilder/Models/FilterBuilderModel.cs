@@ -10,13 +10,23 @@ namespace CmcScriptNet.FilterBuilder.Models
         #region Constructors
         public FilterBuilderModel()
         {
-            PopulateFilterList();
+            //PopulateFilterList();
         }
         #endregion
 
         #region Properties
         public string CategoryName { get; set; }
-        public IList<FilterListItem> FilterList { get; private set; }
+
+        private IList<FilterListItem> _filterListItems;
+        public IList<FilterListItem> FilterListItems
+        {
+            get { return _filterListItems; }
+            set
+            {
+                _filterListItems = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _viewConjunction = "[ViewConjunction(AND,AND,AND,AND,AND,AND,AND)]";
         public string ViewConjunction
@@ -54,6 +64,7 @@ namespace CmcScriptNet.FilterBuilder.Models
         #endregion
 
         #region Methods
+
         private bool _init = false;
         /// <summary>
         /// Initializer, should be called once
@@ -63,24 +74,14 @@ namespace CmcScriptNet.FilterBuilder.Models
         {
             if (_init) { return; }
             this.CategoryName = categoryName;
-            IList<FilterControlModel> modelList = new List<FilterControlModel>();
-            for (int i = 1; i < 2; i++) // just one now, but left like this for future adaptations.
-            {
-                modelList.Add(new FilterControlModel(CategoryName)
-                {
-                    ClauseNumber = i,
-                });
-            }
-            this.FilterControlModels = modelList;
-            // select the first filter
-            this.CurrentFilterControlModel = FilterControlModels.First();
+            this.FilterListItems = GetFilterListItems(CategoryName);
             _init = true;
         }
 
-        private void PopulateFilterList()
+        private IList<FilterListItem> GetFilterListItems(string categoryName)
         {
-            FilterList = new List<FilterListItem>();
-            FilterList.Add(new FilterListItem()
+            var retval = new List<FilterListItem>();
+            retval.Add(new FilterListItem()
             {
                 DisplayName = "Summary 1-8",
                 Tag = "summary"
@@ -88,16 +89,20 @@ namespace CmcScriptNet.FilterBuilder.Models
             // filters are numbered 1 to 8
             for (int i = 1; i < 2; i++) // just one, but left like this for future adaptations.
             {
-                FilterList.Add(new FilterListItem()
+                retval.Add(new FilterListItem()
                 {
                     //DisplayName = "Filter " + i.ToString(),
                     DisplayName = "Create Filter",
                     Tag = "filter",
-                    ClauseNumber = i
+                    ClauseNumber = i,
+                    FilterControlModel = new FilterControlModel(categoryName)
+                    {
+                        ClauseNumber = i,
+                    }
                 });
             }
+            return retval;
         }
-
         #endregion
 
         #region Events

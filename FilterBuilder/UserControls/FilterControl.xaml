@@ -77,7 +77,6 @@
             <!-- should show when a field (not connection) is showing -->
             <StackPanel Orientation="Vertical" x:Name="fieldValue"
                         Visibility="{Binding Path=CurrentFieldListItem.IsField, Converter={StaticResource boolToVisibleConverter}, FallbackValue=Collapsed}">
-                <!-- should show when filterqualifier is not beween or blank -->
                 <ComboBox x:Name="cboQualifierMembers"
                         ItemsSource="{Binding QualifierMembers, Mode=OneWay}"
                         DisplayMemberPath="Description"
@@ -88,6 +87,7 @@
                         IsEditable="True"
                         IsReadOnly="True"
                         Margin="5"/>
+                <!-- should show when filterqualifier is not beween or blank -->
                 <StackPanel Orientation="Vertical" 
                             Visibility="{Binding ElementName=cboQualifierMembers, 
                             Path=SelectedValue,
@@ -103,6 +103,7 @@
                     <local:SingleTimeFieldControl Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource timeFieldTypeToVisibilityConverter}}" Margin="5"/>
                 </StackPanel>
                 <!-- should show when filterqualifier is beween -->
+                <!-- It shows several textboxes but in the future I may (and should) replace them with actual pickers for the datatype.-->
                 <StackPanel Orientation="Vertical" 
                             Visibility="{Binding ElementName=cboQualifierMembers, 
                             Path=SelectedValue,
@@ -112,26 +113,26 @@
                              Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource stringFieldTypeToVisibilityConverter}}"
                              TextWrapping="Wrap"/>
-                    <TextBox x:Name="numberBetweenStart" Background="AliceBlue"
+                    <TextBox x:Name="numberBetweenStart"
                             Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource numberFieldTypeToVisibilityConverter}}"/>
-                    <DatePicker x:Name="dateBetweenStart" Background="LightGreen"
+                    <DatePicker x:Name="dateBetweenStart"
                             Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource dateFieldTypeToVisibilityConverter}}"/>
-                    <TextBox x:Name="timeBetweenStart" Background="LightSalmon"
+                    <TextBox x:Name="timeBetweenStart"
                             Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource timeFieldTypeToVisibilityConverter}}"/>
                     <Label Content="Maximum value (inclusive):"/>
                     <TextBox x:Name="textBetweenEnd"
                              Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource stringFieldTypeToVisibilityConverter}}"/>
-                    <TextBox x:Name="numberBetweenEnd" Background="AliceBlue"
+                    <TextBox x:Name="numberBetweenEnd" 
                             Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource numberFieldTypeToVisibilityConverter}}"/>
-                    <DatePicker x:Name="dateBetweenEnd" Background="LightGreen"
+                    <DatePicker x:Name="dateBetweenEnd"
                             Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource dateFieldTypeToVisibilityConverter}}"/>
-                    <TextBox x:Name="timeBetweenEnd" Background="LightSalmon"
+                    <TextBox x:Name="timeBetweenEnd" 
                             Text="{Binding BetweenEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Visibility="{Binding CurrentFieldListItem.FieldDefinition.Type, Converter={StaticResource timeFieldTypeToVisibilityConverter}}"/>
                 </StackPanel>
@@ -172,7 +173,7 @@
                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" 
                    Margin="5">
             <TextBlock Text="Syntax" Margin="5"/>
-            <TextBox x:Name="filterString"
+            <TextBox x:Name="filterString" Background="WhiteSmoke"
                     Text="{Binding Path=CurrentFilter, Mode=OneWay, Converter={StaticResource filterToStringConverter}}"
                     IsReadOnly="True"
                     IsReadOnlyCaretVisible="True"

@@ -12,5 +12,6 @@ namespace CmcScriptNet.FilterBuilder
         public string Tag { get; set; } 
         public ICursorFilter Filter { get; set; }
         public int ClauseNumber { get; set; }
+        public FilterControlModel FilterControlModel { get; set; }
     }
 }

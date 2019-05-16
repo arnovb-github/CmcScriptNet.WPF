@@ -30,7 +30,7 @@ namespace CmcScriptNet.FilterBuilder
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             var model = (FilterBuilderModel)DataContext;
-            var listItem = filterList.SelectedValue as FilterListItem;
+            var listItem = filterList.SelectedItem as FilterListItem;
             if (listItem == null) { return; }
             if (listItem.Tag.Equals("filter"))
             {
@@ -41,17 +41,6 @@ namespace CmcScriptNet.FilterBuilder
                 Result = model.ViewConjunction;
             }
             DialogResult = true;
-        }
-
-        // TODO simplify this, we should be able to get rid of it
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!IsInitialized) { return; }
-            if (e.AddedItems.Count == 0) { return; }
-            var item = e.AddedItems[0] as FilterListItem;
-            if (item == null) { return; }
-            filterBuilderModel.CurrentFilterControlModel =
-                filterBuilderModel.FilterControlModels.SingleOrDefault(s => s.ClauseNumber.Equals(item.ClauseNumber));
         }
     }
 }
