@@ -1,5 +1,4 @@
 ﻿using CmcScriptNet.FilterBuilder.Models;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace CmcScriptNet.FilterBuilder.UserControls
@@ -15,22 +14,6 @@ namespace CmcScriptNet.FilterBuilder.UserControls
             InitializeComponent();
         }
         #endregion
-
-        #region Dependency properties
-        // TODO this is just weird. Fix it. :)
-        // This control should have it's own datacontext, with possibly a single dependency property to set the categoryname
-        public static readonly DependencyProperty FilterControlModelProperty =
-            DependencyProperty.Register(nameof(FilterControlModel),
-            typeof(FilterControlModel),
-            typeof(FilterControl),
-            new FrameworkPropertyMetadata(null));
-        #endregion
-
-        public FilterControlModel FilterControlModel
-        {
-            get { return (FilterControlModel)GetValue(FilterControlModelProperty); }
-            set { SetValue(FilterControlModelProperty, value); }
-        }
 
         private void LvFieldList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
