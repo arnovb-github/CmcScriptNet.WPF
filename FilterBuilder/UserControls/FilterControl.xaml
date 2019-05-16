@@ -7,7 +7,8 @@
              xmlns:cmd="clr-namespace:CmcScriptNet.FilterBuilder.Commands"
              xmlns:cnvrt="clr-namespace:CmcScriptNet.FilterBuilder.Converters"
              mc:Ignorable="d"
-             MaxHeight="480" MaxWidth="640">
+             MaxHeight="480" MaxWidth="640"
+             DataContext="{Binding CurrentFilterControlModel}">
     <UserControl.Resources>
         <!-- I could use only datatriggers, but the logic is so complex I went with converters.
         There is ample room for improvement here but I do not care for now -->

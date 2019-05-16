@@ -80,8 +80,7 @@
         <!-- the filter control -->
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"
                     Style="{StaticResource filterToVisibility}">
-            <!-- The binding of the datacontext allows for several controlmodels (filter 1-8) in the future-->
-            <my:FilterControl DataContext="{Binding CurrentFilterControlModel}"/>
+            <my:FilterControl/>
 
         </StackPanel>
 
