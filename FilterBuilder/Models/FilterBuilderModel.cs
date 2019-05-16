@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace CmcScriptNet.FilterBuilder.Models
@@ -8,10 +7,7 @@ namespace CmcScriptNet.FilterBuilder.Models
     public class FilterBuilderModel : INotifyPropertyChanged
     {
         #region Constructors
-        public FilterBuilderModel()
-        {
-            //PopulateFilterList();
-        }
+        public FilterBuilderModel() { }
         #endregion
 
         #region Properties
@@ -54,12 +50,6 @@ namespace CmcScriptNet.FilterBuilder.Models
                 OnPropertyChanged();
             }
         }
-
-        // TODO this is probably overly complicated
-        // a better solution(?) is to have to filtercontrol figure out what values it needs,
-        // in essence: pull, not push.
-        // on the other hand, we want to keep some kind of state. Hmm.
-        public IEnumerable<FilterControlModel> FilterControlModels { get; private set; }
 
         #endregion
 
