@@ -18,7 +18,6 @@ namespace CmcScriptNet.FilterBuilder.UserControls
         {
             FilterControlModel model = (FilterControlModel)this.DataContext;
             ValueOptionsWindow vow = new ValueOptionsWindow(model.FieldValue);
-            vow.DataContext = model; // no idea why we have to explicitly set this, you'd expect it to be inherited.
             if ((bool)vow.ShowDialog())
             {
                 model.FieldValue = vow.Result;
