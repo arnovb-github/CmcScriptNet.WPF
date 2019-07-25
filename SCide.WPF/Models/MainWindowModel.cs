@@ -17,20 +17,6 @@ namespace SCide.WPF.Models
             EditorSettings = EditorSettings.Instance;
         }
 
-        //private bool canEdit;
-        //public bool CanEdit
-        //{
-        //    get
-        //    {
-        //        return canEdit;
-        //    }
-        //    set
-        //    {
-        //        canEdit = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
         public CommenceModel CommenceModel { get; set; }
         public StatusBarModel StatusBarModel { get; set; }
 
@@ -69,7 +55,6 @@ namespace SCide.WPF.Models
                 OnPropertyChanged();
             }
         }
-
 
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
