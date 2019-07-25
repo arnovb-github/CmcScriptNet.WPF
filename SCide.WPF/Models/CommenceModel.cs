@@ -202,7 +202,7 @@ namespace SCide.WPF.Models
                 Categories = db.GetCategoryNames();
                 IsRunning = true;
             }
-            FormFiles = await GetDetailFormFiles();
+            FormFiles = await GetDetailFormFilesAsync();
         }
 
         public bool CheckInFormScript(CommenceScript cs)
