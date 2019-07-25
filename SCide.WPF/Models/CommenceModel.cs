@@ -41,6 +41,7 @@ namespace SCide.WPF.Models
                 InitializeModel();
             }
         }
+
         #endregion
 
         #region Event handlers
@@ -192,7 +193,7 @@ namespace SCide.WPF.Models
 
         #region Methods
 
-        public async void InitializeModel()
+        public async void InitializeModel() // TODO async void should be avoided
         {
             using (ICommenceDatabase db = new CommenceDatabase())
             {
@@ -201,7 +202,7 @@ namespace SCide.WPF.Models
                 Categories = db.GetCategoryNames();
                 IsRunning = true;
             }
-            FormFiles = await Task.Run(() => GetDetailFormFiles());
+            FormFiles = await GetDetailFormFiles();
         }
 
         public bool CheckInFormScript(CommenceScript cs)
@@ -252,8 +253,7 @@ namespace SCide.WPF.Models
             return path;
         }
 
-        // TODO make async
-        private List<IDFFile> GetDetailFormFiles()
+        private async Task<List<IDFFile>> GetDetailFormFilesAsync()
         {
             List<IDFFile> retval = new List<IDFFile>();
             string[] parts = {this.Path, TEMPLATES_FOLDER };
@@ -261,11 +261,11 @@ namespace SCide.WPF.Models
             string[] files = Directory.GetFiles(path, "fm*.xml"); // returns empty array if no files
             foreach (string f in files)
             {
-                using (XmlReader reader = XmlReader.Create(f))
+                using (XmlReader reader = XmlReader.Create(f, new XmlReaderSettings() { Async = true }))
                 {
                     try
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             // Only detect start elements.
                             if (reader.IsStartElement())
