@@ -1401,14 +1401,15 @@ namespace SCide.WPF
                 if (!this.IsInitialized) { return false; }
                 else
                 {
-                    try
-                    {
-                        return Documents.Any();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        return false;
-                    }
+                    //try
+                    //{
+                    //    return Documents.Any();
+                    //}
+                    //catch (NullReferenceException)
+                    //{
+                    //    return false;
+                    //}
+                    return Convert.ToBoolean(Documents?.Any());
                 }
             }
         }
@@ -1441,11 +1442,11 @@ namespace SCide.WPF
             }
         }
 
-        private void GetCategoryNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private async void GetCategoryNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (CommenceCommands.GetCategoryNames.CanExecute(null, this))
             {
-                viewModel.CommenceModel.InitializeModel();
+                await viewModel.CommenceModel.InitializeModelAsync();
             }
         }
 
@@ -1467,11 +1468,11 @@ namespace SCide.WPF
             e.CanExecute = viewModel.CommenceModel.SelectedCategory != null;
         }
 
-        private void GetFieldNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private async void GetFieldNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (CommenceCommands.GetFieldNames.CanExecute(null, this))
             {
-                viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
+                await viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
             }
         }
 
@@ -1480,11 +1481,11 @@ namespace SCide.WPF
             e.CanExecute = viewModel.CommenceModel.SelectedForm != null;
         }
 
-        private void GetConnectionNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private async void GetConnectionNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (CommenceCommands.GetConnectionNames.CanExecute(null, this))
             {
-                viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
+                await viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
             }
         }
 
@@ -1493,11 +1494,11 @@ namespace SCide.WPF
             e.CanExecute = viewModel.CommenceModel.SelectedForm != null;
         }
 
-        private void GetControlNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private async void GetControlNamesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (CommenceCommands.GetControlNames.CanExecute(null, this))
             {
-                viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
+                await viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
             }
         }
 

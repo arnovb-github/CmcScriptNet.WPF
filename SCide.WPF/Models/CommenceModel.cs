@@ -38,16 +38,15 @@ namespace SCide.WPF.Models
             _monitor.CommenceProcessStarted += Monitor_CommenceProcessStarted;
             if (_monitor.CommenceIsRunning)
             {
-                InitializeModel();
+                InitializeModelAsync();
             }
         }
-
         #endregion
 
         #region Event handlers
-        private void Monitor_CommenceProcessStarted(object sender, EventArgs e)
+        private async void Monitor_CommenceProcessStarted(object sender, EventArgs e)
         {
-            InitializeModel();
+            await InitializeModelAsync();
         }
 
         private void Monitor_CommenceProcessExited(object sender, EventArgs e)
@@ -193,7 +192,7 @@ namespace SCide.WPF.Models
 
         #region Methods
 
-        public async void InitializeModel() // TODO async void should be avoided
+        public async Task InitializeModelAsync()
         {
             using (ICommenceDatabase db = new CommenceDatabase())
             {
