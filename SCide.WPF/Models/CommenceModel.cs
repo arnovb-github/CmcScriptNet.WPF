@@ -20,7 +20,6 @@ namespace SCide.WPF.Models
 
         #region Fields
         private const string TEMPLATES_FOLDER = "tmplts"; // subfolder holding detail forms, report views etc.
-        private static List<IDFFile> _formfiles;
         private readonly ICommenceMonitor _monitor;
         private IList<string> _tempFiles = new List<string>();
         private IList<string> _categories;
@@ -59,17 +58,7 @@ namespace SCide.WPF.Models
         #endregion
 
         #region Properties
-        internal static List<IDFFile> FormFiles
-            {
-            get
-            {
-                return _formfiles;
-            }
-            private set
-            {
-                _formfiles = value;
-            }
-        }
+        internal static List<IDFFile> FormFiles { get; private set; }
 
         public IList<string> Categories
         {
