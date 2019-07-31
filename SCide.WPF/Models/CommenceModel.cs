@@ -37,7 +37,10 @@ namespace SCide.WPF.Models
             _monitor.CommenceProcessStarted += Monitor_CommenceProcessStarted;
             if (_monitor.CommenceIsRunning)
             {
-                InitializeModelAsync();
+                // we can't await this because we're in a constructor.
+                // .GetAwaiter().GetResult() will at least get us the actual exception instead of an aggregate exception.
+                //InitializeModelAsync().GetAwaiter().GetResult(); // okay for some reason we should probably fix this doesn't work
+                Task.Run(() => InitializeModelAsync().GetAwaiter().GetResult());
             }
         }
         #endregion
@@ -241,6 +244,10 @@ namespace SCide.WPF.Models
             return path;
         }
 
+        // returns list of detail form xml files
+        // this list is used to identify the controls on it, something the Commence API does not provide.
+        // we could try and run this method based on the requested category,
+        // but reading them all at once is faster since we don't have to loop over them every time
         private async Task<List<IDFFile>> GetDetailFormFilesAsync()
         {
             List<IDFFile> retval = new List<IDFFile>();
