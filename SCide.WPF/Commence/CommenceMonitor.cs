@@ -80,7 +80,6 @@ namespace SCide.WPF.Commence
         {
             // do work....
             Process process = GetProcess(COMMENCE_PROCESS);
-            process.e
             if (process != null)
             {
                 // now we run into an interesting problem:
