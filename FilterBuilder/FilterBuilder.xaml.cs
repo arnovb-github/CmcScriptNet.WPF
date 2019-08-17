@@ -1,4 +1,5 @@
 ﻿using CmcScriptNet.FilterBuilder.Models;
+using FilterBuilder.Helpers;
 using System.Windows;
 
 namespace CmcScriptNet.FilterBuilder
@@ -30,7 +31,7 @@ namespace CmcScriptNet.FilterBuilder
             if (listItem == null) { return; }
             if (listItem.Tag.Equals("filter"))
             {
-                Result = model.CurrentFilterControlModel.CurrentFilter.ToString() ?? string.Empty;
+                Result = FilterStringCreator.ToString(model.CurrentFilterControlModel.CurrentFilter, model.CurrentFilterControlModel.OutputFormat);
             }
             else
             {

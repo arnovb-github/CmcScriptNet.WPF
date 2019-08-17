@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CmcScriptNet.FilterBuilder.Extensions;
+﻿using CmcScriptNet.FilterBuilder.Extensions;
 using Vovin.CmcLibNet.Database;
 
 namespace CmcScriptNet.FilterBuilder.Helpers

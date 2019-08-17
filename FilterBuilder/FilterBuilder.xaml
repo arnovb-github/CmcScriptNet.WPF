@@ -81,7 +81,6 @@
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"
                     Style="{StaticResource filterToVisibility}">
             <my:FilterControl/>
-
         </StackPanel>
 
         <!-- buttons -->

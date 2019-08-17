@@ -66,6 +66,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CheckBoxFieldTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\DateFieldTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\EnumToCollectionConverter.cs" />
     <Compile Include="Converters\FilterToStringConverter.cs" />
     <Compile Include="Converters\NumberFieldTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\SelectionFieldTypeToVisibilityConverter.cs" />
@@ -73,7 +74,10 @@
     <Compile Include="Converters\StringFieldTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\TimeFieldTypeVisibilityConverter.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ValueDescription.cs" />
     <Compile Include="Helpers\FilterConstructor.cs" />
+    <Compile Include="Helpers\FilterOutputFormat.cs" />
+    <Compile Include="Helpers\FilterStringCreator.cs" />
     <Compile Include="Helpers\FilterValidator.cs" />
     <Compile Include="Helpers\QualifierMember.cs" />
     <Compile Include="Helpers\Utils.cs" />

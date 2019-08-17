@@ -10,7 +10,7 @@
              MaxHeight="480" MaxWidth="640"
              DataContext="{Binding CurrentFilterControlModel}">
     <UserControl.Resources>
-        <!-- I could use only datatriggers, but the logic is so complex I went with converters.
+        <!-- We could use just datatriggers, but the logic is so complex I went with converters.
         There is ample room for improvement here but I do not care for now -->
         <cnvrt:BoolToVisibilityConverter x:Key="boolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <cnvrt:BoolToVisibilityConverter x:Key="boolToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible"/>
@@ -170,23 +170,34 @@
         </Grid>
 
         <!-- bottom syntax example elements-->
-        <StackPanel Orientation="Horizontal"
-                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" 
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" 
                    Margin="5">
-            <TextBlock Text="Syntax" Margin="5"/>
-            <TextBox x:Name="filterString" Background="WhiteSmoke"
-                    Text="{Binding Path=CurrentFilter, Mode=OneWay, Converter={StaticResource filterToStringConverter}}"
-                    IsReadOnly="True"
-                    IsReadOnlyCaretVisible="True"
-                    Margin="5"
-                    MaxWidth="480"
-                    TextWrapping="Wrap"/>
-            <TextBlock Text="#" Margin="5"/>
-            <ComboBox ItemsSource="{Binding ClauseNumbers, Mode=OneTime}" 
-                      SelectedIndex="0"
-                      SelectedValue="{Binding ClauseNumber, Mode=TwoWay}"
-                      Margin="5"
-                      VerticalAlignment="Top"/>
+            <StackPanel Orientation="Horizontal"
+                       Margin="5">
+                <TextBlock Text="Syntax" Margin="5"/>
+                <TextBox x:Name="filterString" Background="WhiteSmoke"
+                        Text="{Binding Path=CurrentFilter, Mode=OneWay, Converter={StaticResource filterToStringConverter}, ConverterParameter={x:Reference outputFormat}}"
+                        IsReadOnly="True"
+                        IsReadOnlyCaretVisible="True"
+                        Margin="5"
+                        MaxWidth="480"
+                        TextWrapping="Wrap"/>
+                <TextBlock Text="#" Margin="5"/>
+                <ComboBox ItemsSource="{Binding ClauseNumbers, Mode=OneTime}" 
+                          SelectedIndex="0"
+                          SelectedValue="{Binding ClauseNumber, Mode=TwoWay}"
+                          Margin="5"
+                          VerticalAlignment="Top"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                       Margin="5">
+                <TextBlock Text="Output as"/>
+                <!-- notice that we do not define the converter as static resource because we made sure to take care of that in the converter itself -->
+                <ComboBox x:Name="outputFormat" ItemsSource="{Binding Path=OutputFormat, Converter={cnvrt:EnumToCollectionConverter}, Mode=OneTime}"
+                      SelectedValuePath="Value"
+                      DisplayMemberPath="Description"
+                      SelectedValue="{Binding Path=OutputFormat}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 

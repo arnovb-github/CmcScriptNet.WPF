@@ -1,4 +1,4 @@
-﻿using Vovin.CmcLibNet.Database;
+﻿using Vovin.CmcLibNet.Database.Metadata;
 
 namespace CmcScriptNet.FilterBuilder.Models
 {

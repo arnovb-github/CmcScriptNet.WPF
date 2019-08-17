@@ -1,11 +1,13 @@
 ﻿using CmcScriptNet.FilterBuilder.Extensions;
 using CmcScriptNet.FilterBuilder.Helpers;
+using FilterBuilder.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Vovin.CmcLibNet.Database;
+using Vovin.CmcLibNet.Database.Metadata;
 
 namespace CmcScriptNet.FilterBuilder.Models
 {
@@ -323,7 +325,19 @@ namespace CmcScriptNet.FilterBuilder.Models
             }
         }
 
+        private FilterOutputFormat _filterOutputFormat;
+        public FilterOutputFormat OutputFormat
+        {
+            get { return _filterOutputFormat; }
+            set
+            {
+                _filterOutputFormat = value;
+                OnPropertyChanged(); // TODO do we need this?
+            }
+        }
+
         internal ICategoryDef CategoryDefinition { get; set; }
+
         #endregion
 
         #region Methods
@@ -343,19 +357,14 @@ namespace CmcScriptNet.FilterBuilder.Models
                         DisplayName = field
                     });
                 }
-                // TODO change implementation of GetConnectionNames in CmcLibNet!
-                var connections = db.GetConnectionNames(categoryName);
-                if (connections != null)
+                foreach (CommenceConnection conn in db.GetConnectionNames(categoryName))
                 {
-                    foreach (CommenceConnection conn in connections)
+                    retval.Add(new FieldListItem()
                     {
-                        retval.Add(new FieldListItem()
-                        {
-                            DisplayName = conn.Name + " " + conn.ToCategory,
-                            ConnectionName = conn.Name,
-                            ToCategory = conn.ToCategory
-                        });
-                    }
+                        DisplayName = conn.Name + " " + conn.ToCategory,
+                        ConnectionName = conn.Name,
+                        ToCategory = conn.ToCategory
+                    });
                 }
             }
             // Return only fields with a fielddefinition.
@@ -401,7 +410,11 @@ namespace CmcScriptNet.FilterBuilder.Models
                     {
                         return GetConnectedItems(cur).ToList();
                     }
-                    else if (string.IsNullOrEmpty(this.ConnectedItemSearchString)) { return retval; }
+                    else if (string.IsNullOrEmpty(this.ConnectedItemSearchString))
+                    {
+                        retval.Add(new ConnectedItem("(Too many items to display)", null, null, null));
+                        return retval;
+                    }
                     else
                     {
                         CursorFilterTypeF f = cur.Filters.Add(1, FilterType.Field);
@@ -409,14 +422,23 @@ namespace CmcScriptNet.FilterBuilder.Models
                         f.FieldName = nameField;
                         f.Qualifier = FilterQualifier.Contains;
                         int count = cur.Filters.Apply();
-                        if (count > 0 && count < 1000)
+                        if (count > 1000)
+                        {
+                            retval.Add(new ConnectedItem("(Too many items to display)", null, null, null));
+                            return retval;
+                        }
+                        else if (count == 0)
+                        {
+                            retval.Add(new ConnectedItem($"(No items match '{ this.ConnectedItemSearchString }')", null, null, null));
+                            return retval;
+                        }
+                        else
                         {
                             return GetConnectedItems(cur).ToList();
                         }
                     }
                 }
             }
-            return retval;
         }
 
         private IEnumerable<ConnectedItem> GetConnectedItems(ICommenceCursor cur)
