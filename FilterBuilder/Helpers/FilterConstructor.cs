@@ -8,6 +8,9 @@ namespace CmcScriptNet.FilterBuilder.Helpers
     /// <summary>
     /// Constructs a filter.
     /// </summary>
+    // I *think* it would be better to make this into some static filter factory
+    // I also think this may be a prime candidate for DI
+    // I DUNNO!
     internal class FilterConstructor
     {
         #region Fields
@@ -118,6 +121,9 @@ namespace CmcScriptNet.FilterBuilder.Helpers
         #endregion
 
         #region Event handlers
+        // TODO this is very fishy and not the right way to do it.
+        // In effect we now have a custom class that responds to UI changes
+        // BAD BAD BAD
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // do not update properties that we update ourselves
@@ -141,9 +147,9 @@ namespace CmcScriptNet.FilterBuilder.Helpers
                     _filter = ConstructCTCTIFilter(_filter, _model);
                     break;
             }
-            _model.CurrentFilter = _filter; // pass back the updated filter to the model
+            _model.CurrentFilter = _filter; // pass back the updated filter to the model. BAD IDEA
             FilterValidator fv = new FilterValidator(_filter);
-            _model.IsValid = fv.Validate();
+            _model.IsValid = fv.Validate(); // ALSO BAD IDEA
         }
         #endregion
     }
