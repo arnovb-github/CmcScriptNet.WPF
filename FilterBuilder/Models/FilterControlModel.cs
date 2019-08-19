@@ -346,7 +346,7 @@ namespace CmcScriptNet.FilterBuilder.Models
         {
             IList<FieldListItem> retval = new List<FieldListItem>();
             // TODO wrap in try-catch
-            using (CommenceDatabase db = new CommenceDatabase())
+            using (ICommenceDatabase db = new CommenceDatabase())
             {
                 foreach (string field in db.GetFieldNames(categoryName))
                 {
@@ -357,7 +357,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                         DisplayName = field
                     });
                 }
-                foreach (CommenceConnection conn in db.GetConnectionNames(categoryName))
+                foreach (ICommenceConnection conn in db.GetConnectionNames(categoryName))
                 {
                     retval.Add(new FieldListItem()
                     {

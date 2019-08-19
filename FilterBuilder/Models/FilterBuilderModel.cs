@@ -71,12 +71,14 @@ namespace CmcScriptNet.FilterBuilder.Models
 
         private IList<FilterListItem> GetFilterListItems(string categoryName)
         {
-            var retval = new List<FilterListItem>();
-            retval.Add(new FilterListItem()
+            var retval = new List<FilterListItem>
             {
-                DisplayName = "Summary 1-8",
-                Tag = "summary"
-            });
+                new FilterListItem()
+                {
+                    DisplayName = "Summary 1-8",
+                    Tag = "summary"
+                }
+            };
             // filters are numbered 1 to 8
             for (int i = 1; i < 2; i++) // just one, but left like this for future adaptations.
             {
