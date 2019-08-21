@@ -1,5 +1,6 @@
 ﻿using CmcScriptNet.FilterBuilder.Extensions;
 using CmcScriptNet.FilterBuilder.Models;
+using FilterBuilder.Helpers;
 using System.ComponentModel;
 using Vovin.CmcLibNet.Database;
 
@@ -8,10 +9,7 @@ namespace CmcScriptNet.FilterBuilder.Helpers
     /// <summary>
     /// Constructs a filter.
     /// </summary>
-    // I *think* it would be better to make this into some static filter factory
-    // I also think this may be a prime candidate for DI
-    // I DUNNO!
-    internal class FilterConstructor
+    internal class FilterObserver
     {
         #region Fields
         private readonly FilterControlModel _model;
@@ -19,11 +17,11 @@ namespace CmcScriptNet.FilterBuilder.Helpers
         #endregion
 
         #region Constructors
-        internal FilterConstructor(FilterControlModel model, FilterType filterType)
+        internal FilterObserver(FilterControlModel model, FilterType filterType)
         {
             _model = model;
-            _model.PropertyChanged += Model_PropertyChanged;
             _filter = CreateFilter(_model.CategoryName, filterType);
+            _model.PropertyChanged += Model_PropertyChanged;
         }
         #endregion
 
@@ -121,14 +119,18 @@ namespace CmcScriptNet.FilterBuilder.Helpers
         #endregion
 
         #region Event handlers
-        // TODO this is very fishy and not the right way to do it.
+        // TODO this is very fishy.
         // In effect we now have a custom class that responds to UI changes
-        // BAD BAD BAD
+        // The underlying idea is that filters will update automagically,
+        // at least I think that that is the general idea
+        // I am pretty convinced now it is a BAD idea
+        // we should leave this kind of model-changing stuff to the model
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // do not update properties that we update ourselves
             // this code will not win prizes :)
-            if (e.PropertyName.Equals(nameof(_model.CurrentFilter))
+            if (e.PropertyName.Equals(nameof(_model.CurrentFilter)) // not needed
+                || e.PropertyName.Equals(nameof(_model.FilterString))
                 || e.PropertyName.Equals(nameof(_model.IsValid))) { return; }
 
             // we want to update the filter according to its type
@@ -147,9 +149,10 @@ namespace CmcScriptNet.FilterBuilder.Helpers
                     _filter = ConstructCTCTIFilter(_filter, _model);
                     break;
             }
-            _model.CurrentFilter = _filter; // pass back the updated filter to the model. BAD IDEA
+            _model.CurrentFilter = _filter; // pass back the updated filter to the model.
             FilterValidator fv = new FilterValidator(_filter);
-            _model.IsValid = fv.Validate(); // ALSO BAD IDEA
+            _model.IsValid = fv.Validate();
+            _model.FilterString = FilterStringCreator.ToString(_filter, _model.OutputFormat);
         }
         #endregion
     }

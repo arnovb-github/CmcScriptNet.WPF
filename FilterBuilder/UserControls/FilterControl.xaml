@@ -22,7 +22,6 @@
         <cnvrt:CheckBoxFieldTypeToVisibilityConverter x:Key="checkBoxFieldTypeToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <cnvrt:SingleValueQualifierToVisibilityConverter x:Key="SingleValueQualifierToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <cnvrt:BetweenQualifierToVisibilityConverter x:Key="BetweenQualifierToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
-        <cnvrt:FilterToStringConverter x:Key="filterToStringConverter"/>
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="cmd:FilterControlCommands.Reset" 
@@ -175,8 +174,8 @@
             <StackPanel Orientation="Horizontal"
                        Margin="5">
                 <TextBlock Text="Syntax" Margin="5"/>
-                <TextBox x:Name="filterString" Background="WhiteSmoke"
-                        Text="{Binding Path=CurrentFilter, Mode=OneWay, Converter={StaticResource filterToStringConverter}, ConverterParameter={x:Reference outputFormat}}"
+                <TextBox Background="WhiteSmoke"
+                        Text="{Binding Path=FilterString, Mode=OneWay}"
                         IsReadOnly="True"
                         IsReadOnlyCaretVisible="True"
                         Margin="5"

@@ -25,9 +25,10 @@ namespace CmcScriptNet.FilterBuilder.Models
         // we'll create a dictionary of value/description pairs for all FilterQualifier enum values
         // we'll use that to get the appropriate enum values for a particular field type
         private readonly Dictionary<FilterQualifier, QualifierMember> _qualifierDictionary;
-        private FilterConstructor _filterConstructor;
+        private FilterObserver _filterObserver;
 
         #endregion
+
         #region Constructors
         public FilterControlModel(string categoryName)
         {
@@ -35,7 +36,9 @@ namespace CmcScriptNet.FilterBuilder.Models
             FieldList = PopulateFieldList(CategoryName);
             _qualifierDictionary = CreateQualifierDictionary();
         }
+        #endregion
 
+        #region Properties
         public string CategoryName { get; set; }
 
         private int _clauseNumber = 1;
@@ -220,20 +223,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                 this.ConnectedItemNames = PopulateConnectedItemNamesList();
             }
         }
-
-        private ICursorFilter _currentFilter;
-        public ICursorFilter CurrentFilter
-        {
-            get
-            {
-                return _currentFilter;
-            }
-            set
-            {
-                _currentFilter = value;
-                OnPropertyChanged();
-            }
-        }
+        public ICursorFilter CurrentFilter { get; internal set; }
 
         private bool _except;
         public bool Except
@@ -337,6 +327,17 @@ namespace CmcScriptNet.FilterBuilder.Models
         }
 
         internal ICategoryDef CategoryDefinition { get; set; }
+
+        private string _filterString;       
+        public string FilterString
+        {
+            get { return _filterString; }
+            set
+            {
+                _filterString = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -492,8 +493,8 @@ namespace CmcScriptNet.FilterBuilder.Models
             // explicitly kill any previous instance,
             // because it will have an event subscription and may not get garbage collected
             // not sure if this is needed.
-            _filterConstructor = null; 
-            _filterConstructor = new FilterConstructor(this, filterType);
+            _filterObserver = null; 
+            _filterObserver = new FilterObserver(this, filterType);
         }
 
         internal void ResetFilter()
@@ -501,7 +502,7 @@ namespace CmcScriptNet.FilterBuilder.Models
             this.SelectedConnectedCategory = null;
             this.SelectedConnectionFieldListItem = null;
             this.SelectedFieldListItem = null;
-            _filterConstructor = null;
+            _filterObserver = null;
             this.FieldValue = null;
             this.BetweenStart = null;
             this.BetweenEnd = null;
