@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Vovin.CmcLibNet.Database;
 using Vovin.CmcLibNet.Database.Metadata;
 
@@ -35,6 +36,7 @@ namespace CmcScriptNet.FilterBuilder.Models
             CategoryName = categoryName;
             FieldList = PopulateFieldList(CategoryName);
             _qualifierDictionary = CreateQualifierDictionary();
+            //PropertyChanged += ConnectedSearchStringChanged;
         }
         #endregion
 
@@ -91,7 +93,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                     // at this point, we should also be populating the connected item names list
                     // but only when it does not contain an insane number of items
                     // ideally this should be done async
-                    this.ConnectedItemNames = PopulateConnectedItemNamesList();
+                    this.ConnectedItemNames = PopulateConnectedItemNamesList(ConnectedItemSearchString);
                     InitializeFilter(FilterType.ConnectionToItem);
                 }
                 else
@@ -149,7 +151,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                 if (_selectedConnectionFieldListItem == null) { return; }
                 this.CurrentFieldListItem = _selectedConnectionFieldListItem;
                 this.SelectedConnectedCategory = _selectedConnectionFieldListItem.ToCategory;
-                this.ConnectedItemNames = PopulateConnectedItemNamesList();
+                this.ConnectedItemNames = PopulateConnectedItemNamesList(ConnectedItemSearchString);
                 if (!string.IsNullOrEmpty(value.ToCategory))
                 {
                     InitializeFilter(FilterType.ConnectionToCategoryToItem);
@@ -220,7 +222,7 @@ namespace CmcScriptNet.FilterBuilder.Models
             {
                 _connectedItemSearchString = value;
                 OnPropertyChanged();
-                this.ConnectedItemNames = PopulateConnectedItemNamesList();
+                this.ConnectedItemNames = PopulateConnectedItemNamesList(ConnectedItemSearchString);
             }
         }
         public ICursorFilter CurrentFilter { get; internal set; }
@@ -391,7 +393,8 @@ namespace CmcScriptNet.FilterBuilder.Models
             }
         }
 
-        private IList<ConnectedItem> PopulateConnectedItemNamesList()
+        // needs rethinking. User expects some kind of filter. User will not see a filter all the time
+        private IList<ConnectedItem> PopulateConnectedItemNamesList(string searchString)
         {
             IList<ConnectedItem> retval = new List<ConnectedItem>();
             if (string.IsNullOrEmpty(this.SelectedConnectedCategory)) { return retval; }
@@ -404,17 +407,24 @@ namespace CmcScriptNet.FilterBuilder.Models
                     var columns = this.CategoryDefinition.Clarified
                         ? new[] { nameField, this.CategoryDefinition.ClarifyField }
                         : new[] { nameField };
-
                     if (!cur.SetColumns(columns)) { return retval; } // something went wrong bad
                     var number = cur.RowCount;
-                    if (number < 1000)
+                    if (string.IsNullOrEmpty(searchString))
                     {
-                        return GetConnectedItems(cur).ToList();
-                    }
-                    else if (string.IsNullOrEmpty(this.ConnectedItemSearchString))
-                    {
-                        retval.Add(new ConnectedItem("(Too many items to display)", null, null, null));
-                        return retval;
+                        if (number == 0)
+                        {
+                            retval.Add(new ConnectedItem("(No items to display)", null, null, null));
+                            return retval;
+                        }
+                        else if (number < 1000)
+                        {
+                            return GetConnectedItems(cur).ToList();
+                        }
+                        else if (string.IsNullOrEmpty(this.ConnectedItemSearchString))
+                        {
+                            retval.Add(new ConnectedItem("(Too many items to display)", null, null, null));
+                            return retval;
+                        }
                     }
                     else
                     {
@@ -440,6 +450,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                     }
                 }
             }
+            return retval;
         }
 
         private IEnumerable<ConnectedItem> GetConnectedItems(ICommenceCursor cur)
@@ -522,5 +533,17 @@ namespace CmcScriptNet.FilterBuilder.Models
         }
         #endregion
 
+        //#region Event handlers
+        //// needs more thinking
+        //private async void ConnectedSearchStringChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName.Equals(nameof(ConnectedItemSearchString)))
+        //    {
+        //        var task = Task.Run(() => PopulateConnectedItemNamesList(ConnectedItemSearchString)); // bad async-over-sync pattern I know
+        //        this.ConnectedItemNames = await task;
+        //    }
+        //}
+
+        //#endregion
     }
 }
