@@ -382,7 +382,6 @@ namespace CmcScriptNet.FilterBuilder.Models
                     .OrderBy(o => o.FieldName).ToList();
         }
     
-
         private ICategoryDef GetCategoryDefinition(string categoryName)
         {
             if (string.IsNullOrEmpty(categoryName)) { return null; }
@@ -391,6 +390,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                 return db.GetCategoryDefinition(categoryName);
             }
         }
+
         private IList<ConnectedItem> PopulateConnectedItemNamesList()
         {
             IList<ConnectedItem> retval = new List<ConnectedItem>();
@@ -508,6 +508,7 @@ namespace CmcScriptNet.FilterBuilder.Models
             this.BetweenEnd = null;
             this.CurrentFilter = null;
         }
+
         #endregion
 
         #region Events
