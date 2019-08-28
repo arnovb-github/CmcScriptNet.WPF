@@ -4,13 +4,12 @@ using System.Runtime.CompilerServices;
 
 namespace SCide.WPF.Models
 {
-    // should we make this a Singleton?
-    public class StatusBarModel : INotifyPropertyChanged
+    internal class StatusBarModel : INotifyPropertyChanged
     {
         
         #region Fields
         private string _statusText = string.Empty;
-        private CommenceScript _commenceScript;
+        private ICommenceScript _commenceScript;
         private ScintillaNET.Scintilla _scintilla;
         #endregion
 
@@ -29,7 +28,7 @@ namespace SCide.WPF.Models
             }
         }
 
-        public CommenceScript CurrentScript
+        internal ICommenceScript CurrentScript
         {
             get
             {
@@ -42,11 +41,11 @@ namespace SCide.WPF.Models
             }
         }
 
-        public int CurrentLine { get; private set; }
+        internal int CurrentLine { get; private set; }
 
-        public int CurrentColumn { get; private set; }
+        internal int CurrentColumn { get; private set; }
 
-        public string StatusText
+        internal string StatusText
         {
             get
             {
@@ -59,11 +58,11 @@ namespace SCide.WPF.Models
             }
         }
 
-        public string PositionInfo => "Ln: " + CurrentLine.ToString()
+        internal string PositionInfo => "Ln: " + CurrentLine.ToString()
             + " Col: " + CurrentColumn.ToString();
 
         private bool overwriteMode;
-        public bool OverWrite
+        internal bool OverWrite
         {
             get { return overwriteMode; }
             set

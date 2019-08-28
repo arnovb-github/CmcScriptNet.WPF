@@ -354,7 +354,7 @@ namespace SCide.WPF
             return doc;
         }
 
-        private DocumentForm OpenFile(CommenceScript cs)
+        private DocumentForm OpenFile(ICommenceScript cs)
         {
             DocumentForm doc = new DocumentForm();
             SetScintillaToCurrentOptions(doc);
@@ -1330,7 +1330,7 @@ namespace SCide.WPF
             string scriptFile = viewModel.CommenceModel.CheckOutFormScript(categoryName, formName);
             if (!string.IsNullOrEmpty(scriptFile))
             {
-                CommenceScript cs = new CommenceScript()
+                ICommenceScript cs = new CommenceScript()
                 {
                     CategoryName = categoryName,
                     DatabaseName = viewModel.CommenceModel.Name,

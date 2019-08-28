@@ -5,14 +5,14 @@ namespace SCide.WPF.Models
 {
     public interface ICommenceModel : INotifyPropertyChanged
     {
-        IList<string> Categories { get; set; }
-        IList<string> Connections { get; set; }
-        IList<string> Fields { get; set;  }
-        IList<string> Forms { get; set; }
-        string Name { get; set; }
-        string Path { get; set; }
+        IList<string> Categories { get; }
+        IList<string> Connections { get; }
+        IList<string> Fields { get; }
+        IList<string> Forms { get; }
+        string Name { get; }
+        string Path { get; }
         bool CanSave(string path);
-        bool CheckInFormScript(Commence.CommenceScript scriptData);
+        bool CheckInFormScript(Commence.ICommenceScript scriptData);
         string CheckOutFormScript(string categoryName, string formName);
         void OnPropertyChanged(string propertyName);
         void GetFormNames(string categoryName);

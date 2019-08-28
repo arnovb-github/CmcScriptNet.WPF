@@ -16,7 +16,7 @@ namespace SCide.WPF
     public partial class DocumentForm : LayoutDocument
     {
         public FindReplace FindReplace { get; set; }
-        public CommenceScript CommenceScript { get; set; }
+        public ICommenceScript CommenceScript { get; set; }
 
         public DocumentForm()
         {

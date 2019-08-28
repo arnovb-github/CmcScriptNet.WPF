@@ -127,6 +127,7 @@
     <Compile Include="Commence\CommenceField.cs" />
     <Compile Include="Commence\CommenceMonitor.cs" />
     <Compile Include="Commence\CommenceConnection.cs" />
+    <Compile Include="Commence\ICommenceScript.cs" />
     <Compile Include="Commence\IDFControl.cs" />
     <Compile Include="Commence\IDFFile.cs" />
     <Compile Include="Configuration\EditorSettings.cs" />

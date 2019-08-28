@@ -18,7 +18,7 @@ namespace SCide.WPF.Models
         }
 
         public CommenceModel CommenceModel { get; set; }
-        public StatusBarModel StatusBarModel { get; set; }
+        internal StatusBarModel StatusBarModel { get; set; }
 
         private List<IdentifierMatch> list;
         public List<IdentifierMatch> IdentifierMatches

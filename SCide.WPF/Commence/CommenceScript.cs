@@ -11,21 +11,21 @@ using Vovin.CmcLibNet.Database.Metadata;
 
 namespace SCide.WPF.Commence
 {
-    public class CommenceScript : INotifyPropertyChanged
+    public class CommenceScript : INotifyPropertyChanged, ICommenceScript
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string CategoryName { get; set; }
-        public string FormName { get; set; }
-        public string DatabaseName { get; set; }
-        public string DatabasePath { get; set; }
-        public string FilePath { get; set; }
+        public string CategoryName { get; internal set; }
+        public string FormName { get; internal set; }
+        public string DatabaseName { get; internal set; }
+        public string DatabasePath { get; internal set; }
+        public string FilePath { get; internal set; }
 
-        private List<CommenceField> list;
-        public List<CommenceField> Fields
+        private IList<CommenceField> list;
+        public IList<CommenceField> Fields
         {
             get { return list; }
-            set
+            private set
             {
                 list = value;
                 OnPropertyChanged();
@@ -36,18 +36,18 @@ namespace SCide.WPF.Commence
         public CommenceField SelectedField
         {
             get { return selectedField; }
-            set
+            private set
             {
                 selectedField = value;
                 OnPropertyChanged();
             }
         }
 
-        private List<CommenceConnection> connections;
-        public List<CommenceConnection> Connections
+        private IList<CommenceConnection> connections;
+        public IList<CommenceConnection> Connections
         {
             get { return connections; }
-            set
+            private set
             {
                 connections = value;
                 OnPropertyChanged();
@@ -58,7 +58,7 @@ namespace SCide.WPF.Commence
         public CommenceConnection SelectedConnection
         {
             get { return selectedConnection; }
-            set
+            private  set
             {
                 selectedConnection = value;
                 OnPropertyChanged();
@@ -66,11 +66,11 @@ namespace SCide.WPF.Commence
         }
 
 
-        private List<IDFControl> controls;
-        public List<IDFControl> Controls
+        private IList<IDFControl> controls;
+        public IList<IDFControl> Controls
         {
             get { return controls; }
-            set
+            private set
             {
                 controls = value;
                 OnPropertyChanged();
@@ -81,7 +81,7 @@ namespace SCide.WPF.Commence
         public IDFControl SelectedControl
         {
             get { return selectedControl; }
-            set
+            private set
             {
                 selectedControl = value;
                 OnPropertyChanged();
@@ -127,14 +127,6 @@ namespace SCide.WPF.Commence
                 yield return new CommenceField(f, this.CategoryName);
             }
         }
-
-        //private IEnumerable<CommenceConnection> GetConnections(IEnumerable<ICommenceConnection> list)
-        //{
-        //    foreach (IEnumerable<ICommenceConnection> c in list)
-        //    {
-        //        yield return new CommenceConnection(t.Item1, t.Item2);
-        //    }
-        //}
 
         private List<IDFControl> GetControlList(string categoryName, string formName)
         {

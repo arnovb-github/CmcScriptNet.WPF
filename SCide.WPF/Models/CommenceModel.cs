@@ -21,7 +21,7 @@ namespace SCide.WPF.Models
         #region Fields
         private const string TEMPLATES_FOLDER = "tmplts"; // subfolder holding detail forms, report views etc.
         private readonly ICommenceMonitor _monitor;
-        private IList<string> _tempFiles = new List<string>();
+        private readonly IList<string> _tempFiles = new List<string>();
         private IList<string> _categories;
         private IList<string> _forms;
         private string _name = "Commence is not running";
@@ -69,7 +69,7 @@ namespace SCide.WPF.Models
             {
                 return _categories;
             }
-            set
+            private set
             {
                 _categories = value;
                 OnPropertyChanged();
@@ -107,8 +107,8 @@ namespace SCide.WPF.Models
             }
         }
 
-        private CommenceScript _currentScript;
-        public CommenceScript CurrentScript
+        private ICommenceScript _currentScript;
+        public ICommenceScript CurrentScript
         {
             get => _currentScript;
             set
@@ -131,9 +131,9 @@ namespace SCide.WPF.Models
             }
         }
 
-        public IList<string> Fields { get; set; }
+        public IList<string> Fields { get; private set; }
 
-        public IList<string> Connections { get; set; }
+        public IList<string> Connections { get; private set; }
 
         public string Name
         {
@@ -141,7 +141,7 @@ namespace SCide.WPF.Models
             {
                 return _name;
             }
-            set
+            private set
             {
                 _name = value;
                 OnPropertyChanged();
@@ -154,7 +154,7 @@ namespace SCide.WPF.Models
             {
                 return _path;
             }
-            set
+            private set
             {
                 _path = value;
                 OnPropertyChanged();
@@ -162,11 +162,10 @@ namespace SCide.WPF.Models
         }
 
         private bool _isRunning;
-
         public bool IsRunning
         {
             get { return _isRunning; }
-            set
+            private set
             {
                 _isRunning = value;
                 OnPropertyChanged();
@@ -196,7 +195,7 @@ namespace SCide.WPF.Models
             FormFiles = await GetDetailFormFilesAsync();
         }
 
-        public bool CheckInFormScript(CommenceScript cs)
+        public bool CheckInFormScript(ICommenceScript cs)
         {
             using (ICommenceDatabase db = new CommenceDatabase())
             {
@@ -269,11 +268,13 @@ namespace SCide.WPF.Models
                                 switch (reader.Name.ToLower())
                                 {
                                     case "form":
-                                        IDFFile idf = new IDFFile();
-                                        // we want to read attributes
-                                        idf.Name = reader.GetAttribute("Name");
-                                        idf.Category = reader.GetAttribute("CategoryName");
-                                        idf.FileName = f;
+                                        IDFFile idf = new IDFFile
+                                        {
+                                            // we want to read attributes
+                                            Name = reader.GetAttribute("Name"),
+                                            Category = reader.GetAttribute("CategoryName"),
+                                            FileName = f
+                                        };
                                         retval.Add(idf);
                                         break;
                                 } //switch
