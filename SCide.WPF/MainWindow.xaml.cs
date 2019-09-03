@@ -134,7 +134,7 @@ namespace SCide.WPF
 
         #region Methods
 
-        private void dockPanel_ActiveContentChanged(object sender, EventArgs e)
+        private void DockPanel_ActiveContentChanged(object sender, EventArgs e)
         {
             // Update the main form _text to show the current document
             if (ActiveDocument != null)
