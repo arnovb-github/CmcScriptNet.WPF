@@ -1,17 +1,15 @@
-﻿using System;
-
-namespace SCide.WPF.Commence
+﻿namespace SCide.WPF.Commence
 {
     public class CommenceConnection
     {
         public CommenceConnection(string connectionName, string toCategoryName)
         {
-            this.Name = connectionName;
-            this.Category = toCategoryName;
+            Name = connectionName;
+            Category = toCategoryName;
         }
         public string Name { get; }
         public string Category { get; }
-        public string FullName => this.Name + ' ' + this.Category;
+        public string FullName => Name + ' ' + Category;
         public string FormString => "Form.Connection(\"" + Name + "\",\"" + Category + "\")";
     }
 }

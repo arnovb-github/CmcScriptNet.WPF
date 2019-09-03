@@ -138,7 +138,7 @@
     <Compile Include="CustomizeWindow.xaml.cs">
       <DependentUpon>CustomizeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\IdentifierMatch.cs" />
     <Compile Include="Helpers\IdentifierMatches.cs" />
     <Compile Include="Helpers\Parser.cs" />

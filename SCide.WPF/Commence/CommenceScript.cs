@@ -11,6 +11,9 @@ using Vovin.CmcLibNet.Database.Metadata;
 
 namespace SCide.WPF.Commence
 {
+    /// <summary>
+    /// Provide metadata of a Commence Item Detail Form script
+    /// </summary>
     public class CommenceScript : INotifyPropertyChanged, ICommenceScript
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -65,7 +68,6 @@ namespace SCide.WPF.Commence
             }
         }
 
-
         private IList<IDFControl> controls;
         public IList<IDFControl> Controls
         {
@@ -119,18 +121,17 @@ namespace SCide.WPF.Commence
             }
         }
 
-        private IEnumerable<CommenceField> GetFields(List<string> fields)
+        private IEnumerable<CommenceField> GetFields(IEnumerable<string> fields)
         {
-            if (fields == null) { yield return null; }
-            foreach(string f in fields)
+            foreach (string f in fields)
             {
                 yield return new CommenceField(f, this.CategoryName);
             }
         }
 
-        private List<IDFControl> GetControlList(string categoryName, string formName)
+        private IList<IDFControl> GetControlList(string categoryName, string formName)
         {
-            List<IDFControl> retval = new List<IDFControl>();
+            IList<IDFControl> retval = new List<IDFControl>();
             var formfile = CommenceModel.FormFiles.FirstOrDefault(s => s.Name.Equals(formName));
             if (formfile == null) { return null; }
             XmlDocument doc = new XmlDocument();
@@ -164,12 +165,12 @@ namespace SCide.WPF.Commence
             foreach (XmlNode ControlElement in controlNodes)
             {
                 // serialize nodes to object
-                IDFControl cn = (IDFControl)serializer.Deserialize(new XmlNodeReader(ControlElement));
-                if (cn != null && !string.IsNullOrEmpty(cn.NAME))
+                IDFControl c = (IDFControl)serializer.Deserialize(new XmlNodeReader(ControlElement));
+                if (c != null && !string.IsNullOrEmpty(c.NAME))
                 {
                     // slap on form file for good measure
-                    cn.FormFile = System.IO.Path.GetFileName(formfile.FileName);
-                    retval.Add(cn);
+                    c.FormFile = System.IO.Path.GetFileName(formfile.FileName);
+                    retval.Add(c);
                 }
             }
             retval = retval.OrderBy(o => o.NAME).ToList();

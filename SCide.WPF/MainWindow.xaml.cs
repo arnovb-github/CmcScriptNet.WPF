@@ -1561,7 +1561,7 @@ namespace SCide.WPF
             if (CommenceCommands.GotoSection.CanExecute(null, this))
             {
                 IdentifierMatch m = (IdentifierMatch)e.Parameter;
-                ActiveDocument.Scintilla.Scintilla.CurrentPosition = ActiveDocument.Scintilla.Scintilla.Lines[(int)m.Line - 1].Position;
+                ActiveDocument.Scintilla.Scintilla.CurrentPosition = ActiveDocument.Scintilla.Scintilla.Lines[m.Line - 1].Position;
                 ActiveDocument.Scintilla.Scintilla.AnchorPosition = ActiveDocument.Scintilla.Scintilla.CurrentPosition; // if we don't do this, we also select the positions we moved
                 ActiveDocument.Scintilla.Scintilla.FirstVisibleLine = ActiveDocument.Scintilla.Scintilla.CurrentPosition;
                 ActiveDocument.Scintilla.Scintilla.ScrollCaret();
@@ -1678,7 +1678,6 @@ namespace SCide.WPF
             // that makes me think that this might actually work,
             // but the focus is taken back by the ribbon
         }
-
 
     }
 }

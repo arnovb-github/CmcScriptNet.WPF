@@ -648,7 +648,7 @@
                             <RibbonSplitButton.Resources>
                                 <DataTemplate x:Key="MyTemplate" 
                                               DataType="{x:Type cmc:IDFControl}">
-                                    <TextBlock Text="{Binding NAME}">
+                                    <TextBlock Text="{Binding}">
                                         <TextBlock.ToolTip>
                                             <RibbonToolTip Title="Form Control"
 						                                Description="{Binding ToolTipText}"
