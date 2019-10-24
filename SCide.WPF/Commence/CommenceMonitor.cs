@@ -1,4 +1,5 @@
 ﻿using SCide.WPF.Helpers;
+using SCide.WPF.Extensions;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -46,6 +47,7 @@ namespace SCide.WPF.Commence
                 _process = value;
                 _process.EnableRaisingEvents = true;
                 _process.Exited += Process_Exited;
+
             }
         }
 
@@ -132,12 +134,11 @@ namespace SCide.WPF.Commence
                     return null;
                 case 1:
                     return process = ProcessHelper.GetProcessToMonitor(processName);
-                default:
+                default: // first process found
                     return process = ProcessHelper.GetProcessToMonitor(processName);
             }
         }
 
-        // TODO this hangs the application if Commence doesnt have a main window
         public void Focus(string databaseName)
         {
             Process process = ProcessHelper.GetProcessFromTitle(COMMENCE_PROCESS, databaseName);

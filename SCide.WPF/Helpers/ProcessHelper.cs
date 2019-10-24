@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using SCide.WPF.Extensions;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace SCide.WPF.Helpers
 {
@@ -18,13 +20,21 @@ namespace SCide.WPF.Helpers
         /// </summary>
         /// <param name="processName"></param>
         /// <returns></returns>
-        /// <remarks>This may NOT be the instance that COM will bind to!</remarks>
+        /// <remarks>Caution: this may NOT be the instance that COM will bind to!</remarks>
         public static Process GetProcessToMonitor(string processName)
         {
             Process[] ps = Process.GetProcessesByName(processName);
+
             if (ps.Length > 0)
             {
-                return ps.First();
+                // we should determine if the process is run with elevated permissions
+                // if the elevation level of this assembly and the commence process do not match,
+                // an error occurs
+                // we should first check our own elevation level
+                // then see if it matches any commence process
+                bool elevated = Process.GetCurrentProcess().IsProcessElevated();
+                return ps.FirstOrDefault(p => p.IsProcessElevated() == elevated);
+                //return ps.First();
             }
             return null;
         }
