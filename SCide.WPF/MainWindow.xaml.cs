@@ -654,8 +654,7 @@ namespace SCide.WPF
         {
             try
             {
-                var doc = e.Document as DocumentForm;
-                if (doc == null) { return; }
+                if (!(e.Document is DocumentForm doc)) { return; }
                 if (doc.CommenceScript != null)
                 {
                     // check all other docs except yourself
