@@ -6,7 +6,8 @@
         xmlns:my="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
         xmlns:models="clr-namespace:CmcScriptNet.FilterBuilder.Models"
         mc:Ignorable="d"
-        Title="{Binding CategoryName, Mode=OneTime, StringFormat='Filter for Category: {0}'}" MaxHeight="640" MaxWidth="800">
+        Title="{Binding CategoryName, Mode=OneTime, StringFormat='Filter for Category: {0}'}"
+        MinHeight="640" MinWidth="800">
     <Window.DataContext>
         <models:FilterBuilderModel x:Name="filterBuilderModel"/>
     </Window.DataContext>
