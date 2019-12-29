@@ -4,12 +4,12 @@
     {
         internal IdentifierMatch(int line, string identifier)
         {
-            this.Line = line;
-            this.Identifier = identifier;
+            Line = line;
+            Identifier = identifier;
         }
 
-        public string Identifier { get; set; }
-        public int Line { get; set; }
+        public string Identifier { get; }
+        public int Line { get; }
 
         public override string ToString()
         {
