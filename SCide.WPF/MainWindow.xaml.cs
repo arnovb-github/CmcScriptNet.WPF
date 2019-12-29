@@ -64,7 +64,7 @@ namespace SCide.WPF
         private int _newDocumentCount;
         private int _zoomLevel;
 
-        private const string ProductName = "CmcScriptNet.WPF";
+        //private const string ProductName = "CmcScriptNet.WPF";
 
         private readonly FindReplace MyFindReplace;
         private readonly BackgroundWorker bgw;
@@ -144,6 +144,7 @@ namespace SCide.WPF
                 ActiveDocument.FindReplace = MyFindReplace;
                 // AVB
                 viewModel.CommenceModel.CurrentScript = ActiveDocument.CommenceScript;
+                RestartParsing();
                 viewModel.StatusBarModel.Scintilla = ActiveDocument.Scintilla.Scintilla;
                 viewModel.StatusBarModel.OverWrite = false;
                 //viewModel.CanEdit = true;
@@ -433,6 +434,17 @@ namespace SCide.WPF
 
         // TODO this needs improvement
         private void Scintilla_TextChanged(object sender, EventArgs e)
+        {
+            //bgw.CancelAsync(); // stop any ongoing processing
+            //if (!bgw.IsBusy)
+            //{
+            //    if (!string.IsNullOrEmpty(ActiveDocument?.Scintilla.Text))
+            //        bgw.RunWorkerAsync(ActiveDocument.Scintilla.Text);
+            //}
+            RestartParsing();
+        }
+
+        private void RestartParsing()
         {
             bgw.CancelAsync(); // stop any ongoing processing
             if (!bgw.IsBusy)
