@@ -1,5 +1,5 @@
 # CmcScriptNet.WPF---master
-`Standalone Commence Item Detail Form Script Editor
+Standalone Commence Item Detail Form Script Editor
 
 Requirements: .Net Framework 4.5 (Commence RM 6.x and higher will install it if not present, it is an OS component as of Windows 8)
 
