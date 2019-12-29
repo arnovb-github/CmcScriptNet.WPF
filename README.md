@@ -1,4 +1,4 @@
-# CmcScriptNet.WPF---master
+# CmcScriptNet.WPF
 Standalone Commence Item Detail Form Script Editor.
 
 No installation required, it just runs if you have (at least) .Net Framework 4.5. Commence RM 6.x and higher will install it if not present, and it is a native OS component since Windows 8.
