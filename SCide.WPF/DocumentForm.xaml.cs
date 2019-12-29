@@ -159,7 +159,7 @@ namespace SCide.WPF
 
             if (this.CommenceScript != null)
             {
-                this.Title = this.CommenceScript.FormName;
+                this.Title = this.CommenceScript.FullName;
             }
             else
             {
