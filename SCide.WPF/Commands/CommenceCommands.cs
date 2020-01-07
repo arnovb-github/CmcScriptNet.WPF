@@ -27,6 +27,17 @@ namespace SCide.WPF.Commands
                 }
             );
 
+        public static readonly RoutedUICommand CheckInScriptAndOpenForm = new RoutedUICommand
+            (
+                "Save script and open form (Ctrl+Shift+F7)",
+                "Save script and open form",
+                typeof(CommenceCommands),
+                new InputGestureCollection()
+                {
+                    new KeyGesture(Key.F7, ModifierKeys.Shift | ModifierKeys.Control)
+                }
+            );
+
         public static readonly RoutedUICommand FocusCommence = new RoutedUICommand
             (
                 "Switch to Commence (Alt+F7)",

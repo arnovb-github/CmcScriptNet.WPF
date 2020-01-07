@@ -3,12 +3,14 @@ using System.ComponentModel;
 
 namespace SCide.WPF.Models
 {
+    // is this interface useful?
     public interface ICommenceModel : INotifyPropertyChanged
     {
         IList<string> Categories { get; }
         IList<string> Connections { get; }
         IList<string> Fields { get; }
         IList<string> Forms { get; }
+        IList<ICommenceItem> Items { get; }
         string Name { get; }
         string Path { get; }
         bool CanSave(string path);

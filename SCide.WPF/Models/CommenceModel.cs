@@ -24,6 +24,7 @@ namespace SCide.WPF.Models
         private readonly IList<string> _tempFiles = new List<string>();
         private IList<string> _categories;
         private IList<string> _forms;
+        private IList<ICommenceItem> _items;
         private string _name = "Commence is not running";
         private string _path;
 
@@ -38,14 +39,29 @@ namespace SCide.WPF.Models
             if (_monitor.CommenceIsRunning)
             {
                 // we can't await this because we're in a constructor.
-                // .GetAwaiter().GetResult() will at least get us the actual exception instead of an aggregate exception.
-                //InitializeModelAsync().GetAwaiter().GetResult(); // okay for some reason we should probably fix this doesn't work
+                // I forgot the reason for GetAwaiter, it may be stupid.
                 Task.Run(() => InitializeModelAsync().GetAwaiter().GetResult());
             }
+            this.PropertyChanged += CommenceModel_PropertyChanged;
         }
+
+
         #endregion
 
         #region Event handlers
+        // we could do this in the property itself,
+        // but you're not supposed to kick off background tasks from there.
+        // The other thing is that we want to await, which we cannot do from a property
+        private async void CommenceModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedCategory):
+                    Items = await Task.Run(() => GetItemNames(this.SelectedCategory, MaxItems));
+                    break;
+            }
+        }
+
         private async void Monitor_CommenceProcessStarted(object sender, EventArgs e)
         {
             await InitializeModelAsync();
@@ -77,7 +93,6 @@ namespace SCide.WPF.Models
         }
 
         private string _selectedCategory;
-
         public string SelectedCategory
         {
             get => this._selectedCategory;
@@ -85,18 +100,106 @@ namespace SCide.WPF.Models
             {
                 this._selectedCategory = value;
                 OnPropertyChanged();
-                this.Forms = null; // clear forms
-                this.SelectedForm = null; // clear selected form
-                GetFormNames(this.SelectedCategory);
-                if (Forms?.Count == 1)
+                this.Forms = null; // clear forms property
+                this.SelectedForm = null; // clear selected form property
+                GetFormNames(this.SelectedCategory); // repopulate Forms property for current category
+                if (Forms?.Count == 1) // immediately select the form if there is only 1
                 {
                     this.SelectedForm = Forms.First();
                 }
             }
         }
 
-        private string _selectedForm;
+        private IList<ICommenceItem> GetItemNames(string categoryName, int maxItems)
+        {
+            IList<ICommenceItem> items = new List<ICommenceItem>();
 
+            if (string.IsNullOrEmpty(categoryName)) { return items; }
+
+            if (!_monitor.CommenceIsRunning) { return items; }
+
+            // get the items
+            // for some reason sometimes errors are thrown,
+            // probably due to some timing issue with DDE in Vovin.CmcLibNet
+            // we do not care about them here, so we simply try/catch them out
+            try
+            {
+                using (ICommenceDatabase db = new CommenceDatabase())
+                {
+                    // should we cache this?
+                    // I think I'll leave it as-is since the metadata may change.
+                    string nameField = db.GetNameField(categoryName); // may throw an error on released RCW references..why?
+                    string clarifyField = db.GetClarifyField(categoryName);
+                    string clarifySeparator = db.GetClarifySeparator(categoryName);
+                    using (ICommenceCursor cur = db.GetCursor(categoryName))
+                    {
+                        cur.SetColumn(0, nameField);
+                        if (!string.IsNullOrEmpty(clarifyField)) { cur.SetColumn(1, clarifyField); }
+                        using (ICommenceQueryRowSet qrs = cur.GetQueryRowSet(maxItems))
+                        {
+                            for (int i = 0; i < qrs.RowCount; i++)
+                            {
+                                ICommenceItem ci = new CommenceItem
+                                {
+                                    ClarifyFieldName = clarifyField,
+                                    ClarifySeparator = clarifySeparator
+                                };
+                                var row = qrs.GetRow(i);
+                                ci.ItemName = row[0].ToString();
+                                if (cur.ColumnCount > 1)
+                                {
+                                    ci.ClarifyValue = row[1].ToString();
+                                }
+                                items.Add(ci);
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch { } // swallow all errors
+            return items;
+        }
+
+        private int MaxItems => 50;
+
+        public void OpenForm()
+        {
+            {
+                if (!_monitor.CommenceIsRunning)
+                {
+                    return;
+                }
+                using (ICommenceDatabase db = new CommenceDatabase())
+                {
+                    try
+                    {
+                        var item = SelectedItem;
+                        if (item == null) { return; }
+
+                        if (!string.IsNullOrEmpty(item.ClarifyFieldName))
+                        {
+                            var cin = db.ClarifyItemNames();
+                            db.ClarifyItemNames("true");
+                            string itemName = '"'+ db.GetClarifiedItemName(item.ItemName, item.ClarifySeparator, item.ClarifyValue) + '"';
+                            db.ShowItem(SelectedCategory, itemName, SelectedForm);
+                            db.ClarifyItemNames(cin);
+                        }
+                        else
+                        {
+                            string itemName = '"' + item.ItemName + '"';
+                            db.ShowItem(SelectedCategory, itemName, SelectedForm);
+                        }
+                    }
+                    // this call can fail for any number of reasons, so swallow all errors
+                    // most errors will occur in Commence without reporting any error
+                    // such as forms that auto-close or show a different form or embedded characters...
+                    catch { } 
+                }
+            }
+        }
+
+        private string _selectedForm;
         public string SelectedForm
         {
             get { return _selectedForm; }
@@ -107,8 +210,19 @@ namespace SCide.WPF.Models
             }
         }
 
+        private ICommenceItem _selectedItem;
+        public ICommenceItem SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ICommenceScript _currentScript;
-        public ICommenceScript CurrentScript
+        public ICommenceScript SelectedScript
         {
             get => _currentScript;
             set
@@ -127,6 +241,19 @@ namespace SCide.WPF.Models
             set
             {
                 _forms = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IList<ICommenceItem> Items
+        {
+            get
+            {
+                return _items;
+            }
+            set
+            {
+                _items = value;
                 OnPropertyChanged();
             }
         }
@@ -221,9 +348,9 @@ namespace SCide.WPF.Models
                 Forms = null;
                 return;
             }
+            if (string.IsNullOrEmpty(categoryName)) { return; }
             using (ICommenceDatabase db = new CommenceDatabase())
             {
-                if (string.IsNullOrEmpty(categoryName)) { return; }
                 Forms = db.GetFormNames(categoryName);
             }
         }

@@ -145,6 +145,9 @@
         <CommandBinding Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"
                         Executed="CheckInScriptAndFocusCommenceCommand_Executed"
                         CanExecute="CheckInScriptAndFocusCommenceCommand_CanExecute"/>
+        <CommandBinding Command="cmds:CommenceCommands.CheckInScriptAndOpenForm"
+                        Executed="CheckInScriptAndOpenFormCommand_Executed"
+                        CanExecute="CheckInScriptAndOpenFormCommand_CanExecute" />
         <CommandBinding Command="cmds:CommenceCommands.FocusCommence"
                         Executed="FocusCommenceCommand_Executed"
                         CanExecute="FocusCommenceCommand_CanExecute"/>
@@ -494,11 +497,43 @@
                                       Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
                                       ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
                                       Command="cmds:CommenceCommands.CheckInScript"/>
-                        <RibbonButton LargeImageSource="Images\ScriptpadAndCommence.png" 
+                        
+                        <!--<RibbonButton LargeImageSource="Images\ScriptpadAndCommence.png" 
                                       KeyTip="W" 
                                       Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
                                       ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
-                                      Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"/>
+                                      Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"/>-->
+                        
+                        <RibbonSplitButton LargeImageSource="Images\ScriptpadAndCommence.png" 
+                                        SmallImageSource="Images\ScriptpadAndCommence.png"
+                                        Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                        ToolTipTitle="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        ToolTipDescription="To select an item using the keyboard, press Ctrl+Shift+F7"
+                                        ToolTipFooterTitle="Save script and open form"
+                                        ToolTipFooterDescription="Select an item and it will open in a form.
+                                           Warning: This feature may not work as expected because of how Commence works.
+                                           It works best with unique item names and unfiltered detail forms."
+                                        KeyTip="W"
+                                        x:Name="rbsbItems"
+                                        Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence">
+                            <RibbonSplitButton.Resources>
+                                <DataTemplate x:Key="MyTemplate">
+                                    <TextBlock 
+                                    Text="{Binding}"
+                                    ToolTip="{Binding}"/>
+                                </DataTemplate>
+                            </RibbonSplitButton.Resources>
+                            <RibbonGallery MaxColumnCount="1"
+                                        SelectedItem="{Binding CommenceModel.SelectedItem, Mode=TwoWay}"
+                                        Command="cmds:CommenceCommands.CheckInScriptAndOpenForm">
+                                <RibbonGalleryCategory
+                                ItemsSource="{Binding CommenceModel.Items}"
+                                ItemTemplate="{DynamicResource MyTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"/>
+                            </RibbonGallery>
+                        </RibbonSplitButton>
+                        
                         <RibbonButton LargeImageSource="Images\Commence.png"
                                       KeyTip="U"
                                       Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
@@ -591,11 +626,11 @@
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
-                                        SelectedItem="{Binding CommenceModel.CurrentScript.SelectedField, Mode=TwoWay}"
+                                        SelectedItem="{Binding CommenceModel.SelectedScript.SelectedField, Mode=TwoWay}"
                                         Command="cmds:CommenceCommands.InsertField"
                                         ToolTipTitle="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }">
                                 <RibbonGalleryCategory
-                                ItemsSource="{Binding CommenceModel.CurrentScript.Fields}"
+                                ItemsSource="{Binding CommenceModel.SelectedScript.Fields}"
                                 ItemTemplate="{DynamicResource MyTemplate}"
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 ScrollViewer.CanContentScroll="True"/>
@@ -626,10 +661,10 @@
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
-                                        SelectedItem="{Binding CommenceModel.CurrentScript.SelectedConnection, Mode=TwoWay}"
+                                        SelectedItem="{Binding CommenceModel.SelectedScript.SelectedConnection, Mode=TwoWay}"
                                         Command="cmds:CommenceCommands.InsertConnection">
                                 <RibbonGalleryCategory
-                                ItemsSource="{Binding CommenceModel.CurrentScript.Connections}"
+                                ItemsSource="{Binding CommenceModel.SelectedScript.Connections}"
                                 ItemTemplate="{DynamicResource MyTemplate}"
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 ScrollViewer.CanContentScroll="True"/>
@@ -659,10 +694,10 @@
                                 </DataTemplate>
                             </RibbonSplitButton.Resources>
                             <RibbonGallery MaxColumnCount="1"
-                                        SelectedItem="{Binding CommenceModel.CurrentScript.SelectedControl, Mode=TwoWay}"
+                                        SelectedItem="{Binding CommenceModel.SelectedScript.SelectedControl, Mode=TwoWay}"
                                         Command="cmds:CommenceCommands.InsertControl">
                                 <RibbonGalleryCategory
-                                ItemsSource="{Binding CommenceModel.CurrentScript.Controls}"
+                                ItemsSource="{Binding CommenceModel.SelectedScript.Controls}"
                                 ItemTemplate="{DynamicResource MyTemplate}"
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 ScrollViewer.CanContentScroll="True"/>
@@ -756,28 +791,28 @@
                         <TextBlock Text="{Binding StatusBarModel.StatusText, Mode=OneWay}"/>
                     </StatusBarItem>
                     <StatusBarItem Grid.Column="2">
-                        <TextBlock Text="{Binding CommenceModel.CurrentScript.DatabaseName, Mode=OneWay, StringFormat='Database: {0}'}">
+                        <TextBlock Text="{Binding CommenceModel.SelectedScript.DatabaseName, Mode=OneWay, StringFormat='Database: {0}'}">
                             <TextBlock.ToolTip>
                                 <ToolTip>
-                                    <TextBlock Text="{Binding CommenceModel.CurrentScript.DatabaseName, Mode=OneWay, StringFormat='Script belongs to database: {0}'}" />
+                                    <TextBlock Text="{Binding CommenceModel.SelectedScript.DatabaseName, Mode=OneWay, StringFormat='Script belongs to database: {0}'}" />
                                 </ToolTip>
                             </TextBlock.ToolTip>
                         </TextBlock>
                     </StatusBarItem>
                     <StatusBarItem Grid.Column="3">
-                        <TextBlock Text="{Binding CommenceModel.CurrentScript.CategoryName, Mode=OneWay, StringFormat='Category: {0}'}">
+                        <TextBlock Text="{Binding CommenceModel.SelectedScript.CategoryName, Mode=OneWay, StringFormat='Category: {0}'}">
                             <TextBlock.ToolTip>
                                 <ToolTip>
-                                    <TextBlock Text="{Binding CommenceModel.CurrentScript.CategoryName, Mode=OneWay, StringFormat='Script belongs to category: {0}'}" />
+                                    <TextBlock Text="{Binding CommenceModel.SelectedScript.CategoryName, Mode=OneWay, StringFormat='Script belongs to category: {0}'}" />
                                 </ToolTip>
                             </TextBlock.ToolTip>
                         </TextBlock>
                     </StatusBarItem>
                     <StatusBarItem Grid.Column="4">
-                        <TextBlock Text="{Binding CommenceModel.CurrentScript.FormName, Mode=OneWay, StringFormat='Form: {0}'}">
+                        <TextBlock Text="{Binding CommenceModel.SelectedScript.FormName, Mode=OneWay, StringFormat='Form: {0}'}">
                             <TextBlock.ToolTip>
                                 <ToolTip>
-                                    <TextBlock Text="{Binding CommenceModel.CurrentScript.FormName, Mode=OneWay, StringFormat='Script belongs to item detail form: {0}'}" />
+                                    <TextBlock Text="{Binding CommenceModel.SelectedScript.FormName, Mode=OneWay, StringFormat='Script belongs to item detail form: {0}'}" />
                                 </ToolTip>
                             </TextBlock.ToolTip>
                         </TextBlock>

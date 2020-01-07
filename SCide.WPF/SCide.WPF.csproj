@@ -144,8 +144,10 @@
     <Compile Include="Helpers\IdentifierMatches.cs" />
     <Compile Include="Helpers\Parser.cs" />
     <Compile Include="Helpers\TempFileTracker.cs" />
+    <Compile Include="Models\CommenceItem.cs" />
     <Compile Include="Models\CommenceModel.cs" />
     <Compile Include="Commence\CommenceScript.cs" />
+    <Compile Include="Models\ICommenceItem.cs" />
     <Compile Include="Models\ICommenceModel.cs" />
     <Compile Include="Commence\ICommenceMonitor.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />

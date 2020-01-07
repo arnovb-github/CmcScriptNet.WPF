@@ -143,7 +143,10 @@ namespace SCide.WPF
                 MyFindReplace.Scintilla = ActiveDocument.Scintilla.Scintilla;
                 ActiveDocument.FindReplace = MyFindReplace;
                 // AVB
-                viewModel.CommenceModel.CurrentScript = ActiveDocument.CommenceScript;
+                viewModel.CommenceModel.SelectedScript = ActiveDocument.CommenceScript;
+                viewModel.CommenceModel.SelectedCategory = ActiveDocument.CommenceScript?.CategoryName;
+                viewModel.CommenceModel.SelectedForm = ActiveDocument.CommenceScript?.FormName;
+                if (ActiveDocument.CommenceScript == null) { viewModel.CommenceModel.Items = null; }
                 RestartParsing();
                 viewModel.StatusBarModel.Scintilla = ActiveDocument.Scintilla.Scintilla;
                 viewModel.StatusBarModel.OverWrite = false;
@@ -499,6 +502,11 @@ namespace SCide.WPF
             else if (e.Control && e.Alt && e.KeyCode == System.Windows.Forms.Keys.F7)
             {
                 CommenceCommands.CheckInScriptAndFocusCommence.Execute(null, this);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.Shift && e.KeyCode == System.Windows.Forms.Keys.F7)
+            {
+                CommenceCommands.CheckInScriptAndOpenForm.Execute(null, this);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && e.KeyCode == System.Windows.Forms.Keys.F7)
@@ -1403,6 +1411,22 @@ namespace SCide.WPF
             e.CanExecute = viewModel.CommenceModel.IsRunning;
         }
 
+        private void CheckInScriptAndOpenFormCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (CommenceCommands.CheckInScriptAndOpenForm.CanExecute(null, this))
+            {
+                SaveCommenceScript();
+                // try to open the form
+                viewModel.CommenceModel.OpenForm();
+                viewModel.CommenceModel.Focus();
+            }
+        }
+
+        private void CheckInScriptAndOpenFormCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = rbsbItems.Items.Count > 0;
+        }
+
         // returns true if there are any open documents
         private bool DocumentsActive
         {
@@ -1482,7 +1506,7 @@ namespace SCide.WPF
         {
             if (CommenceCommands.GetFieldNames.CanExecute(null, this))
             {
-                await viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
+                await viewModel.CommenceModel.SelectedScript.GetMetaDataAsync();
             }
         }
 
@@ -1495,7 +1519,7 @@ namespace SCide.WPF
         {
             if (CommenceCommands.GetConnectionNames.CanExecute(null, this))
             {
-                await viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
+                await viewModel.CommenceModel.SelectedScript.GetMetaDataAsync();
             }
         }
 
@@ -1508,7 +1532,7 @@ namespace SCide.WPF
         {
             if (CommenceCommands.GetControlNames.CanExecute(null, this))
             {
-                await viewModel.CommenceModel.CurrentScript.GetMetaDataAsync();
+                await viewModel.CommenceModel.SelectedScript.GetMetaDataAsync();
             }
         }
 
@@ -1689,6 +1713,7 @@ namespace SCide.WPF
             // that makes me think that this might actually work,
             // but the focus is taken back by the ribbon
         }
+
 
     }
 }

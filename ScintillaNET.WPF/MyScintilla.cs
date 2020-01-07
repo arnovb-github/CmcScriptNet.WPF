@@ -26,6 +26,7 @@ namespace ScintillaNET.WPF
                 Keys.Control | Keys.W, // close
                 Keys.Control | Keys.F7, // check in script
                 Keys.Alt | Keys.Control | Keys.F7, // check in script and focus Commence
+                Keys.Shift | Keys.Control | Keys.F7, // check in script and open form
                 Keys.Alt | Keys.F7, // focus commence
                 Keys.Control | Keys.Shift | Keys.S, // save all
                 Keys.Control | Keys.Alt | Keys.S, // save as
