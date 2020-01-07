@@ -510,9 +510,9 @@
                                         ToolTipTitle="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
                                         ToolTipDescription="To select an item using the keyboard, press Ctrl+Shift+F7"
                                         ToolTipFooterTitle="Save script and open form"
-                                        ToolTipFooterDescription="Select an item and it will open in a form.
+                                        ToolTipFooterDescription="[EXPERIMENTAL] Select an item to save the script and immediately show the form in Commence.
                                            Warning: This feature may not work as expected because of how Commence works.
-                                           It works best with unique item names and unfiltered detail forms."
+                                           It works best with unique item names and unfiltered detail forms. Only first 50 items are shown."
                                         KeyTip="W"
                                         x:Name="rbsbItems"
                                         Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence">
