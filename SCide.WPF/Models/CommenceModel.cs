@@ -38,7 +38,9 @@ namespace SCide.WPF.Models
             _monitor.CommenceProcessStarted += Monitor_CommenceProcessStarted;
             if (_monitor.CommenceIsRunning)
             {
-                Task.Run(async () => await InitializeModelAsync().ConfigureAwait(false)); // no UI stuff here, so no need to switch back to UI thread
+                // start off async method that we cannot await directly because we are in a constructor
+                Task.Run(async () => await InitializeModelAsync()
+                                            .ConfigureAwait(false)); // no UI stuff here, so no need to switch back to UI thread
             }
             this.PropertyChanged += CommenceModel_PropertyChanged;
         }
@@ -69,7 +71,7 @@ namespace SCide.WPF.Models
 
         private async void Monitor_CommenceProcessStarted(object sender, EventArgs e)
         {
-            await InitializeModelAsync();
+            await InitializeModelAsync().ConfigureAwait(false);
         }
 
         private void Monitor_CommenceProcessExited(object sender, EventArgs e)
@@ -105,8 +107,6 @@ namespace SCide.WPF.Models
             {
                 this._selectedCategory = value;
                 OnPropertyChanged();
-                this.Forms = null; // clear forms property
-                this.SelectedForm = null; // clear selected form property
                 GetFormNames(this.SelectedCategory); // repopulate Forms property for current category
                 if (Forms?.Count == 1) // immediately select the form if there is only 1
                 {
