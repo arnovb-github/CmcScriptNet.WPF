@@ -38,9 +38,7 @@ namespace SCide.WPF.Models
             _monitor.CommenceProcessStarted += Monitor_CommenceProcessStarted;
             if (_monitor.CommenceIsRunning)
             {
-                // we can't await this because we're in a constructor.
-                // I forgot the reason for GetAwaiter, it may be stupid.
-                Task.Run(() => InitializeModelAsync().GetAwaiter().GetResult());
+                Task.Run(async () => await InitializeModelAsync().ConfigureAwait(false)); // no UI stuff here, so no need to switch back to UI thread
             }
             this.PropertyChanged += CommenceModel_PropertyChanged;
         }

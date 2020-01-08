@@ -1480,7 +1480,7 @@ namespace SCide.WPF
         {
             if (CommenceCommands.GetCategoryNames.CanExecute(null, this))
             {
-                await viewModel.CommenceModel.InitializeModelAsync();
+                await viewModel.CommenceModel.InitializeModelAsync().ConfigureAwait(false); // no need to switch context
             }
         }
 
