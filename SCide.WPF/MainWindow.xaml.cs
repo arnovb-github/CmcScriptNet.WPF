@@ -1415,10 +1415,7 @@ namespace SCide.WPF
         {
             if (CommenceCommands.CheckInScriptAndOpenForm.CanExecute(null, this))
             {
-                SaveCommenceScript();
-                // try to open the form
-                viewModel.CommenceModel.OpenForm();
-                viewModel.CommenceModel.Focus();
+                rbsbItems.IsDropDownOpen = true;
             }
         }
 
@@ -1435,14 +1432,6 @@ namespace SCide.WPF
                 if (!this.IsInitialized) { return false; }
                 else
                 {
-                    //try
-                    //{
-                    //    return Documents.Any();
-                    //}
-                    //catch (NullReferenceException)
-                    //{
-                    //    return false;
-                    //}
                     return Convert.ToBoolean(Documents?.Any());
                 }
             }
@@ -1687,7 +1676,7 @@ namespace SCide.WPF
             // We must be on a form script and commence must be running the correct database
             // in order to be able to show the filter builder
             e.CanExecute = DocumentsActive
-                &&  ActiveDocument.CommenceScript != null
+                && ActiveDocument?.CommenceScript != null
                 && viewModel.CommenceModel.IsRunning
                 && viewModel.CommenceModel.Name.Equals(ActiveDocument.CommenceScript.DatabaseName);
         }
