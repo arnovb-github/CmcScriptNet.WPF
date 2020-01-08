@@ -56,8 +56,15 @@ namespace SCide.WPF.Models
         {
             switch (e.PropertyName)
             {
-                case nameof(SelectedCategory):
-                    Items = await Task.Run(() => GetItemNames(this.SelectedCategory, MaxItems));
+                case nameof(SelectedForm):
+                    if (SelectedForm == null)
+                    {
+                        Items = null;
+                    }
+                    else
+                    {
+                        Items = await Task.Run(() => GetItemNames(this.SelectedCategory, MaxItems));
+                    }
                     break;
             }
         }
