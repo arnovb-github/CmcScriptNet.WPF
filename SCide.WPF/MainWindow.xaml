@@ -574,7 +574,7 @@
 
                         <RibbonSplitButton LargeImageSource="Images\ImageCommenceOpenForms.png" 
                                         SmallImageSource="Images\ImageCommenceOpenForms.png"
-                                        Label="Forms"
+                                        Label="{Binding Path=CommenceModel.FormButtonLabel, Mode=OneWay}"
                                         ToolTipTitle="Select a form"
                                         ToolTipDescription="To select a form using the keyboard, press F5"
                                         ToolTipFooterTitle="Refresh form list"
