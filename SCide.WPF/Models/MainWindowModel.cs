@@ -17,8 +17,8 @@ namespace SCide.WPF.Models
             EditorSettings = EditorSettings.Instance;
         }
 
-        public CommenceModel CommenceModel { get; set; }
-        internal StatusBarModel StatusBarModel { get; set; }
+        public CommenceModel CommenceModel { get; }
+        internal StatusBarModel StatusBarModel { get; }
 
         private List<IdentifierMatch> list;
         public List<IdentifierMatch> IdentifierMatches
