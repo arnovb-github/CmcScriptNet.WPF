@@ -106,7 +106,9 @@ namespace SCide.WPF.Models
             set
             {
                 this._selectedCategory = value;
-                OnPropertyChanged();
+                OnPropertyChanged(); // should this be moved?
+                Forms = null;
+                SelectedForm = null;
                 GetFormNames(this.SelectedCategory); // repopulate Forms property for current category
                 if (Forms?.Count == 1) // immediately select the form if there is only 1
                 {
