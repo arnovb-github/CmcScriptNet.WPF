@@ -106,7 +106,7 @@ namespace SCide.WPF.Models
             set
             {
                 this._selectedCategory = value;
-                OnPropertyChanged(); // should this be moved?
+                //OnPropertyChanged(); // should this be removed? we do not use it
                 Forms = null;
                 SelectedForm = null;
                 GetFormNames(this.SelectedCategory); // repopulate Forms property for current category
