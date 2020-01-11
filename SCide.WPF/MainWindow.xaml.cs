@@ -122,6 +122,9 @@ namespace SCide.WPF
 
         public DocumentForm ActiveDocument
         {
+            // BUG
+            // TODO if a document is floating, this returns null,
+            // because documentsRoot returns no children, even if there are docked documents.
             get { return documentsRoot.Children.FirstOrDefault(c => c.Content == dockPanel.ActiveContent) as DocumentForm; }
         }
 
