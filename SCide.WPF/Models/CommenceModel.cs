@@ -409,7 +409,7 @@ namespace SCide.WPF.Models
                 {
                     try
                     {
-                        while (await reader.ReadAsync())
+                        while (await reader.ReadAsync().ConfigureAwait(false))
                         {
                             // Only detect start elements.
                             if (reader.IsStartElement())
