@@ -119,7 +119,7 @@ namespace SCide.WPF.Commands
                 typeof(UICommands),
                 new InputGestureCollection()
                 {
-                            new KeyGesture(Key.V, ModifierKeys.Control)
+                    new KeyGesture(Key.V, ModifierKeys.Control)
                 }
             );
 
