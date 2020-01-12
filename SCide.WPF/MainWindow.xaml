@@ -836,6 +836,7 @@
                         <ad:VS2010Theme />
                     </ad:DockingManager.Theme>
                     <ad:LayoutRoot>
+                        <!--also see: https://xceed.com/wp-content/documentation/xceed-toolkit-plus-for-wpf/AvalonDock.html-->
                         <ad:LayoutPanel>
                             <ad:LayoutDocumentPane x:Name="documentsRoot" IsMaximized="True" />
                         </ad:LayoutPanel>
