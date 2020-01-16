@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace SCide.WPF.Models
 {
-    internal class StatusBarModel : INotifyPropertyChanged
+    public class StatusBarModel : INotifyPropertyChanged
     {
         
         #region Fields
@@ -15,7 +15,7 @@ namespace SCide.WPF.Models
 
         #region Properties
 
-        internal ScintillaNET.Scintilla Scintilla
+        public ScintillaNET.Scintilla Scintilla
         {
             set
             {
@@ -28,7 +28,7 @@ namespace SCide.WPF.Models
             }
         }
 
-        internal ICommenceScript CurrentScript
+        public ICommenceScript CurrentScript
         {
             get
             {
@@ -41,11 +41,11 @@ namespace SCide.WPF.Models
             }
         }
 
-        internal int CurrentLine { get; private set; }
+        public int CurrentLine { get; private set; }
 
-        internal int CurrentColumn { get; private set; }
+        public int CurrentColumn { get; private set; }
 
-        internal string StatusText
+        public string StatusText
         {
             get
             {
@@ -58,11 +58,11 @@ namespace SCide.WPF.Models
             }
         }
 
-        internal string PositionInfo => "Ln: " + CurrentLine.ToString()
+        public string PositionInfo => "Ln: " + CurrentLine.ToString()
             + " Col: " + CurrentColumn.ToString();
 
         private bool overwriteMode;
-        internal bool OverWrite
+        public bool OverWrite
         {
             get { return overwriteMode; }
             set
