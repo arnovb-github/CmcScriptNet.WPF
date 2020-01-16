@@ -61,13 +61,13 @@ namespace SCide.WPF
         /// </summary>
         private const bool CODEFOLDING_CIRCULAR = false;
 
-        private int _newDocumentCount;
+        private int _newDocumentCount; // used in title for new documents
         private int _zoomLevel;
 
         //private const string ProductName = "CmcScriptNet.WPF";
 
         private readonly FindReplace MyFindReplace;
-        private readonly BackgroundWorker bgw;
+        private readonly BackgroundWorker bgw; // TODO replace with Task implementation
 
         #endregion Fields
 
@@ -90,43 +90,39 @@ namespace SCide.WPF
 
         #endregion Constructors
 
-        private void ShowOptionsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            var cw = new CustomizeWindow(this.DataContext);
-            cw.UserPreferencesChanged += CustomizeWindow_UserPreferencesChanged;
-            cw.ShowDialog();
-        }
-
-        private void CustomizeWindow_UserPreferencesChanged(object sender, EventArgs e)
-        {
-            foreach (DocumentForm doc in Documents)
-            {
-                InitSyntaxColoring(doc.Scintilla);
-            }
-        }
-      
-        private void UpdateAllScintillaZoom()
-        {
-            // Update zoom level for all files
-            // TODO - DocumentsSource is null. This is probably supposed to zoom all windows, not just the document style windows.
-            //foreach (DocumentForm doc in dockPanel.DocumentsSource)
-            //    doc.Scintilla.Zoom = _zoomLevel;
-
-            // TODO - Ideally remove this once the zoom for all windows is working.
-            foreach (DocumentForm doc in documentsRoot.Children)
-                doc.Scintilla.Zoom = _zoomLevel;
-        }
-
-
         #region Properties
 
         public DocumentForm ActiveDocument
         {
+            // the added null-check after documentsRoot
+            // is there because documentsRoot only becomes available
+            // after the form is initialized
+            // this is important because it it used to set Command states.
+
             // BUG
-            // TODO if a document is floating, this returns null,
-            // because documentsRoot returns no children, even if there are docked documents.
-            get { return documentsRoot.Children.FirstOrDefault(c => c.Content == dockPanel.ActiveContent) as DocumentForm; }
+            // TODO if a document is floating, this returns null OR DOES IT?!!,
+            // because documentsRoot then returns no children, even if there are docked documents.
+            get { return documentsRoot?.Children.FirstOrDefault(c => c.Content == dockPanel.ActiveContent) as DocumentForm; }
         }
+
+        // returns true if there are any open documents
+        // this is just silly
+        // we can just as well check if there is an active document
+        // there is however a catch:
+        // ActiveDocument will throw an error upon initialization,
+        // because documentsRoot is still null
+        // we should be able to work around that and eliminate this property altogether though
+        //private bool DocumentsActive
+        //{
+        //    get
+        //    {
+        //        if (!this.IsInitialized) { return false; }
+        //        else
+        //        {
+        //            return Convert.ToBoolean(Documents?.Any());
+        //        }
+        //    }
+        //}
 
         public IEnumerable<DocumentForm> Documents
         {
@@ -136,31 +132,6 @@ namespace SCide.WPF
         #endregion Properties
 
         #region Methods
-
-        private void DockPanel_ActiveContentChanged(object sender, EventArgs e)
-        {
-            // Update the main form _text to show the current document
-            if (ActiveDocument != null)
-            {
-                this.Title = string.Format(CultureInfo.CurrentCulture, "{0} - {1}", ActiveDocument.Title, Program.Title);
-                MyFindReplace.Scintilla = ActiveDocument.Scintilla.Scintilla;
-                ActiveDocument.FindReplace = MyFindReplace;
-                // AVB
-                viewModel.CommenceModel.SelectedScript = ActiveDocument.CommenceScript;
-                viewModel.CommenceModel.SelectedCategory = ActiveDocument.CommenceScript?.CategoryName;
-                viewModel.CommenceModel.SelectedForm = ActiveDocument.CommenceScript?.FormName;
-                if (ActiveDocument.CommenceScript == null) { viewModel.CommenceModel.Items = null; }
-                RestartParsing();
-                viewModel.StatusBarModel.Scintilla = ActiveDocument.Scintilla.Scintilla;
-                viewModel.StatusBarModel.OverWrite = false;
-                //viewModel.CanEdit = true;
-            }
-            else
-            {
-                this.Title = Program.Title;
-            }
-        }
-
         private void InitBookmarkMargin(ScintillaWPF ScintillaNet)
         {
             //TextArea.SetFoldMarginColor(true, IntToColor(BACK_COLOR));
@@ -301,11 +272,6 @@ namespace SCide.WPF
             return Color.FromArgb(255, (byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
         }
 
-        private void MyFindReplace_KeyPressed(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            ScintillaNet_KeyDown(sender, e);
-        }
-
         private DocumentForm NewDocument()
         {
             DocumentForm doc = new DocumentForm();
@@ -438,19 +404,7 @@ namespace SCide.WPF
 
         }
 
-        // TODO this needs improvement
-        private void Scintilla_TextChanged(object sender, EventArgs e)
-        {
-            //bgw.CancelAsync(); // stop any ongoing processing
-            //if (!bgw.IsBusy)
-            //{
-            //    if (!string.IsNullOrEmpty(ActiveDocument?.Scintilla.Text))
-            //        bgw.RunWorkerAsync(ActiveDocument.Scintilla.Text);
-            //}
-            RestartParsing();
-        }
-
-        private void RestartParsing()
+        private void RestartParser()
         {
             bgw.CancelAsync(); // stop any ongoing processing
             if (!bgw.IsBusy)
@@ -458,6 +412,56 @@ namespace SCide.WPF
                 if (!string.IsNullOrEmpty(ActiveDocument?.Scintilla.Text))
                     bgw.RunWorkerAsync(ActiveDocument.Scintilla.Text);
             }
+        }
+
+        private void FocusScintilla(int offSet = 0)
+        {
+            if (ActiveDocument == null) { return; }
+            ActiveDocument.Scintilla.Scintilla.CurrentPosition = ActiveDocument.Scintilla.CurrentPosition + offSet;
+            ActiveDocument.Scintilla.Scintilla.AnchorPosition = ActiveDocument.scintilla.CurrentPosition;
+            ActiveDocument.Scintilla.Scintilla.Focus();
+        }
+
+        private static Visibility Toggle(Visibility v)
+        {
+            if (v == Visibility.Visible)
+                return Visibility.Collapsed;
+            return Visibility.Visible;
+        }
+        #endregion
+
+        #region Global events
+
+        private void DockPanel_ActiveContentChanged(object sender, EventArgs e)
+        {
+            // Update the main form _text to show the current document
+            if (ActiveDocument != null)
+            {
+                this.Title = string.Format(CultureInfo.CurrentCulture, "{0} - {1}", ActiveDocument.Title, Program.Title);
+                MyFindReplace.Scintilla = ActiveDocument.Scintilla.Scintilla;
+                ActiveDocument.FindReplace = MyFindReplace;
+                // AVB
+                viewModel.CommenceModel.SelectedScript = ActiveDocument.CommenceScript;
+                viewModel.CommenceModel.SelectedCategory = ActiveDocument.CommenceScript?.CategoryName;
+                //viewModel.CommenceModel.SelectedForm = ActiveDocument.CommenceScript?.FormName; // needed?
+                if (ActiveDocument.CommenceScript == null)
+                {
+                    viewModel.IdentifierMatches = null;
+                }
+                RestartParser();
+                viewModel.StatusBarModel.Scintilla = ActiveDocument.Scintilla.Scintilla;
+                viewModel.StatusBarModel.OverWrite = false;
+                //viewModel.CanEdit = true;
+            }
+            else
+            {
+                this.Title = Program.Title;
+            }
+        }
+        // TODO this needs improvement
+        private void Scintilla_TextChanged(object sender, EventArgs e)
+        {
+            RestartParser();
         }
 
         // Intercept certain keypress combo's that would otherwise be eaten by Scintilla
@@ -646,13 +650,6 @@ namespace SCide.WPF
             }
         }
 
-        private static Visibility Toggle(Visibility v)
-        {
-            if (v == Visibility.Visible)
-                return Visibility.Collapsed;
-            return Visibility.Visible;
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 #if DEBUG
@@ -702,17 +699,16 @@ namespace SCide.WPF
                     viewModel.CommenceModel.SelectedCategory = null;
                 }
             }
-            catch { }
+            catch { } // swallow all errors
         }
 
-        private void FocusScintilla(int offSet = 0)
+        private void MyFindReplace_KeyPressed(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (ActiveDocument == null) { return; }
-            ActiveDocument.Scintilla.Scintilla.CurrentPosition = ActiveDocument.Scintilla.CurrentPosition + offSet;
-            ActiveDocument.Scintilla.Scintilla.AnchorPosition = ActiveDocument.scintilla.CurrentPosition;
-            ActiveDocument.Scintilla.Scintilla.Focus();
+            ScintillaNet_KeyDown(sender, e);
         }
+        #endregion
 
+        #region Background workers
         // This event handler is where the actual,
         // potentially time-consuming work is done.
         private void Bgw_DoWork(object sender, DoWorkEventArgs e)
@@ -749,8 +745,7 @@ namespace SCide.WPF
             }
             viewModel.IdentifierMatches = list;
         }
-
-        #endregion Methods
+        #endregion
 
         #region Ribbon command handlers
 
@@ -778,7 +773,7 @@ namespace SCide.WPF
 
         private void FileCloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (UICommands.FileClose.CanExecute(null, this))
+            if (ActiveDocument != null)
             {
                 ActiveDocument.Close();
             }
@@ -786,7 +781,7 @@ namespace SCide.WPF
 
         private void FileCloseCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -801,15 +796,15 @@ namespace SCide.WPF
 
         private void FileSaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         { 
-            if (UICommands.FileSave.CanExecute(null, this))
+            if (UICommands.FileSave.CanExecute(null, this)) // is this ever useful?
             {
-                ActiveDocument.Save();
+                ActiveDocument.Save(); //fails when redocked 
             }
         }
 
         private void FileSaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null; // means a floating doc cannot be saved. (This is also the behavior of Scintillanet.WPF)
         }
 
         private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -822,7 +817,7 @@ namespace SCide.WPF
 
         private void SaveAsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void FileSaveAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -838,7 +833,7 @@ namespace SCide.WPF
 
         private void FileSaveAllCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         #endregion
@@ -854,7 +849,7 @@ namespace SCide.WPF
 
         private void UndoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void RedoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -867,7 +862,7 @@ namespace SCide.WPF
 
         private void RedoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
         #endregion
 
@@ -882,7 +877,7 @@ namespace SCide.WPF
 
         private void PasteCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void CopyCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -895,7 +890,7 @@ namespace SCide.WPF
 
         private void CopyCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void CutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -908,7 +903,7 @@ namespace SCide.WPF
 
         private void CutCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void SelectAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -923,7 +918,7 @@ namespace SCide.WPF
         #region Select commands
         private void SelectAllCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void SelectLineCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -937,7 +932,7 @@ namespace SCide.WPF
 
         private void SelectLineCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ClearSelectionCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -950,7 +945,7 @@ namespace SCide.WPF
 
         private void ClearSelectionCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
         #endregion
 
@@ -965,7 +960,7 @@ namespace SCide.WPF
 
         private void FindCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ReplaceCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -978,7 +973,7 @@ namespace SCide.WPF
 
         private void ReplaceCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void IncrementalSearchCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -991,7 +986,7 @@ namespace SCide.WPF
 
         private void IncrementalSearchCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void GoToLineCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1006,7 +1001,7 @@ namespace SCide.WPF
 
         private void GoToLineCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
         #endregion
 
@@ -1031,7 +1026,7 @@ namespace SCide.WPF
 
         private void BookmarkToggleCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void BookmarkNextCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1046,7 +1041,7 @@ namespace SCide.WPF
 
         private void BookmarkNextCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void BookmarkPreviousCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1061,7 +1056,7 @@ namespace SCide.WPF
 
         private void BookmarkPreviousCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void BookmarksClearCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1074,7 +1069,7 @@ namespace SCide.WPF
 
         private void BookmarksClearCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
         #endregion
 
@@ -1089,7 +1084,7 @@ namespace SCide.WPF
 
         private void MakeUpperCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void MakeLowerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1102,7 +1097,7 @@ namespace SCide.WPF
 
         private void MakeLowerCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
         #endregion
 
@@ -1137,7 +1132,7 @@ namespace SCide.WPF
 
         private void ShowShowLineNumbersCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ShowWhitespaceCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1157,7 +1152,7 @@ namespace SCide.WPF
 
         private void ShowWhitespaceCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ShowEolCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1174,7 +1169,7 @@ namespace SCide.WPF
 
         private void ShowEolCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void WordWrapCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1194,7 +1189,7 @@ namespace SCide.WPF
 
         private void WordWrapCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ZoomInCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1211,7 +1206,7 @@ namespace SCide.WPF
         #region Zoom commands
         private void ZoomInCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ZoomOutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1226,7 +1221,7 @@ namespace SCide.WPF
 
         private void ZoomOutCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void ResetZoomCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1240,7 +1235,7 @@ namespace SCide.WPF
 
         private void ResetZoomCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
         #endregion
 
@@ -1255,7 +1250,7 @@ namespace SCide.WPF
 
         private void FoldLevelCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void UnfoldLevelCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1268,7 +1263,7 @@ namespace SCide.WPF
 
         private void UnfoldLevelCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void FoldAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1281,7 +1276,7 @@ namespace SCide.WPF
 
         private void FoldAllCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void UnfoldAllCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1294,12 +1289,39 @@ namespace SCide.WPF
 
         private void UnfoldAllCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         #endregion
 
         #region Window commands
+        private void ShowOptionsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var cw = new CustomizeWindow(this.DataContext);
+            cw.UserPreferencesChanged += CustomizeWindow_UserPreferencesChanged;
+            cw.ShowDialog();
+        }
+
+        private void CustomizeWindow_UserPreferencesChanged(object sender, EventArgs e)
+        {
+            foreach (DocumentForm doc in Documents)
+            {
+                InitSyntaxColoring(doc.Scintilla);
+            }
+        }
+
+        private void UpdateAllScintillaZoom()
+        {
+            // Update zoom level for all files
+            // TODO - DocumentsSource is null. This is probably supposed to zoom all windows, not just the document style windows.
+            //foreach (DocumentForm doc in dockPanel.DocumentsSource)
+            //    doc.Scintilla.Zoom = _zoomLevel;
+
+            // TODO - Ideally remove this once the zoom for all windows is working.
+            foreach (DocumentForm doc in documentsRoot.Children)
+                doc.Scintilla.Zoom = _zoomLevel;
+        }
+
         private void FocusScintillaCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (UICommands.FocusScintilla.CanExecute(null, this))
@@ -1310,7 +1332,7 @@ namespace SCide.WPF
 
         private void FocusScintillaCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DocumentsActive;
+            e.CanExecute = ActiveDocument != null;
         }
 
         private void AboutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1324,9 +1346,8 @@ namespace SCide.WPF
             ribbon.Visibility = Toggle(ribbon.Visibility);
         }
         #endregion
-        #endregion
 
-        #region Commence
+        #region Commence commands
         private void LoadFormCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = viewModel.CommenceModel.IsRunning;
@@ -1410,34 +1431,20 @@ namespace SCide.WPF
 
         private void CheckInScriptCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (!DocumentsActive || ActiveDocument?.CommenceScript == null) { return; }
+            if (ActiveDocument?.CommenceScript == null) { return; }
             e.CanExecute = viewModel.CommenceModel.IsRunning;
         }
 
         private void CheckInScriptAndOpenFormCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (CommenceCommands.CheckInScriptAndOpenForm.CanExecute(null, this))
-            {
-                rbsbItems.IsDropDownOpen = true;
-            }
+            SaveCommenceScript();
+            viewModel.CommenceModel.OpenForm();
+            viewModel.CommenceModel.Focus();
         }
 
         private void CheckInScriptAndOpenFormCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = rbsbItems.Items.Count > 0;
-        }
-
-        // returns true if there are any open documents
-        private bool DocumentsActive
-        {
-            get
-            {
-                if (!this.IsInitialized) { return false; }
-                else
-                {
-                    return Convert.ToBoolean(Documents?.Any());
-                }
-            }
+            e.CanExecute = viewModel.CommenceModel.Items?.Count > 0;
         }
 
         private void CheckInScriptAndFocusCommenceCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1451,7 +1458,7 @@ namespace SCide.WPF
 
         private void CheckInScriptAndFocusCommenceCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (!DocumentsActive || ActiveDocument?.CommenceScript == null) { return; }
+            if (ActiveDocument?.CommenceScript == null) { return; }
             e.CanExecute = viewModel.CommenceModel.IsRunning;
         }
 
@@ -1598,7 +1605,7 @@ namespace SCide.WPF
 
         private void OpenCategoryListCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = rbsbCategories.Items.Count > 0;
+            e.CanExecute = viewModel.CommenceModel.Categories?.Count > 0;
         }
 
         private void OpenCategoryListCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1611,7 +1618,7 @@ namespace SCide.WPF
 
         private void OpenFormListCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = rbsbForms.Items.Count > 0;
+            e.CanExecute = viewModel.CommenceModel.Forms?.Count > 0;
         }
 
         private void OpenFormListCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1624,7 +1631,7 @@ namespace SCide.WPF
 
         private void OpenFieldListCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = rbsbFields.Items.Count > 0;
+            e.CanExecute = viewModel.CommenceModel.Fields?.Count > 0;
         }
 
         private void OpenFieldListCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1637,20 +1644,17 @@ namespace SCide.WPF
 
         private void OpenConnectionListCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = rbsbConnections.Items.Count > 0;
+                e.CanExecute = viewModel.CommenceModel.Connections?.Count > 0;
         }
 
         private void OpenConnectionListCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (CommenceCommands.OpenConnectionList.CanExecute(null, this))
-            {
-                rbsbConnections.IsDropDownOpen = true;
-            }
+            rbsbConnections.IsDropDownOpen = true;
         }
 
         private void OpenControlListCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = rbsbControls.Items.Count > 0;
+            e.CanExecute = viewModel.CommenceModel.SelectedScript?.Controls?.Count > 0;
         }
 
         private void OpenControlListCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1663,7 +1667,7 @@ namespace SCide.WPF
 
         private void OpenGotoSectionListCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = rbsbGotoSection.Items.Count > 0;
+            e.CanExecute = viewModel.IdentifierMatches?.Count > 0;
         }
 
         private void OpenGotoSectionListCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1674,12 +1678,21 @@ namespace SCide.WPF
             }
         }
 
+        private void OpenItemList_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = viewModel.CommenceModel.Items?.Count > 0;
+        }
+
+        private void OpenItemList_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            rbsbItems.IsDropDownOpen = true;
+        }
+
         private void ShowFilterBuilderCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             // We must be on a form script and commence must be running the correct database
             // in order to be able to show the filter builder
-            e.CanExecute = DocumentsActive
-                && ActiveDocument?.CommenceScript != null
+            e.CanExecute = ActiveDocument?.CommenceScript != null
                 && viewModel.CommenceModel.IsRunning
                 && viewModel.CommenceModel.Name.Equals(ActiveDocument.CommenceScript.DatabaseName);
         }
@@ -1695,6 +1708,7 @@ namespace SCide.WPF
         }
         #endregion
 
+        #region Ribbon related
         // TODO make this work :)
         // the purpose of this handler is to put the focus on the scintilla editor
         // haven't been able to make it work so far
@@ -1705,6 +1719,9 @@ namespace SCide.WPF
             // that makes me think that this might actually work,
             // but the focus is taken back by the ribbon
         }
+        #endregion
+
+        #endregion
 
 
     }

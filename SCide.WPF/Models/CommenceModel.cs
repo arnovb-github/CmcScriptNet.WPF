@@ -106,7 +106,7 @@ namespace SCide.WPF.Models
             set
             {
                 this._selectedCategory = value;
-                //OnPropertyChanged(); // should this be removed? we do not use it
+                OnPropertyChanged(); // should this be removed? we do not use it
                 Forms = null;
                 SelectedForm = null;
                 GetFormNames(this.SelectedCategory); // repopulate Forms property for current category
@@ -163,6 +163,12 @@ namespace SCide.WPF.Models
             set
             {
                 _currentScript = value;
+                if (_currentScript == null)
+                {
+                    SelectedCategory = null;
+                    SelectedForm = null;
+                    Items = null;
+                }
                 OnPropertyChanged();
             }
         }
@@ -287,11 +293,10 @@ namespace SCide.WPF.Models
                                     ci.ClarifyValue = row[1].ToString();
                                 }
                                 items.Add(ci);
-                            }
-                        }
-                    }
-                }
-
+                            } // for
+                        } // qrs
+                    } // cur
+                } // db
             }
             catch { } // swallow all errors
             return items;
@@ -315,13 +320,13 @@ namespace SCide.WPF.Models
                         {
                             var cin = db.ClarifyItemNames();
                             db.ClarifyItemNames("true");
-                            string itemName = '"' + db.GetClarifiedItemName(item.ItemName, item.ClarifySeparator, item.ClarifyValue) + '"';
+                            string itemName = db.GetClarifiedItemName(item.ItemName, item.ClarifySeparator, item.ClarifyValue);
                             db.ShowItem(SelectedCategory, itemName, SelectedForm);
                             db.ClarifyItemNames(cin);
                         }
                         else
                         {
-                            string itemName = '"' + item.ItemName + '"';
+                            string itemName = item.ItemName;
                             db.ShowItem(SelectedCategory, itemName, SelectedForm);
                         }
                     }

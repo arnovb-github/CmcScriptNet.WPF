@@ -29,13 +29,10 @@ namespace SCide.WPF.Commands
 
         public static readonly RoutedUICommand CheckInScriptAndOpenForm = new RoutedUICommand
             (
-                "Save script and open form (Ctrl+Shift+F7)",
-                "Save script and open form",
+                nameof(CheckInScriptAndOpenForm),
+                nameof(CheckInScriptAndOpenForm),
                 typeof(CommenceCommands),
-                new InputGestureCollection()
-                {
-                    new KeyGesture(Key.F7, ModifierKeys.Shift | ModifierKeys.Control)
-                }
+                new InputGestureCollection() { }
             );
 
         public static readonly RoutedUICommand FocusCommence = new RoutedUICommand
@@ -162,16 +159,29 @@ namespace SCide.WPF.Commands
                     new KeyGesture(Key.F6)
                 }
             );
-        public static readonly RoutedUICommand OpenConnectionList = new RoutedUICommand
+
+        public static readonly RoutedUICommand OpenItemList = new RoutedUICommand
             (
-                nameof(OpenConnectionList),
-                nameof(OpenConnectionList),
-                typeof(CommenceCommands),
-                new InputGestureCollection()
-                {
-                    new KeyGesture(Key.F8)
-                }
+            nameof(OpenItemList),
+            nameof(OpenItemList),
+            typeof(CommenceCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.F7, ModifierKeys.Shift | ModifierKeys.Control)
+            }
             );
+
+        public static readonly RoutedUICommand OpenConnectionList = new RoutedUICommand
+        (
+            nameof(OpenConnectionList),
+            nameof(OpenConnectionList),
+            typeof(CommenceCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.F8)
+            }
+        );
+
         public static readonly RoutedUICommand OpenControlList = new RoutedUICommand
             (
                 nameof(OpenControlList),
@@ -198,10 +208,7 @@ namespace SCide.WPF.Commands
                 nameof(ShowFilterBuilder),
                 nameof(ShowFilterBuilder),
                 typeof(CommenceCommands),
-                new InputGestureCollection()
-                {
-                    //new KeyGesture(Key.F12)
-                }
+                new InputGestureCollection() { }
             );
     }
 }

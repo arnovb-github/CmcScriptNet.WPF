@@ -18,8 +18,10 @@ namespace SCide.WPF.Models
         }
 
         public CommenceModel CommenceModel { get; }
-        internal StatusBarModel StatusBarModel { get; }
+        public StatusBarModel StatusBarModel { get; }
 
+
+        // TODO move this to CommenceModel?
         private List<IdentifierMatch> list;
         public List<IdentifierMatch> IdentifierMatches
         {
@@ -31,6 +33,7 @@ namespace SCide.WPF.Models
             }
         }
 
+        // TODO move this to CommenceModel?
         private IdentifierMatch selectedIdentifierMatch;
         public IdentifierMatch SelectedIdentifierMatch
         {
