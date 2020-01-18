@@ -21,7 +21,7 @@ namespace SCide.WPF.Models
         public StatusBarModel StatusBarModel { get; }
 
 
-        // TODO move this to CommenceModel?
+        // TODO move this to CommenceScript
         private List<IdentifierMatch> list;
         public List<IdentifierMatch> IdentifierMatches
         {
@@ -33,7 +33,7 @@ namespace SCide.WPF.Models
             }
         }
 
-        // TODO move this to CommenceModel?
+        // TODO move this to CommenceModel? Or even CommenceScript?
         private IdentifierMatch selectedIdentifierMatch;
         public IdentifierMatch SelectedIdentifierMatch
         {

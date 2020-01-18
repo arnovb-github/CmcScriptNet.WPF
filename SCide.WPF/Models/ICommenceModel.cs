@@ -19,5 +19,6 @@ namespace SCide.WPF.Models
         void OnPropertyChanged(string propertyName);
         void GetFormNames(string categoryName);
         void Focus();
+        string GetFormXmlFile(string categoryName, string formName);
     }
 }

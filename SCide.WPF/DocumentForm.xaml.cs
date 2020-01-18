@@ -103,7 +103,7 @@ namespace SCide.WPF
             if (Scintilla.Modified)
             {
                 // Prompt if not saved
-                string message = string.Format(CultureInfo.CurrentCulture, "The _text in the {0} file has changed.{1}{2}Do you want to save the changes?", Title.TrimEnd(' ', '*'), Environment.NewLine, Environment.NewLine);
+                string message = string.Format(CultureInfo.CurrentCulture, "The content of file '{0}' has changed.{1}{2}Do you want to save the changes?", Title.TrimEnd(' ', '*'), Environment.NewLine, Environment.NewLine);
 
                 MessageBoxResult dr = MessageBox.Show(message, Program.Title, MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
                 if (dr == MessageBoxResult.Cancel)

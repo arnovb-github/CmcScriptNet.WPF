@@ -11,6 +11,7 @@
         Width="1024"
         Height="768"
         Loaded="Window_Loaded"
+        Closing="Window_Closing"
         Closed="Window_Closed"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal">
@@ -207,6 +208,10 @@
         <CommandBinding Command="cmds:CommenceCommands.ShowFilterBuilder"
                         CanExecute="ShowFilterBuilderCommand_CanExecute"
                         Executed="ShowFilterBuilderCommand_Executed"/>
+        <CommandBinding Command="cmds:CommenceCommands.ShowFormXml"
+                        CanExecute="ShowFormXml_CanExecute"
+                        Executed="ShowFormXml_Executed"/>
+
     </Window.CommandBindings>
     <!-- keybindings are defined at the command declaration level -->
     <Window.Resources>
@@ -744,6 +749,13 @@
                         <RibbonButton Label="Filter Builder…" KeyTip="F"
                                       SmallImageSource="Images\Filter_16x.png"
                                       Command="cmds:CommenceCommands.ShowFilterBuilder"/>
+                    </RibbonGroup>
+
+                    <RibbonGroup Header="Xml">
+                        <RibbonButton Label="Open XML" KeyTip="X"
+                                      SmallImageSource="Images\xmlicon_small.png"
+                                      LargeImageSource="Images\xmlicon.png"
+                                      Command="cmds:CommenceCommands.ShowFormXml"/>
                     </RibbonGroup>
                 </RibbonTab>
 

@@ -86,6 +86,12 @@ namespace SCide.WPF.Models
         #region Properties
         internal static List<IDFFile> FormFiles { get; private set; }
 
+        public string GetFormXmlFile(string categoryName, string formName)
+        {
+            return FormFiles.FirstOrDefault(f => f.Category.Equals(categoryName)
+                && f.Name.Equals(formName))?.FileName;
+        }
+
         public IList<string> Categories
         {
             get
@@ -156,6 +162,11 @@ namespace SCide.WPF.Models
             }
         }
 
+        // perhaps this should have been done differently,
+        // since a script is really just a property of a form
+        // the difference is now confusing
+        // the proper way of handling this would probably been
+        // to make a CommenceForm model.
         private ICommenceScript _currentScript;
         public ICommenceScript SelectedScript
         {

@@ -210,5 +210,13 @@ namespace SCide.WPF.Commands
                 typeof(CommenceCommands),
                 new InputGestureCollection() { }
             );
+
+        public static readonly RoutedUICommand ShowFormXml = new RoutedUICommand
+            (
+            nameof(ShowFormXml),
+            nameof(ShowFormXml),
+            typeof(CommenceCommands),
+            new InputGestureCollection() { }
+            );
     }
 }

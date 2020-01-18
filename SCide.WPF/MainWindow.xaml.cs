@@ -214,10 +214,11 @@ namespace SCide.WPF
 
         private void InitSyntaxColoring(ScintillaWPF ScintillaNet)
         {
+            // sets the syntax highlighting
+            // it hardcodes to VBScript, which is of course a terrible idea
+
             #region VB / VBS
             ScintillaNet.StyleResetDefault();
-            //ScintillaNet.Styles[ScintillaNET.Style.Default].Font = viewModel.EditorSettings.Font.FontFamily.Name;
-            //ScintillaNet.Styles[ScintillaNET.Style.Default].Size = (int)viewModel.EditorSettings.Font.Size; // dangerous cast
             ScintillaNet.Styles[ScintillaNET.Style.Default].Font = viewModel.EditorSettings.FontFamily.ToString();
             ScintillaNet.Styles[ScintillaNET.Style.Default].Size = (int)(viewModel.EditorSettings.FontSize * (72.0/96.0));
             ScintillaNet.Styles[ScintillaNET.Style.Default].Italic = viewModel.EditorSettings.FontStyle == FontStyles.Italic;
@@ -311,41 +312,39 @@ namespace SCide.WPF
 
         private DocumentForm OpenFile(string filePath)
         {
-            DocumentForm doc = new DocumentForm();
-            SetScintillaToCurrentOptions(doc);
-            doc.Scintilla.Text = File.ReadAllText(filePath, System.Text.Encoding.Default);
-            doc.Scintilla.SetSavePoint(); // mark as unmodified
+            DocumentForm df = new DocumentForm();
+            SetScintillaToCurrentOptions(df);
+            df.Scintilla.Text = File.ReadAllText(filePath, System.Text.Encoding.Default);
+            df.Scintilla.SetSavePoint(); // mark as unmodified
             //doc.Scintilla.UndoRedo.EmptyUndoBuffer();
             //doc.Scintilla.Modified = false;
-            doc.Title = Path.GetFileName(filePath);
-            doc.FilePath = filePath;
-            documentsRoot.Children.Add(doc);
-            doc.DockAsDocument();
-            doc.IsActive = true;
+            df.Title = Path.GetFileName(filePath);
+            df.FilePath = filePath;
+            documentsRoot.Children.Add(df);
+            df.DockAsDocument();
+            df.IsActive = true;
             //incrementalSearcher.Scintilla = doc.Scintilla;
-
-            return doc;
+            return df;
         }
 
         private DocumentForm OpenFile(ICommenceScript cs)
         {
-            DocumentForm doc = new DocumentForm();
-            SetScintillaToCurrentOptions(doc);
-            doc.Scintilla.Text = File.ReadAllText(cs.FilePath, System.Text.Encoding.Default);
-            doc.Scintilla.SetSavePoint(); // mark as unmodified
-            //doc.Title = Path.GetFileName(cs.FilePath);
-            doc.Title = cs.FullName;
-            doc.FilePath = cs.FilePath;
-            doc.CommenceScript = cs;
-            documentsRoot.Children.Add(doc);
-            doc.DockAsDocument();
-            doc.IsActive = true;
-            return doc;
+            DocumentForm df = new DocumentForm();
+            SetScintillaToCurrentOptions(df);
+            df.Scintilla.Text = File.ReadAllText(cs.FilePath, System.Text.Encoding.Default);
+            df.Scintilla.SetSavePoint(); // mark as unmodified
+            df.Title = cs.FullName;
+            df.FilePath = cs.FilePath;
+            df.CommenceScript = cs;
+            documentsRoot.Children.Add(df);
+            df.DockAsDocument();
+            df.IsActive = true;
+            return df;
         }
 
-        private void SetScintillaToCurrentOptions(DocumentForm doc)
+        private void SetScintillaToCurrentOptions(DocumentForm df)
         {
-            ScintillaWPF ScintillaNet = doc.Scintilla;
+            ScintillaWPF ScintillaNet = df.Scintilla;
             ScintillaNet.KeyDown += ScintillaNet_KeyDown;
             ScintillaNet.CmdKeyPressed += ScintillaNet_CmdKeyPressed; // AVB
             ScintillaNet.TextChanged += Scintilla_TextChanged;
@@ -357,6 +356,7 @@ namespace SCide.WPF
             // STYLING
             InitColors(ScintillaNet);
             InitSyntaxColoring(ScintillaNet);
+            //ScintillaNet.Lexer = Lexer.Xml; // DEBUG
 
             // NUMBER MARGIN
             InitNumberMargin(ScintillaNet);
@@ -377,30 +377,30 @@ namespace SCide.WPF
 
             // Turn on line numbers?
             if (rbcbShowLineNumbers.IsChecked.HasValue && (bool)rbcbShowLineNumbers.IsChecked)
-                doc.Scintilla.Margins[NUMBER_MARGIN].Width = LINE_NUMBERS_MARGIN_WIDTH;
+                df.Scintilla.Margins[NUMBER_MARGIN].Width = LINE_NUMBERS_MARGIN_WIDTH;
             else
-                doc.Scintilla.Margins[NUMBER_MARGIN].Width = 0;
+                df.Scintilla.Margins[NUMBER_MARGIN].Width = 0;
 
             // Turn on white space?
             if (rbcbShowWhitespace.IsChecked.HasValue && (bool)rbcbShowWhitespace.IsChecked)
-                doc.Scintilla.ViewWhitespace = WhitespaceMode.VisibleAlways;
+                df.Scintilla.ViewWhitespace = WhitespaceMode.VisibleAlways;
             else
-                doc.Scintilla.ViewWhitespace = WhitespaceMode.Invisible;
+                df.Scintilla.ViewWhitespace = WhitespaceMode.Invisible;
 
             // Turn on word wrap?
             if (rbcbWordWrap.IsChecked.HasValue && (bool)rbcbWordWrap.IsChecked)
-                doc.Scintilla.WrapMode = WrapMode.Word;
+                df.Scintilla.WrapMode = WrapMode.Word;
             else
-                doc.Scintilla.WrapMode = WrapMode.None;
+                df.Scintilla.WrapMode = WrapMode.None;
 
             // Show EOL?
             if (rbcbShowEol.IsChecked.HasValue && (bool)rbcbShowEol.IsChecked)
-                doc.Scintilla.ViewEol = true;
+                df.Scintilla.ViewEol = true;
             else
-                doc.Scintilla.ViewEol = false;
+                df.Scintilla.ViewEol = false;
 
             // Set the zoom
-            doc.Scintilla.Zoom = _zoomLevel;
+            df.Scintilla.Zoom = _zoomLevel;
 
         }
 
@@ -461,7 +461,10 @@ namespace SCide.WPF
         // TODO this needs improvement
         private void Scintilla_TextChanged(object sender, EventArgs e)
         {
-            RestartParser();
+            if (viewModel.CommenceModel.SelectedScript != null)
+            {
+                RestartParser();
+            }
         }
 
         // Intercept certain keypress combo's that would otherwise be eaten by Scintilla
@@ -657,6 +660,20 @@ namespace SCide.WPF
             //OpenFile("../../SCide.WPF/MainWindow.xaml.cs");
             //OpenFile("../../SCide.WPF/DocumentForm.xaml.cs");
 #endif
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            while (Documents.Any())
+            {
+                int nDocs = Documents.Count();
+                Documents.First().Close();
+                if (Documents.Count() == nDocs) // it didn't close, abort
+                {
+                    e.Cancel = true;
+                    break;
+                }
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -1706,6 +1723,21 @@ namespace SCide.WPF
                 FocusScintilla(fbw.Result.Length);
             }
         }
+
+        private void ShowFormXml_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ActiveDocument?.CommenceScript != null;
+        }
+
+        private void ShowFormXml_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            string path = viewModel.CommenceModel.GetFormXmlFile(ActiveDocument.CommenceScript.CategoryName, ActiveDocument.CommenceScript.FormName);
+            if (!string.IsNullOrEmpty(path))
+            {
+                OpenFile(path);
+                ActiveDocument.Scintilla.Lexer = Lexer.Xml; // hideous!! This should of course be handled more garcefully!
+            }
+        }
         #endregion
 
         #region Ribbon related
@@ -1719,9 +1751,12 @@ namespace SCide.WPF
             // that makes me think that this might actually work,
             // but the focus is taken back by the ribbon
         }
+
         #endregion
 
         #endregion
+
+
 
 
     }

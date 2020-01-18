@@ -8,7 +8,7 @@
         xmlns:resx="clr-namespace:SCide.WPF.Properties"
         xmlns:sn="http://scintillanet.codeplex.com"
         mc:Ignorable="d"
-        Title="Options"
+        Title="Syntax highlighting options (VBScript)"
         SizeToContent="WidthAndHeight">
     <Window.Resources>
         <cnvrt:ColorToSolidColorBrushValueConverter x:Key="colorTypeConverter" />
