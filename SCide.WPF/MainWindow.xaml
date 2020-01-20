@@ -748,14 +748,18 @@
                     <RibbonGroup Header="Filters">
                         <RibbonButton Label="Filter Builder…" KeyTip="F"
                                       SmallImageSource="Images\Filter_16x.png"
-                                      Command="cmds:CommenceCommands.ShowFilterBuilder"/>
+                                      Command="cmds:CommenceCommands.ShowFilterBuilder"
+                                      ToolTipTitle="Open the filter builder"
+                                      ToolTipDescription="Use the filter builder to create filter syntax."/>
                     </RibbonGroup>
 
                     <RibbonGroup Header="Xml">
                         <RibbonButton Label="Open XML" KeyTip="X"
                                       SmallImageSource="Images\xmlicon_small.png"
                                       LargeImageSource="Images\xmlicon.png"
-                                      Command="cmds:CommenceCommands.ShowFormXml"/>
+                                      Command="cmds:CommenceCommands.ShowFormXml"
+                                      ToolTipTitle="Open Form XML"
+                                      ToolTipDescription="Open the XML of the underlying form."/>
                     </RibbonGroup>
                 </RibbonTab>
 
