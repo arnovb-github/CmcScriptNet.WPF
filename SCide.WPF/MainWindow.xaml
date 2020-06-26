@@ -232,52 +232,52 @@
                     <RibbonQuickAccessToolBar>
                         <RibbonButton SmallImageSource="Images\ScriptPad.png"
                                       KeyTip="S"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       Command="cmds:CommenceCommands.CheckInScript"/>
                         <RibbonButton SmallImageSource="Images\ScriptpadAndCommence.png" 
                                       KeyTip="W" 
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"/>
                         <RibbonButton SmallImageSource="Images\Commence.png"
                                       KeyTip="U"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       Command="cmds:CommenceCommands.FocusCommence"/>
                         <RibbonButton x:Name="Undo"
                                   SmallImageSource="Images\ImageEditUndo.png"
                                   KeyTip="Z"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }" 
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }" 
                                   Command="cmds:UICommands.Undo"/>
                         <RibbonButton x:Name="Redo"
                                   SmallImageSource="Images\ImageEditRedo.png"
                                   KeyTip="Y"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.Redo"/>
                     </RibbonQuickAccessToolBar>
                 </Ribbon.QuickAccessToolBar>
                 <Ribbon.ApplicationMenu>
                     <RibbonApplicationMenu KeyTip="F">
-                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                                ImageSource="Images\ImageFileNew32.png"
                                                KeyTip="N"
-                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                                Command="cmds:UICommands.FileNew" />
-                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                                ImageSource="Images\ImageFileOpen.png"
                                                KeyTip="O"
-                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                                Command="cmds:UICommands.FileOpen" />
-                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                                ImageSource="Images\ImageFileClose.png"
                                                KeyTip="C"
-                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                                Command="cmds:UICommands.FileClose"/>
-                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                        <RibbonApplicationMenuItem Header="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                                ImageSource="Images\ImageApplicationExit.png"
                                                KeyTip="X"
-                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                               ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                                Command="cmds:UICommands.Exit"/>
                     </RibbonApplicationMenu>
                 </Ribbon.ApplicationMenu>
@@ -287,36 +287,36 @@
                     <RibbonGroup x:Name="FileGroup" Header="File">
                         <RibbonMenuButton LargeImageSource="Images\ImageFileSave.png" Label="Save" KeyTip="S">
                             <RibbonButton SmallImageSource="Images\ImageFileSave.png"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                       KeyTip="S"
                                       Command="cmds:UICommands.FileSave"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"/>
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"/>
                             <RibbonButton SmallImageSource="Images\ImageFileSave.png"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="A"
                                       Command="cmds:UICommands.FileSaveAs"/>
                             <RibbonButton SmallImageSource="Images\ImageFileSaveAll.png"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="L"
                                       Command="cmds:UICommands.FileSaveAll"/>
                         </RibbonMenuButton>
 
                         <RibbonButton SmallImageSource="Images\ImageFileNew.png"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   KeyTip="N" 
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.FileNew"/>
                         <RibbonButton SmallImageSource="Images\ImageFileOpen.png"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   KeyTip="O"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.FileOpen"/>
                         <RibbonButton SmallImageSource="Images\ImageFileClose.png"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   KeyTip="W"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.FileClose"/>
                     </RibbonGroup>
                 </RibbonTab>
@@ -325,37 +325,37 @@
                     <!-- Edit/Clipboard group-->
                     <RibbonGroup x:Name="ClipboardGroup" Header="Clipboard">
                         <RibbonButton SmallImageSource="Images\ImageEditPaste.png"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   KeyTip="V"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.Paste"/>
                         <RibbonButton SmallImageSource="Images\ImageEditCut.png"
-                                    Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                    Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                     KeyTip="X"
-                                    ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                    ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                     Command="cmds:UICommands.Cut"/>
                         <RibbonButton SmallImageSource="Images\ImageEditCopy.png"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   KeyTip="C"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.Copy"/>
                     </RibbonGroup>
 
                     <!-- Edit/Select group-->
                     <RibbonGroup x:Name="SelectGroup" Header="Select" KeyTip="F">
-                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   SmallImageSource="Images\ImageSelectAll.png"
                                   KeyTip="A"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.SelectAll"/>
-                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   SmallImageSource="Images\ImageSelectRow.png"
                                   KeyTip="L"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.SelectLine"/>
-                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                   KeyTip="R"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.ClearSelection"/>
                     </RibbonGroup>
 
@@ -363,25 +363,25 @@
                     <RibbonGroup x:Name="FindGroup" KeyTip="K" Header="Find">
                         <RibbonMenuButton LargeImageSource="Images\ImageFindFind32.png" Label="Find" KeyTip="S">
                             <RibbonButton SmallImageSource="Images\ImageFindFind.png"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                       KeyTip="F"
                                       Command="cmds:UICommands.Find"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"/>
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"/>
                             <RibbonButton SmallImageSource="Images\ImageFindReplace.png"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="R"
                                       Command="cmds:UICommands.Replace"/>
                             <RibbonButton SmallImageSource="Images\ImageFindIncremental.png"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="I"
                                       Command="cmds:UICommands.IncrementalSearch"/>
                         </RibbonMenuButton>
                         <RibbonButton SmallImageSource="Images\ImageFindGoTo.png"
                                   KeyTip="G"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.GoToLine"/>
                     </RibbonGroup>
 
@@ -389,23 +389,23 @@
                     <RibbonGroup x:Name="BookmarksGroup" KeyTip="B" Header="Bookmarks">
                         <RibbonButton SmallImageSource="Images\ImageBookmarkToggle.png"
                                   KeyTip="B"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.BookmarkToggle"/>
                         <RibbonButton SmallImageSource="Images\ImageBookmarkPrevious.png"
                                   KeyTip="P"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.BookmarkPrevious"/>
                         <RibbonButton SmallImageSource="Images\ImageBookmarkNext.png"
                                   KeyTip="N"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.BookmarkNext"/>
                         <RibbonButton SmallImageSource="Images\ImageBookmarksClear.png"
                                   KeyTip="C"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.BookmarksClear"/>
                     </RibbonGroup>
 
@@ -413,13 +413,13 @@
                     <RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
                         <RibbonButton SmallImageSource="Images\ImageEditUppercase.png"
                                   KeyTip="U"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.MakeUpper"/>
                         <RibbonButton SmallImageSource="Images\ImageEditLowercase.png"
                                   KeyTip="W"
-                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                  Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                  ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                   Command="cmds:UICommands.MakeLower"/>
                     </RibbonGroup>
                 </RibbonTab>
@@ -427,12 +427,12 @@
                 <RibbonTab Header="View" KeyTip="V">
                     <RibbonGroup Header="General" KeyTip="G">
                         <RibbonCheckBox x:Name="rbcbShowStatusbar"
-                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                         KeyTip="S"
                                         IsChecked="{Binding EditorSettings.Statusbar}"
                                         Command="cmds:UICommands.ShowStatusbar"/>
                         <RibbonCheckBox x:Name="rbcbShowLineNumbers"
-                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                         KeyTip="L"
                                         IsChecked="{Binding EditorSettings.LineNumbers}"
                                         Command="cmds:UICommands.ShowLineNumbers"
@@ -440,19 +440,19 @@
                     </RibbonGroup>
                     <RibbonGroup Header="Whitespace" KeyTip="W">
                         <RibbonCheckBox x:Name="rbcbShowWhitespace"
-                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }" 
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }" 
                                         KeyTip="W"
                                         IsChecked="{Binding EditorSettings.Whitespace}"
                                         Command="cmds:UICommands.ShowWhitespace"
                                         CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
                         <RibbonCheckBox x:Name="rbcbWordWrap"
-                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                         KeyTip="R"
                                         IsChecked="{Binding EditorSettings.WordWrap}"
                                         Command="cmds:UICommands.WordWrap"
                                         CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
                         <RibbonCheckBox x:Name="rbcbShowEol"
-                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                         KeyTip="E"
                                         IsChecked="{Binding EditorSettings.Eol}"
                                         Command="cmds:UICommands.ShowEol"
@@ -460,37 +460,37 @@
                     </RibbonGroup>
                     <RibbonGroup Header="Zoom" KeyTip="Z">
                         <RibbonMenuButton Label="Zoom" KeyTip="Z">
-                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                           KeyTip="I"
                                           Command="cmds:UICommands.ZoomIn"/>
-                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                           KeyTip="O"
                                           Command="cmds:UICommands.ZoomOut"/>
                         </RibbonMenuButton>
-                        <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                        <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="M"
                                       Command="cmds:UICommands.ResetZoom"/>
                     </RibbonGroup>
                     <RibbonGroup Header="Folding" KeyTip="F">
                         <RibbonMenuButton Label="Fold" KeyTip="F">
-                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                           KeyTip="L"
                                           Command="cmds:UICommands.FoldLevel" />
-                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                           KeyTip="U" 
                                           Command="cmds:UICommands.UnfoldLevel"/>
-                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                           KeyTip="A" 
                                           Command="cmds:UICommands.FoldAll"/>
-                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                            <RibbonButton Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                           KeyTip="X"
                                           Command="cmds:UICommands.UnfoldAll"/>
                         </RibbonMenuButton>
                     </RibbonGroup>
                     <RibbonGroup x:Name="OptionsGroup" Header="Options" KeyTip="O">
                         <RibbonButton SmallImageSource="Images/ImageOptions.png"
-                                    Label="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
-                                    ToolTip="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
+                                    Label="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
+                                    ToolTip="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
                                     KeyTip="O"
                                     Command="cmds:UICommands.ShowOptions" />
                     </RibbonGroup>
@@ -502,20 +502,20 @@
                     <RibbonGroup Header="File" KeyTip="F">
                         <RibbonButton LargeImageSource="Images\ScriptPad.png"
                                       KeyTip="S"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       Command="cmds:CommenceCommands.CheckInScript"/>
                         
                         <!--<RibbonButton LargeImageSource="Images\ScriptpadAndCommence.png" 
                                       KeyTip="W" 
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       Command="cmds:CommenceCommands.CheckInScriptAndFocusCommence"/>-->
                         
                         <RibbonSplitButton LargeImageSource="Images\ScriptpadAndCommence.png" 
                                         SmallImageSource="Images\ScriptpadAndCommence.png"
-                                        Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                        ToolTipTitle="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                        Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                        ToolTipTitle="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                         ToolTipDescription="To select an item using the keyboard, press Ctrl+Shift+F7"
                                         ToolTipFooterTitle="Save script and open form"
                                         ToolTipFooterDescription="[EXPERIMENTAL] Select an item to save the script and immediately show the form in Commence.
@@ -544,8 +544,8 @@
                         
                         <RibbonButton LargeImageSource="Images\Commence.png"
                                       KeyTip="U"
-                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                                      Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       Command="cmds:CommenceCommands.FocusCommence"/>
                     </RibbonGroup>
                     
@@ -766,16 +766,16 @@
                 <!-- Window tab-->
                 <RibbonTab Header="Window" KeyTip="W">
                     <RibbonGroup Header="Window" KeyTip="W">
-                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="C"
                                       Command="cmds:UICommands.FileClose"/>
-                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="S"
                                       Command="cmds:UICommands.FocusScintilla"/>
-                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource self} }"
-                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource self} }"
+                        <RibbonButton Label="{Binding Path=Command.Name, RelativeSource={RelativeSource Self} }"
+                                      ToolTip="{Binding Path=Command.Text, RelativeSource={RelativeSource Self} }"
                                       KeyTip="R"
                                       Command="cmds:UICommands.ToggleRibbon"/>
                     </RibbonGroup>

@@ -770,6 +770,10 @@ namespace SCide.WPF
         private void FileNewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             NewDocument();
+            // FocusScintilla(); // will not work
+            // AvalonDock that 'hijacks' the document
+            // after it has been rendered on screen. That only happens after this routine
+            // see: https://github.com/xceedsoftware/wpftoolkit/blob/94eec13344094975a44a35bea033f292205796a3/ExtendedWPFToolkitSolution/Src/Xceed.Wpf.AvalonDock/Controls/FocusElementManager.cs
         }
 
         private void FileNewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -1746,18 +1750,12 @@ namespace SCide.WPF
         // haven't been able to make it work so far
         private void RibbonComboBox_DropDownClosed(object sender, EventArgs e)
         {
-            FocusScintilla(); // does not work here.
-            // it does work from the ribbon with the FocusScintilla UICommand
-            // that makes me think that this might actually work,
-            // but the focus is taken back by the ribbon
+            // see: https://github.com/xceedsoftware/wpftoolkit/blob/94eec13344094975a44a35bea033f292205796a3/ExtendedWPFToolkitSolution/Src/Xceed.Wpf.AvalonDock/Controls/FocusElementManager.cs
+            FocusScintilla(); // does not always work.
         }
 
         #endregion
 
         #endregion
-
-
-
-
     }
 }

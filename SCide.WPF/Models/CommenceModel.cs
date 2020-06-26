@@ -33,7 +33,7 @@ namespace SCide.WPF.Models
         #region Constructors
         public CommenceModel()
         {
-            _monitor = new CommenceMonitor();
+            _monitor = new CommenceMonitor(); // TODO move to DI
             _monitor.CommenceProcessExited += Monitor_CommenceProcessExited;
             _monitor.CommenceProcessStarted += Monitor_CommenceProcessStarted;
             if (_monitor.CommenceIsRunning)
@@ -45,26 +45,21 @@ namespace SCide.WPF.Models
             this.PropertyChanged += CommenceModel_PropertyChanged;
         }
 
-
         #endregion
 
         #region Event handlers
         // we could do this in the property itself,
         // but you're not supposed to kick off background tasks from there.
         // The other thing is that we want to await, which we cannot do from a property
+        // that's why I use an event handler.
         private async void CommenceModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(SelectedForm):
-                    if (SelectedForm == null)
-                    {
-                        Items = null;
-                    }
-                    else
-                    {
-                        Items = await Task.Run(() => GetItemNames(this.SelectedCategory, MaxItems));
-                    }
+                    Items = SelectedForm == null
+                        ? null
+                        : await Task.Run(() => GetItemNames(this.SelectedCategory, MaxItems));
                     break;
             }
         }
@@ -85,12 +80,6 @@ namespace SCide.WPF.Models
 
         #region Properties
         internal static List<IDFFile> FormFiles { get; private set; }
-
-        public string GetFormXmlFile(string categoryName, string formName)
-        {
-            return FormFiles.FirstOrDefault(f => f.Category.Equals(categoryName)
-                && f.Name.Equals(formName))?.FileName;
-        }
 
         public IList<string> Categories
         {
@@ -253,15 +242,13 @@ namespace SCide.WPF.Models
         }
         #endregion
 
-        #region Event raisers
-        // [CallerMemberName] eliminates the need to supply the propertyName
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
         #region Methods
+
+        public string GetFormXmlFile(string categoryName, string formName)
+        {
+            return FormFiles.FirstOrDefault(f => f.Category.Equals(categoryName)
+                && f.Name.Equals(formName))?.FileName;
+        }
 
         private IList<ICommenceItem> GetItemNames(string categoryName, int maxItems)
         {
@@ -349,6 +336,13 @@ namespace SCide.WPF.Models
             }
         }
 
+        /// <summary>
+        /// Initialize the model asynchronously.
+        /// </summary>
+        /// <returns>Task</returns>
+        /// <remarks>The reason for this being async is that it starts up a background process that is IO intensive.
+        /// The properties that are needed for the model immediately are returned immediately.
+        /// We do not care (much) about when the background process finishes.</remarks>
         public async Task InitializeModelAsync()
         {
             using (ICommenceDatabase db = new CommenceDatabase())
@@ -358,6 +352,9 @@ namespace SCide.WPF.Models
                 Categories = db.GetCategoryNames();
                 IsRunning = true;
             }
+            
+            // the only async thingie in here.
+            // this operation can take some time to complete
             FormFiles = await GetDetailFormFilesAsync();
         }
 
@@ -456,6 +453,14 @@ namespace SCide.WPF.Models
         public void Focus()
         {
             _monitor.Focus(Name);
+        }
+        #endregion
+
+        #region INPC
+        // [CallerMemberName] eliminates the need to supply the propertyName
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }
