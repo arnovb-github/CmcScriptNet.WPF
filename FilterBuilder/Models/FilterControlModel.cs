@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Vovin.CmcLibNet.Attributes;
 using Vovin.CmcLibNet.Database;
 using Vovin.CmcLibNet.Database.Metadata;
 
@@ -427,7 +428,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                     }
                     else
                     {
-                        CursorFilterTypeF f = cur.Filters.Add(1, FilterType.Field);
+                        CursorFilterTypeF f = cur.Filters.Create(1, FilterType.Field);
                         f.FieldValue = this.ConnectedItemSearchString;
                         f.FieldName = nameField;
                         f.Qualifier = FilterQualifier.Contains;

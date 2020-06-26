@@ -21,7 +21,6 @@ namespace SCide.WPF.Models
         #region Fields
         private const string TEMPLATES_FOLDER = "tmplts"; // subfolder holding detail forms, report views etc.
         private readonly ICommenceMonitor _monitor;
-        private readonly IList<string> _tempFiles = new List<string>();
         private IList<string> _categories;
         private IList<string> _forms;
         private IList<ICommenceItem> _items;

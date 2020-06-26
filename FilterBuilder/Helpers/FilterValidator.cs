@@ -1,4 +1,5 @@
 ﻿using CmcScriptNet.FilterBuilder.Extensions;
+using Vovin.CmcLibNet.Attributes;
 using Vovin.CmcLibNet.Database;
 
 namespace CmcScriptNet.FilterBuilder.Helpers

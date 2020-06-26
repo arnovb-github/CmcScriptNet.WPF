@@ -2,6 +2,7 @@
 using CmcScriptNet.FilterBuilder.Models;
 using FilterBuilder.Helpers;
 using System.ComponentModel;
+using Vovin.CmcLibNet.Attributes;
 using Vovin.CmcLibNet.Database;
 
 namespace CmcScriptNet.FilterBuilder.Helpers
@@ -35,13 +36,13 @@ namespace CmcScriptNet.FilterBuilder.Helpers
                     switch (filterType)
                     {
                         case FilterType.Field:
-                            return (CursorFilterTypeF)cur.Filters.Add(_model.ClauseNumber, filterType);
+                            return (CursorFilterTypeF)cur.Filters.Create(_model.ClauseNumber, filterType);
                         case FilterType.ConnectionToItem:
-                            return (CursorFilterTypeCTI)cur.Filters.Add(_model.ClauseNumber, filterType);
+                            return (CursorFilterTypeCTI)cur.Filters.Create(_model.ClauseNumber, filterType);
                         case FilterType.ConnectionToCategoryField:
-                            return (CursorFilterTypeCTCF)cur.Filters.Add(_model.ClauseNumber, filterType);
+                            return (CursorFilterTypeCTCF)cur.Filters.Create(_model.ClauseNumber, filterType);
                         case FilterType.ConnectionToCategoryToItem:
-                            return (CursorFilterTypeCTCTI)cur.Filters.Add(_model.ClauseNumber, filterType);
+                            return (CursorFilterTypeCTCTI)cur.Filters.Create(_model.ClauseNumber, filterType);
                     }
                 }
             }
