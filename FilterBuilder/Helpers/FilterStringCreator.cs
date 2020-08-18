@@ -10,11 +10,12 @@ namespace FilterBuilder.Helpers
         {
             switch (format)
             {
+                // raw means just add quotes around the whole thing so it can at least be copy/pasted or inserted without syntax error
                 case FilterOutputFormat.Raw:
                     var d = GetDelegate(filter.FiltertypeIdentifier);
                     if (d != null)
                     {
-                        return filter.ToString(d);
+                        return string.Format("\"{0}\"", filter.ToString(d)); 
                     }
                     else
                         return "Unknown filtertype";

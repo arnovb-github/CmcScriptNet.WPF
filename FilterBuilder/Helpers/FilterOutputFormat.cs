@@ -4,9 +4,9 @@ namespace FilterBuilder.Helpers
 {
     public enum FilterOutputFormat
     {
-        [Description("Quote arguments (default)")]
-        Default, // quoted
-        [Description("Raw")]
-        Raw // unquoted
+        [Description("Raw (default)")]
+        Raw, // quoted
+        [Description("Quoted parameters")]
+        Default // unquoted
     }
 }
