@@ -1419,8 +1419,19 @@ namespace SCide.WPF
         private void SaveCommenceScript()
         {
             if (ActiveDocument == null) { return; }
+            
             if (ActiveDocument.CommenceScript != null && ActiveDocument.Save())
             {
+                // we have to build a safetyguard against checking in an empty file,
+                // because that will crash Commence hard when a user trie to open the Detail Form
+                // we will do this by replacing empty space with a default Commence Form Script
+                if (string.IsNullOrWhiteSpace(ActiveDocument.scintilla.Text))
+                {
+                    MessageBox.Show("Saving an empty file as Commence Item Detail Form Script will cause instability.\nWill use default script instead.",
+                        "Empty script",MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ActiveDocument.scintilla.Text = Properties.Resources.DefaultIDFScript.ToString();
+                    ActiveDocument.Save();
+                }
                 try
                 {
                     viewModel.CommenceModel.CheckInFormScript(ActiveDocument.CommenceScript);

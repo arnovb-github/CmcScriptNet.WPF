@@ -1,0 +1,30 @@
+﻿$OBJECT=Form
+
+Option Explicit
+
+' Base VBscript template for Commence detail forms.
+' See your Commence documentation for more information about scripting.
+
+Sub Form_OnLoad()
+End Sub
+
+Sub Form_OnSave()
+End Sub
+
+Sub Form_OnCancel()
+End Sub
+
+Sub Form_OnEnterTab(ByVal TabName)
+End Sub
+
+Sub Form_OnLeaveTab(ByVal TabName)
+End Sub
+
+Sub Form_OnEnterField(ByVal FieldName)
+End Sub
+
+Sub Form_OnLeaveField(ByVal FieldName)
+End Sub
+
+Sub Form_OnActiveXControlEvent(ByVal ControlName, ByVal EventName, ByVal ParameterArray)
+End Sub

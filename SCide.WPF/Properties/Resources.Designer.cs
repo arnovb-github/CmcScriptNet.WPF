@@ -19,7 +19,7 @@ namespace SCide.WPF.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -66,11 +66,48 @@ namespace SCide.WPF.Properties {
         ///Option Explicit
         ///
         ///&apos; Base VBscript template for Commence detail forms.
+        ///&apos; See your Commence documentation for more information about scripting.
+        ///
+        ///Sub Form_OnLoad()
+        ///End Sub
+        ///
         ///Sub Form_OnSave()
+        ///End Sub
+        ///
+        ///Sub Form_OnCancel()
+        ///End Sub
+        ///
+        ///Sub Form_OnEnterTab(ByVal TabName)
+        ///End Sub
+        ///
+        ///Sub Form_OnLeaveTab(ByVal TabName)
+        ///End Sub
+        ///
+        ///Sub Form_OnEnterField(ByVal FieldName)
+        ///End Sub
+        ///
+        ///Sub Form_OnLeaveField(ByVal FieldName)
+        ///End Sub
+        ///
+        ///Sub Form_OnActiveXControlEvent(ByVal ControlName, ByVal Event [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string DefaultIDFScript {
+            get {
+                return ResourceManager.GetString("DefaultIDFScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $OBJECT=Form
+        ///
+        ///Option Explicit
+        ///
+        ///&apos; Base VBscript template for Commence detail forms.
+        ///Sub Form_OnEnterTab(ByVal TabName)
         ///	dim numVal, txtVal
         ///	numVal = &amp;H8F0 + 42
         ///	txtVal = &quot;Hello World!&quot;
-        ///	txtVal = txtVal &amp; &quot;by Vovin IT Services&quot;
+        ///	txtVal = txtVal &amp; &quot; by Vovin IT Services.&quot;
         ///End Sub.
         /// </summary>
         public static string SciSampleCode {
