@@ -18,7 +18,7 @@ namespace CmcScriptNet.FilterBuilder.Models
         public IList<FilterListItem> FilterListItems
         {
             get { return _filterListItems; }
-            set
+            private set
             {
                 _filterListItems = value;
                 OnPropertyChanged();

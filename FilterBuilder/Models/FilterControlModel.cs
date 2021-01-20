@@ -346,6 +346,7 @@ namespace CmcScriptNet.FilterBuilder.Models
 
         #region Methods
         // TODO: should be async
+        // also, when multiple models are created, we need only one of this dictionary
         private IList<FieldListItem> PopulateFieldList(string categoryName)
         {
             IList<FieldListItem> retval = new List<FieldListItem>();

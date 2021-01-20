@@ -6,7 +6,7 @@ namespace FilterBuilder.Helpers
     {
         [Description("Raw (default)")]
         Raw, // quoted
-        [Description("Quoted parameters")]
+        [Description("Escaped parameters")]
         Default // unquoted
     }
 }

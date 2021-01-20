@@ -7,12 +7,12 @@
         xmlns:models="clr-namespace:CmcScriptNet.FilterBuilder.Models"
         mc:Ignorable="d"
         Title="{Binding CategoryName, Mode=OneTime, StringFormat='Filter for Category: {0}'}"
-        MinHeight="640" MinWidth="800">
+        MinWidth="640" MinHeight="480" Width="640" Height="480">
     <Window.DataContext>
         <models:FilterBuilderModel x:Name="filterBuilderModel"/>
     </Window.DataContext>
     <Window.Resources>
-        <Style x:Key="filterToVisibility" TargetType="StackPanel">
+        <Style x:Key="filterToVisibility" TargetType="my:FilterControl">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ElementName=filterList, Path=SelectedItem.Tag}" Value="filter">
@@ -29,66 +29,79 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid ShowGridLines="False">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
+    <Grid x:Name="outerGrid">
+        <!-- outer grid-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
-        <!-- list of filters.
-        We are not going to bother with this,
-        because there is no proper way to set the filter relations
-        without returning actual script code.
-        That could obviously clash with existing code.
-        A way of dealing with that could be to insert it as comments.
-        I am undecided on the issue...
-        Another complex matter is the retaining of the set values
-        on the viewmodel when switching models.
-        I'd like the FilterControl to show the previously selected values, 
-        but I cannot seem to get that working properly.
-        For now I will leave this code in, in case I ever change our mind in the future.
-        For now it will just show 1 filter.
-        Note that not all code takes into account this future feature
-        -->
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
-            <ListView x:Name="filterList"
-                ItemsSource="{Binding FilterListItems}"
-                DisplayMemberPath="DisplayName"
-                Margin="5"
-                SelectedValuePath="FilterControlModel"
-                SelectedValue="{Binding Path=CurrentFilterControlModel, Mode=TwoWay}"
-                SelectedIndex="1"/>
-        </StackPanel>
-     
-        <!-- the filter conjunction control -->
-        <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"
-                    Style="{StaticResource summaryToVisibility}">
-            <my:FilterConjunctionControl/>
-            <TextBox x:Name="tbConjunction" Background="WhiteSmoke"
-                     IsReadOnly="True"
-                     IsReadOnlyCaretVisible="True"
-                     Text="{Binding Path=ViewConjunction}"
-                     HorizontalAlignment="Center"/>
-        </StackPanel>
-                
-        <!-- the filter control -->
-        <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"
-                    Style="{StaticResource filterToVisibility}">
-            <my:FilterControl/>
-        </StackPanel>
+        <StatusBar Grid.Row="1">
+            <StatusBarItem >
+                <TextBlock Name="lblContent" Text="This is a statisbar"/>
+            </StatusBarItem>
+        </StatusBar>
+        <!-- margins and statusbar -->
+        <Grid Grid.Row="0" x:Name="marginGrid">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <!-- content grid -->
+            <Grid Grid.Row="1" Grid.Column="1" x:Name="contentGrid"> 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
 
-        <!-- buttons -->
-        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right">
-            <Button Content="Insert" IsDefault="True" Click="Ok_Click" MinWidth="80" Margin="5"
-                    IsEnabled="{Binding Path=CurrentFilterControlModel.IsValid}"/>
-            <Button Content="Cancel" IsCancel="True" MinWidth="80" Margin="5"/>
-        </StackPanel>
+                <!-- left contentGrid column-->
+                <!-- filter list -->
+                <StackPanel Orientation="Vertical" Grid.Column="0">
+                    <ListView x:Name="filterList"
+                        ItemsSource="{Binding FilterListItems}"
+                        DisplayMemberPath="DisplayName"
+                        Margin="5"
+                        SelectedValuePath="FilterControlModel"
+                        SelectedValue="{Binding Path=CurrentFilterControlModel, Mode=TwoWay}"
+                        SelectedIndex="1"/>
+                </StackPanel>
+
+                <!-- filter conjunction -->
+                <StackPanel Orientation="Vertical" Grid.Column="1"
+                    Style="{StaticResource summaryToVisibility}">
+                    <my:FilterConjunctionControl/>
+                    <TextBox x:Name="tbConjunction" Background="WhiteSmoke"
+                        IsReadOnly="True"
+                        IsReadOnlyCaretVisible="True"
+                        Text="{Binding Path=ViewConjunction}"
+                        HorizontalAlignment="Left"/>
+                </StackPanel>
+                
+                <!-- Right contentGrid column-->
+                <!-- the filter control -->
+                <!--<StackPanel Orientation="Vertical" Grid.Column="1"
+                    Style="{StaticResource filterToVisibility}">
+                    <my:FilterControl/>
+                </StackPanel>-->
+                <my:FilterControl Grid.Column="1" Style="{StaticResource filterToVisibility}"/>
+                <!-- bottom content grid row-->
+                <!-- buttons strip -->
+                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right">
+                    <Button Content="Insert" IsDefault="True" Click="Ok_Click" MinWidth="80" Margin="5"
+                        IsEnabled="{Binding Path=CurrentFilterControlModel.IsValid}"/>
+                    <Button Content="Cancel" IsCancel="True" MinWidth="80" Margin="5"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

@@ -16,7 +16,7 @@ namespace CmcScriptNet.FilterBuilder
         }
 
         //// DEBUG category hardcoded
-        //public FilterBuilderWindow()
+        //public FilterBuilderWindow(string categoryName)
         //{
         //    InitializeComponent();
         //    ((FilterBuilderModel)DataContext).Init("CategoryA");

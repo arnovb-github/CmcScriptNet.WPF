@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="360" d:DesignWidth="240">
-    <Grid Height="360" Width="240">
+    <Grid>
         <StackPanel Orientation="Vertical" Margin="10">
             <StackPanel Orientation="Horizontal" Margin="10">
                 <GroupBox BorderThickness="1" BorderBrush="DarkGray">
