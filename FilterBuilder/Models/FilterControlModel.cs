@@ -210,7 +210,7 @@ namespace CmcScriptNet.FilterBuilder.Models
         }
 
         /// <summary>
-        /// Search string for connected itemnames when > 1000
+        /// Search string for connected itemnames
         /// </summary>
         private string _connectedItemSearchString;
         public string ConnectedItemSearchString
@@ -223,7 +223,6 @@ namespace CmcScriptNet.FilterBuilder.Models
             {
                 _connectedItemSearchString = value;
                 OnPropertyChanged();
-                //this.ConnectedItemNames = PopulateConnectedItemNamesList(ConnectedItemSearchString);
             }
         }
         public ICursorFilter CurrentFilter { get; internal set; }
@@ -423,7 +422,7 @@ namespace CmcScriptNet.FilterBuilder.Models
                         }
                         else 
                         {
-                            retval.Add(new ConnectedItem("(Too many items to display)", null, null, null));
+                            retval.Add(new ConnectedItem("(Too many items to display.)", null, null, null));
                             return retval;
                         }
                     }
@@ -508,7 +507,7 @@ namespace CmcScriptNet.FilterBuilder.Models
             _filterObserver = new FilterObserver(this, filterType);
         }
 
-        internal void ResetFilter()
+        internal void ResetFilter() // not sure about this. what is the purpose?
         {
             this.SelectedConnectedCategory = null;
             this.SelectedConnectionFieldListItem = null;
@@ -539,11 +538,9 @@ namespace CmcScriptNet.FilterBuilder.Models
         {
             if (e.PropertyName.Equals(nameof(ConnectedItemSearchString)))
             {
-                var task = Task.Run(() => PopulateConnectedItemNamesList(ConnectedItemSearchString)); // bad async-over-sync pattern I know
-                this.ConnectedItemNames = await task;
+                this.ConnectedItemNames = await Task.Run(() => PopulateConnectedItemNamesList(ConnectedItemSearchString)); // bad async-over-sync pattern, I know;
             }
         }
-
         #endregion
     }
 }

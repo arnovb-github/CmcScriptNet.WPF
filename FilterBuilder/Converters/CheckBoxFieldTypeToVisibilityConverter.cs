@@ -5,7 +5,7 @@ namespace CmcScriptNet.FilterBuilder.Converters
 {
     public class CheckBoxFieldTypeToVisibilityConverter : BaseFieldTypeToVisibilityConverter
     {
-        public override IEnumerable<CommenceFieldType> FieldTypes => new List<CommenceFieldType>()
+        public override IEnumerable<CommenceFieldType> FieldTypes { get; } = new List<CommenceFieldType>()
         {
             CommenceFieldType.Checkbox
         };

@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
-    <StackPanel Orientation="Vertical" MaxWidth="200">
+    <StackPanel Orientation="Vertical">
         <TextBlock Text="Enter the value case-sensitive ." Margin="5"/>
         <TextBox Text="{Binding FieldValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-        <TextBlock Text="(Note: contents of selection fields cannot be read via the Commence API, so we can't display them here.)"
+        <TextBlock Text="(Note: values of a selection field are not exposed by Commence, so we can not display them here.)"
                    TextWrapping="Wrap"
                    Margin="5"/>
     </StackPanel>

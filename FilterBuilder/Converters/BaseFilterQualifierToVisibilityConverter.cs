@@ -26,7 +26,7 @@ namespace CmcScriptNet.FilterBuilder.Converters
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            if (!(value is FilterQualifier)) { return null; }
+            if (!(value is FilterQualifier)) { return FalseValue; } // code smell??
             return this.ApplicableQualifiers.Any(a => a.Equals(value)) ? TrueValue : FalseValue;
         }
 

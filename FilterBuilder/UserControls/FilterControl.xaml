@@ -31,11 +31,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MaxWidth="240"/>
-                <ColumnDefinition Width="*" MaxWidth="240"/>
+                <ColumnDefinition MaxWidth="300"/>
+                <ColumnDefinition MaxWidth="300"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -70,10 +71,6 @@
                     Margin="5"
                     Grid.Column="0"
                     Grid.Row="3"/>
-            <Button Content="Clear Filter" MinWidth="50"
-                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" 
-                    HorizontalAlignment="Center" Margin="5"
-                    Command="cmd:FilterControlCommands.Reset"/>
 
             <!-- Column 2 -->
             <Label Content="{Binding CurrentFieldListItem.DisplayName}" Grid.Column="1" Grid.Row="0"/>
@@ -112,7 +109,8 @@
                     <StackPanel Orientation="Vertical" 
                                 Visibility="{Binding ElementName=cboQualifierMembers, 
                                 Path=SelectedValue,
-                                Converter={StaticResource BetweenQualifierToVisibilityConverter}}">
+                                Converter={StaticResource BetweenQualifierToVisibilityConverter}}"
+                                Margin="5">
                         <Label Content="Minimum value (inclusive):"/>
                         <TextBox x:Name="textBetweenStart"
                                  Text="{Binding BetweenStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -174,10 +172,17 @@
                     Grid.Row="1"/>
             </Grid>
         </Grid>
+
+        <!-- row with clear button -->
+        <Button Content="Clear Filter" MinWidth="50"
+                    Grid.Row="1" 
+                    HorizontalAlignment="Center" Margin="5"
+                    Command="cmd:FilterControlCommands.Reset"/>
+        
         <!-- bottom syntax example elements-->
-        <StackPanel Orientation="Vertical" Grid.Row="1" 
+        <StackPanel Orientation="Vertical" Grid.Row="2" 
                     Margin="5">
-            <StackPanel Orientation="Horizontal"
+            <WrapPanel Orientation="Horizontal"
                         Margin="5">
                 <TextBlock Text="Syntax" Margin="5"/>
                 <TextBox Background="WhiteSmoke"
@@ -185,7 +190,6 @@
                         IsReadOnly="True"
                         IsReadOnlyCaretVisible="True"
                         Margin="5"
-                        MaxWidth="480"
                         TextWrapping="Wrap"/>
                 <TextBlock Text="#" Margin="5"/>
                 <ComboBox ItemsSource="{Binding ClauseNumbers, Mode=OneTime}" 
@@ -193,11 +197,12 @@
                             SelectedValue="{Binding ClauseNumber, Mode=TwoWay}"
                             Margin="5"
                             VerticalAlignment="Top"/>
-            </StackPanel>
+            </WrapPanel>
             <StackPanel Orientation="Horizontal"
                         Margin="5">
             <TextBlock Text="Output" Margin="5"/>
                 <!-- notice that we do not define the converter as static resource because we made sure to take care of that in the converter itself -->
+                <!-- I have no idea what my above comment means -->
                 <ComboBox x:Name="outputFormat" ItemsSource="{Binding Path=OutputFormat, Converter={cnvrt:EnumToCollectionConverter}, Mode=OneTime}"
                         SelectedValuePath="Value"
                         DisplayMemberPath="Description"
