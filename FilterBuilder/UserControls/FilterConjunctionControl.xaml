@@ -88,6 +88,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+
         <GroupBox BorderThickness="1" BorderBrush="DarkGray" Grid.Column="0" Grid.Row="0" Header="Filters 1 and 2">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                 <TextBlock Text="Filter 1" Margin="10"/>
@@ -95,14 +96,14 @@
                     <RadioButton x:Name="AndOr12" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click" />
                     <RadioButton Content="Or" Margin="2" Click="RadioButton_Click" />
                 </StackPanel>
-            <TextBlock Text="Filter 2" Margin="10"/>
+                <TextBlock Text="Filter 2" Margin="10"/>
             </StackPanel>
         </GroupBox>
 
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
-                <RadioButton x:Name="AndOr13" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
-                <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
-            </StackPanel>
+            <RadioButton x:Name="AndOr13" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+            <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+        </StackPanel>
 
         <GroupBox BorderThickness="1" BorderBrush="DarkGray"  Grid.Column="2" Grid.Row="0" Header="Filters 3 and 4">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
