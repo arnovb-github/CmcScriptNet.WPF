@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CmcScriptNet.FilterBuilder.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="360" d:DesignWidth="240">
-        <StackPanel Orientation="Vertical" Margin="10">
+             d:DesignHeight="360" d:DesignWidth="240"
+             MaxHeight="480" MaxWidth="640">
+        <!--<StackPanel Orientation="Vertical" Margin="10">
             <StackPanel Orientation="Horizontal" Margin="10">
                 <GroupBox BorderThickness="1" BorderBrush="DarkGray">
                     <StackPanel Orientation="Vertical">
@@ -62,7 +63,7 @@
                 </GroupBox>
             </StackPanel>
             
-            <!-- output controls -->
+            --><!-- output controls --><!--
             <StackPanel Orientation="Horizontal">
             <Label Content="Conjunction:" Margin="5"/>
             <TextBox x:Name="tbConjunction" 
@@ -71,6 +72,90 @@
                          Background="WhiteSmoke"
                          Text="{Binding Path=ViewConjunction}"/>
             
+            </StackPanel>
+        </StackPanel>-->
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox BorderThickness="1" BorderBrush="DarkGray" Grid.Column="0" Grid.Row="0" Header="Filters 1 and 2">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Filter 1" Margin="10"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <RadioButton x:Name="AndOr12" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click" />
+                    <RadioButton Content="Or" Margin="2" Click="RadioButton_Click" />
+                </StackPanel>
+            <TextBlock Text="Filter 2" Margin="10"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
+                <RadioButton x:Name="AndOr13" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+            </StackPanel>
+
+        <GroupBox BorderThickness="1" BorderBrush="DarkGray"  Grid.Column="2" Grid.Row="0" Header="Filters 3 and 4">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Filter 3"  Margin="10"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <RadioButton x:Name="AndOr34" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                    <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                </StackPanel>
+                <TextBlock Text="Filter 4" Margin="10"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+            <RadioButton x:Name="AndOr35" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+            <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
         </StackPanel>
+
+        <GroupBox BorderThickness="1" BorderBrush="DarkGray" Grid.Column="0" Grid.Row="2" Header="Filters 5 and 6">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Filter 5"  Margin="10"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <RadioButton x:Name="AndOr56" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+            </StackPanel>
+            <TextBlock Text="Filter 6" Margin="10"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2">
+            <RadioButton x:Name="AndOr57" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+            <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
         </StackPanel>
+
+        <GroupBox BorderThickness="1" BorderBrush="DarkGray"  Grid.Column="2" Grid.Row="2" Header="Filters 7 and 8">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Filter 7" Margin="10"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <RadioButton x:Name="AndOr78" IsChecked="True" Content="And" Margin="2" Click="RadioButton_Click"/>
+                    <RadioButton Content="Or" Margin="2" Click="RadioButton_Click"/>
+                </StackPanel>
+                <TextBlock Text="Filter 8" Margin="10"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- output controls -->
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Margin="10">
+        <Label Content="Conjunction:"/>
+        <TextBox x:Name="tbConjunction" 
+                IsReadOnly="True" 
+                IsReadOnlyCaretVisible="True" 
+                Background="WhiteSmoke"
+                Text="{Binding Path=ViewConjunction}"
+                TextWrapping="NoWrap"/>
+        </StackPanel>
+    </Grid>
 </UserControl>
