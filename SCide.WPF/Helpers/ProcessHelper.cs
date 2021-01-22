@@ -11,8 +11,8 @@ namespace SCide.WPF.Helpers
         {
             Process[] ps = Process.GetProcessesByName(processName);
             int currentSessionID = Process.GetCurrentProcess().SessionId;
-            Process[] sameAsthisSession = (from c in ps where c.SessionId == currentSessionID select c).ToArray();
-            return sameAsthisSession.Length;
+            Process[] inSameSession = (from c in ps where c.SessionId == currentSessionID select c).ToArray();
+            return inSameSession.Length;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using SCide.WPF.Configuration;
+﻿using SCide.WPF.Commence;
+using SCide.WPF.Configuration;
 using SCide.WPF.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ namespace SCide.WPF.Models
 
         public MainWindowModel()
         {
-            CommenceModel = new CommenceModel();
+            CommenceModel = new CommenceModel(new CommenceMonitor());
             StatusBarModel = new StatusBarModel();
             EditorSettings = EditorSettings.Instance;
         }

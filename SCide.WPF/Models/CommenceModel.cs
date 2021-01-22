@@ -30,9 +30,9 @@ namespace SCide.WPF.Models
         #endregion
 
         #region Constructors
-        public CommenceModel()
+        public CommenceModel(ICommenceMonitor monitor)
         {
-            _monitor = new CommenceMonitor(); // TODO move to DI
+            _monitor = monitor;
             _monitor.CommenceProcessExited += Monitor_CommenceProcessExited;
             _monitor.CommenceProcessStarted += Monitor_CommenceProcessStarted;
             if (_monitor.CommenceIsRunning)

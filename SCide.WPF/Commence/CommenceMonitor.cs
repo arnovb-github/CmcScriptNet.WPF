@@ -1,5 +1,4 @@
 ﻿using SCide.WPF.Helpers;
-using SCide.WPF.Extensions;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -7,6 +6,10 @@ using System.Windows.Automation;
 
 namespace SCide.WPF.Commence
 {
+    // this class should be changed.
+    // it currently does not take into account multiple instances
+    // it should probably be like a continuously running service 
+    // that periodically polls the system for Commence intances.
     public class CommenceMonitor : ICommenceMonitor
     {
         #region Events
@@ -134,7 +137,7 @@ namespace SCide.WPF.Commence
                     return null;
                 case 1:
                     return process = ProcessHelper.GetProcessToMonitor(processName);
-                default: // first process found
+                default:
                     return process = ProcessHelper.GetProcessToMonitor(processName);
             }
         }

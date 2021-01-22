@@ -3,7 +3,6 @@ using System.ComponentModel;
 
 namespace SCide.WPF.Models
 {
-    // is this interface useful?
     public interface ICommenceModel : INotifyPropertyChanged
     {
         IList<string> Categories { get; }
