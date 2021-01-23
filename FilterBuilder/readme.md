@@ -43,7 +43,7 @@ class Program
 
 **PowerShell**
 ```powershell
-using module '.\FilterBuilder.dll' # substitute with your path
+using module .\FilterBuilder.dll # substitute with your path
 $fb = New-Object -TypeName CmcScriptNet.FilterBuilder.FilterBuilderWindow CategoryX # CategoryX must be a valid Commence category name
 $fb.ShowDialog()
 'Filter syntax is: ' + $fb.Result # the generated syntax is stored in the Result property
