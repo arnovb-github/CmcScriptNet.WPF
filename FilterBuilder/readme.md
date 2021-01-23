@@ -6,11 +6,17 @@ First of all: this tool looks rather horrible.
 That being said, while part of **CmcScriptNet.WPF**, `FilterBuilder` is actually a standalone component that you can use in any other .Net solution, including PowerShell.
 
 ## What is it?
-It is a visual aide that will help you create the code syntax for a filter a Commence RM API. More specifically, `FilterBuilder` will construct the `pFilter` part of a filter used in the `ICommenceCursor`'s `SetFilter(String pFilter, Long nFlags)` method.
+It is a visual aide that will help you create the code syntax for a filter a Commence RM API. It mimics the Filter dialog in Commence. Specifically, `FilterBuilder` will construct the `pFilter` part of a filter used in the `ICommenceCursor`'s `SetFilter(String pFilter, Long nFlags)` method.
 
-Filters use DDE syntax and are easily the hardest part of programming with the Commence RM API.
+Say what? Well, it will help you with creating this filter (Commence Tutorial database):
+"As the second filter, give me all the people except those that have an 'R', but not an 'r', in their name, that are related to account 'Commence corporation'."
 
-It mimics the *Filter* dialog in Commence.
+Filters use DDE syntax and that is easily the hardest part of programming with the Commence RM API.
+
+That syntax is:
+`[ViewFilter(2,CTCF,NOT,"Relates to","Contact","contactKey","Contains","R",1)]`
+
+Writing that by hand *and* getting it right is a challenge.
 
 It should be noted that using by [Vovin.CmcLibNet](http://cmclibnet.vovin.nl) you should never have to worry about that syntax, because `Vovin.CmcLibNet` offers an object-based approach to filtering, rather than a string approach.
 

@@ -100,6 +100,7 @@ namespace CmcScriptNet.FilterBuilder.Helpers
             {
                 f.FieldValue = m.FieldValue;
             }
+            f.MatchCase = m.MatchCase;
             return f;
         }
 
