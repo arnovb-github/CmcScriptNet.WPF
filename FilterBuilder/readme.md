@@ -9,7 +9,7 @@ That being said, while part of **CmcScriptNet.WPF**, `FilterBuilder` is actually
 It is a visual aide that will help you create the code syntax for a filter a Commence RM API. It mimics the Filter dialog in Commence. Specifically, `FilterBuilder` will construct the `pFilter` part of a filter used in the `ICommenceCursor`'s `SetFilter(String pFilter, Long nFlags)` method.
 
 Say what? Well, it will help you with creating this filter (using the Commence Tutorial database, Account category):
-"As the second filter, give me all the people except who have an 'R', but not an 'r', in their name, that are related toAccount."
+"As the second filter, give me all the people except who have an 'R', but not an 'r', in their name, that are related to Account."
 
 Filters use DDE syntax and that is easily the hardest part of programming with the Commence RM API.
 
