@@ -28,7 +28,7 @@ namespace SCide.WPF.Commence
         public IList<CommenceField> Fields
         {
             get { return list; }
-            private set
+            set
             {
                 list = value;
                 OnPropertyChanged();
@@ -39,7 +39,7 @@ namespace SCide.WPF.Commence
         public CommenceField SelectedField
         {
             get { return selectedField; }
-            private set
+            set
             {
                 selectedField = value;
                 OnPropertyChanged();
@@ -61,7 +61,7 @@ namespace SCide.WPF.Commence
         public CommenceConnection SelectedConnection
         {
             get { return selectedConnection; }
-            private  set
+            set
             {
                 selectedConnection = value;
                 OnPropertyChanged();
@@ -72,7 +72,7 @@ namespace SCide.WPF.Commence
         public IList<IDFControl> Controls
         {
             get { return controls; }
-            private set
+            set
             {
                 controls = value;
                 OnPropertyChanged();
@@ -83,7 +83,7 @@ namespace SCide.WPF.Commence
         public IDFControl SelectedControl
         {
             get { return selectedControl; }
-            private set
+            set
             {
                 selectedControl = value;
                 OnPropertyChanged();
