@@ -1,9 +1,9 @@
 # CmcScriptNet.WPF
 Standalone Commence Item Detail Form Script Editor.
 
-No installation required, it should run *as-is* on any system with .Net Framework 4.5 installed.
+No installation required, it should run *as-is* on any system with .Net Framework 4.5 or higher installed.
 
-.Net Framework 4.5 is a native OS component since Windows 8. Unless you have a very old Win7 system, you should be able to run this without issue. Notice that as of Commence 6.0 (now obsolete), .Net Framework 4.5 will be installed as part of the installation.
+.Net Framework 4.5 is a native OS component since Windows 8. In later version of Windows it has been superseeded by higher versions, that still maintain backwards compatibility. Unless you have a very old Win7 system, you should be able to run this without issue. Notice that as of Commence 6.x (now obsolete) and Commence 7.x, .Net Framework 4.5 will be installed as part of the installation.
 
 CmcScriptNet.WPF is modeled after <a href="http://users.telenet.be/thiam/scriptpad.htm">ScriptPad</a>, the best Commence script editor ever. Thank you, Mathias!
 
