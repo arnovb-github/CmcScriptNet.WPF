@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+// test iets
+
 namespace SCide.WPF.Models
 {
     public class MainWindowModel : INotifyPropertyChanged
